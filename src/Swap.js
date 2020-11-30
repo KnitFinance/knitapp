@@ -5,45 +5,60 @@ import {
     Divider,
     Input,
     Dropdown,
-    Button
+    Button,
+    Form,
+    Checkbox
 } from 'semantic-ui-react'
-import { Btc, Eth } from 'react-cryptocoins'
 
-const coinOptions = [
-    {
-        key: 'btc',
-        text: 'Bitcoin',
-        value: 'Jenny Hess',
-        image: <Btc size={24} />
-    },
-    {
-        key: 'eth',
-        text: 'Ethereum',
-        value: 'Elliot Fu',
-        image: <Eth size={24} />
-    }
+const options = [
+    { key: 'btc', text: 'Bitcoin', value: 'btc' },
+    { key: 'xlm', text: 'Stellar', value: 'xlm' },
+    { key: 'xrp', text: 'Ripple', value: 'xrp' }
 ]
 function Swap() {
     return (
-        <Container text>
+        <React.Fragment>
             <Divider hidden />
             <Header as="h2">Swap</Header>
-            <Dropdown
-                placeholder="Select Coin"
-                selection
-                options={coinOptions}
-            />
-            <Input placeholder="Deposit amount" />
-            <Input
-                icon="<Btc size={24} />"
-                iconPosition="left"
-                placeholder="Your ETH Wallet"
-            />
-            <div>
-                <Button primary>Primary</Button>
-                <Button secondary>Secondary</Button>
-            </div>
-        </Container>
+            <Form>
+                <Form.Field>
+                    <Input
+                        label={
+                            <Dropdown
+                                defaultValue="btc"
+                                size="huge"
+                                options={options}
+                            />
+                        }
+                        labelPosition="right"
+                        size="huge"
+                        placeholder="Send"
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <Input size="huge" placeholder="Your Sending Address" />
+                </Form.Field>
+
+                <Form.Field>
+                    <Input size="huge" placeholder="Your ETH Address" />
+                </Form.Field>
+
+                <Form.Field>
+                    <Checkbox label="I agree to the terms and privacy policy" />
+                </Form.Field>
+
+                <Form.Field>
+                    <div>
+                        <Button primary size="huge">
+                            EXCHANGE
+                        </Button>
+                        <Button secondary size="huge">
+                            RESET
+                        </Button>
+                    </div>
+                </Form.Field>
+            </Form>
+        </React.Fragment>
     )
 }
 
