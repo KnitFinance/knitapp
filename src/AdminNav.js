@@ -6,12 +6,12 @@ function AdminNav() {
     return (
         <Menu inverted pointing secondary size="huge">
             <Menu.Item active={true}>
-                <NavLink to="/" activeClassName="active">
+                <NavLink to="/admin/txs" activeClassName="active">
                     Transactions
                 </NavLink>
             </Menu.Item>
             <Menu.Item>
-                <NavLink to="/withdraw" activeClassName={'active'}>
+                <NavLink to="/admin/withdrawals" activeClassName={'active'}>
                     Withdrawals
                 </NavLink>
             </Menu.Item>

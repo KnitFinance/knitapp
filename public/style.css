@@ -33,3 +33,14 @@ pre {
 .ui.primary.button {
     background-color: #7b5eea !important;
 }
+
+.topmenusec {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.ui.text.container {
+    min-width: 65vw !important;
+}
