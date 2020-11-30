@@ -1,5 +1,6 @@
 body {
     background: linear-gradient(#1e0b56, #0e0529) !important;
+    background-image: url('https://knit.finance/img/parallax-dark.webp') !important;
 }
 
 .ui.form .ui.dropdown,
@@ -19,4 +20,16 @@ body {
     line-height: 28px !important;
     border: 2px solid #e0e0e0;
     font-family: Open Sans, sans-serif;
+}
+
+code,
+pre {
+    font-family: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console',
+        'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
+        'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
+        monospace !important;
+}
+
+.ui.primary.button {
+    background-color: #7b5eea !important;
 }

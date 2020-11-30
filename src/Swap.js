@@ -7,7 +7,9 @@ import {
     Dropdown,
     Button,
     Form,
-    Checkbox
+    Checkbox,
+    Segment,
+    Icon
 } from 'semantic-ui-react'
 
 const options = [
@@ -59,6 +61,17 @@ function Swap() {
                     </div>
                 </Form.Field>
             </Form>
+
+            <Segment inverted placeholder>
+                <Header icon>
+                    <Icon loading name="certificate" />
+                    <pre>0x788231f6F148004EaAA2413953Bc362e95C28c8f</pre>
+
+                    <Header inverted as="h3">
+                        You will recive approximately 12 kXLM
+                    </Header>
+                </Header>
+            </Segment>
         </React.Fragment>
     )
 }
