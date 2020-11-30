@@ -1,30 +1,40 @@
 import * as React from 'react'
 import {
+    Container,
     Header,
+    Divider,
     Input,
     Dropdown,
     Button,
     Form,
     Checkbox,
     Segment,
-    Icon
+    Icon,
+    Message
 } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
 import { swap } from './actions'
 
 const options = [
-    { key: 'btc', text: 'Bitcoin', value: 'btc' },
-    { key: 'xlm', text: 'Stellar', value: 'xlm' },
-    { key: 'xrp', text: 'Ripple', value: 'xrp' }
+    { key: 'xlm', text: 'Stellar', value: 'XLM' },
+    { key: 'xrp', text: 'Ripple', value: 'XRP' },
+    { key: 'btc', text: 'Bitcoin', value: 'BTC' }
 ]
 
 function Swap() {
     const { handleSubmit, control, errors } = useForm()
+    const [loading, setLoading] = React.useState()
+    const [coin, setCoin] = React.useState('XLM')
 
-    const onSubmitHandler = values => {
-        console.log(values)
+    const onSubmitHandler = async values => {
+        values.coin = coin
+        try {
+            const result = await swap(values)
+            console.log(result)
+        } catch (e) {
+            console.log(e)
+        }
     }
-
     return (
         <React.Fragment>
             <Header inverted as="h2">
@@ -46,10 +56,14 @@ function Swap() {
                                     <Dropdown
                                         options={options}
                                         size="huge"
-                                        defaultValue="btc"
+                                        defaultValue="XLM"
+                                        onChange={(e, data) =>
+                                            setCoin(data.value)
+                                        }
                                     />
                                 }
                                 onChange={onChange}
+                                type="number"
                                 onBlur={onBlur}
                                 selected={value}
                                 labelPosition="right"
@@ -103,9 +117,7 @@ function Swap() {
                         <Form.Field>
                             <Checkbox
                                 onBlur={onBlur}
-                                onChange={e =>
-                                    console.log(e.target.checked, value)
-                                }
+                                onChange={e => onChange(!value)}
                                 checked={value}
                                 inputRef={ref}
                                 label="I agree to the terms and privacy policy"
@@ -116,7 +128,7 @@ function Swap() {
 
                 <Form.Field>
                     <div>
-                        <Button primary size="huge">
+                        <Button primary size="huge" loading={loading}>
                             EXCHANGE
                         </Button>
                         <Button secondary size="huge" type="reset">
@@ -126,16 +138,18 @@ function Swap() {
                 </Form.Field>
             </Form>
 
-            <Segment inverted placeholder>
-                <Header icon>
-                    <Icon loading name="certificate" />
-                    <pre>0x788231f6F148004EaAA2413953Bc362e95C28c8f</pre>
+            {loading && (
+                <Segment inverted placeholder>
+                    <Header icon>
+                        <Icon loading name="certificate" />
+                        <pre>0x788231f6F148004EaAA2413953Bc362e95C28c8f</pre>
 
-                    <Header inverted as="h3">
-                        You will recive approximately 12 kXLM
+                        <Header inverted as="h3">
+                            You will recive approximately 12 kXLM
+                        </Header>
                     </Header>
-                </Header>
-            </Segment>
+                </Segment>
+            )}
         </React.Fragment>
     )
 }
