@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    useLocation
+} from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Container, Divider } from 'semantic-ui-react'
+
+import Swap from './Swap'
+import Withdraw from './Withdraw'
+
+function NoMatch() {
+    let location = useLocation()
+
+    return (
+        <Container text>
+            <Divider hidden />
+            <Divider hidden />
+            <Divider hidden />
+            <h3>
+                No match for <code>{location.pathname}</code>
+            </h3>
+            <Divider hidden />
+            <Divider hidden />
+            <Divider hidden />
+        </Container>
+    )
 }
 
-export default App;
+function App() {
+    return (
+        <Container text>
+            <Router>
+                <Switch>
+                    <Route exact path="/">
+                        <Swap />
+                    </Route>
+                    <Route exact path="/withdraw">
+                        <Withdraw />
+                    </Route>
+                    <Route path="*">
+                        <NoMatch />
+                    </Route>
+                </Switch>
+            </Router>
+        </Container>
+    )
+}
+
+export default App
