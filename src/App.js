@@ -11,6 +11,7 @@ import Swap from './Swap'
 import Withdraw from './Withdraw'
 import Login from './Login'
 import FooterNav from './FooterNav'
+// import MobileNav from './MobileNav'
 import Transactions from './Transactions'
 import Withdrawals from './Withdrawals'
 
@@ -82,6 +83,9 @@ function App() {
                     </Route>
                 </Switch>
             </Router>
+            <Divider hidden />
+            <Divider hidden />
+            <Divider hidden />
         </Container>
     )
 }

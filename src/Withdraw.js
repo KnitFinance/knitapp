@@ -33,11 +33,11 @@ function Withdraw() {
                         }
                         labelPosition="right"
                         size="huge"
-                        placeholder="Enter Wallet Address"
+                        placeholder="Amount to withdraw"
                     />
                 </Form.Field>
                 <Form.Field>
-                    <Input size="huge" placeholder="Amount to withdraw" />
+                    <Input size="huge" placeholder="Enter Wallet Address" />
                 </Form.Field>
 
                 <Form.Field>

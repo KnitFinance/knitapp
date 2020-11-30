@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Input, Menu, Segment } from 'semantic-ui-react'
-import { Link, NavLink } from 'react-router-dom'
+import { Menu } from 'semantic-ui-react'
+import { NavLink } from 'react-router-dom'
 
 function AdminNav() {
     return (

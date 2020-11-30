@@ -2,9 +2,9 @@ import * as React from 'react'
 import { Menu } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 
-function FooterNav() {
+function MobileNav() {
     return (
-        <Menu className={'screennav'} inverted pointing secondary size="huge">
+        <Menu className={'mobilenav'} inverted pointing secondary size="large">
             <Menu.Item active={true}>
                 <NavLink to="/" activeClassName="active">
                     Home
@@ -24,4 +24,4 @@ function FooterNav() {
     )
 }
 
-export default FooterNav
+export default MobileNav
