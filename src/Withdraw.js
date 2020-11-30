@@ -1,8 +1,6 @@
 import * as React from 'react'
 import {
-    Container,
     Header,
-    Divider,
     Input,
     Dropdown,
     Button,
