@@ -18,9 +18,10 @@ const options = [
 function Swap() {
     return (
         <React.Fragment>
-            <Divider hidden />
-            <Header as="h2">Swap</Header>
-            <Form>
+            <Header inverted as="h2">
+                Swap
+            </Header>
+            <Form inverted>
                 <Form.Field>
                     <Input
                         label={

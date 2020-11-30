@@ -1,3 +1,7 @@
+body {
+    background: linear-gradient(#1e0b56, #0e0529) !important;
+}
+
 .ui.form .ui.dropdown,
 .ui.form input:not([type]),
 .ui.form input[type='date'],

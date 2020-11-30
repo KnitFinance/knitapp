@@ -18,9 +18,10 @@ const options = [
 function Withdraw() {
     return (
         <React.Fragment>
-            <Divider hidden />
-            <Header as="h2">Withdraw</Header>
-            <Form>
+            <Header inverted as="h2">
+                Withdraw
+            </Header>
+            <Form inverted>
                 <Form.Field>
                     <Input
                         label={

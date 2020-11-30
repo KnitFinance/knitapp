@@ -9,6 +9,7 @@ import { Container, Divider } from 'semantic-ui-react'
 
 import Swap from './Swap'
 import Withdraw from './Withdraw'
+import Login from './Login'
 
 function NoMatch() {
     let location = useLocation()
@@ -30,7 +31,12 @@ function NoMatch() {
 
 function App() {
     return (
-        <Container text>
+        <Container inverted text>
+            <Divider hidden />
+            <Divider hidden />
+            <Divider hidden />
+            <Divider hidden />
+            <Divider hidden />
             <Router>
                 <Switch>
                     <Route exact path="/">
@@ -38,6 +44,9 @@ function App() {
                     </Route>
                     <Route exact path="/withdraw">
                         <Withdraw />
+                    </Route>
+                    <Route exact path="/admin">
+                        <Login />
                     </Route>
                     <Route path="*">
                         <NoMatch />
