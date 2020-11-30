@@ -2,8 +2,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    useLocation,
-    Header
+    useLocation
 } from 'react-router-dom'
 
 import { Container, Divider, Header as UiHeader } from 'semantic-ui-react'

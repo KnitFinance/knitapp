@@ -14,7 +14,7 @@ function Login() {
                     <Input size="huge" placeholder="Email address" />
                 </Form.Field>
                 <Form.Field>
-                    <Input size="huge" placeholder="Password" />
+                    <Input size="huge" type="password" placeholder="Password" />
                 </Form.Field>
 
                 <Form.Field>

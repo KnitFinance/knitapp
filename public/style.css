@@ -18,8 +18,7 @@ body {
 .ui.form input[type='url'],
 .ui.form textarea {
     line-height: 28px !important;
-    border: 2px solid #e0e0e0;
-    font-family: Open Sans, sans-serif;
+    border: 2px solid #4824d4 !important;
 }
 
 code,
