@@ -38,7 +38,7 @@ const useInterval = (callback, delay) => {
 }
 
 const Swap = () => {
-    const { handleSubmit, control, errors } = useForm()
+    const { handleSubmit, control, errors, reset } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
     const [visible, setVisible] = React.useState(false)
@@ -54,7 +54,6 @@ const Swap = () => {
         values.coin = coin
         try {
             const { data } = await swap(values)
-            console.log(data)
             setTransaction(data.data)
             setStatus(true)
         } catch (e) {
@@ -70,7 +69,10 @@ const Swap = () => {
                 depositstatus(transaction.txId)
                     .then(val => {
                         console.log(val.data.data)
-                        if (val.data.data.status === true) setStatus(false)
+                        if (val.data.data.status === true) {
+                            setStatus(false)
+                            reset()
+                        }
                     })
                     .catch(err => setLoading(false))
             }
@@ -90,7 +92,7 @@ const Swap = () => {
                 <Controller
                     control={control}
                     name="amount"
-                    defaultValue={0}
+                    defaultValue={''}
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
@@ -108,9 +110,9 @@ const Swap = () => {
                                 onChange={onChange}
                                 type="number"
                                 onBlur={onBlur}
-                                selected={value}
                                 labelPosition="right"
                                 size="huge"
+                                value={value}
                                 placeholder="Send"
                             />
                         </Form.Field>
@@ -129,7 +131,7 @@ const Swap = () => {
                                 placeholder="Your Sending Address"
                                 onChange={onChange}
                                 onBlur={onBlur}
-                                selected={value}
+                                value={value}
                             />
                         </Form.Field>
                     )}
@@ -146,7 +148,7 @@ const Swap = () => {
                                 placeholder="Your ETH Address"
                                 onChange={onChange}
                                 onBlur={onBlur}
-                                selected={value}
+                                value={value}
                             />
                         </Form.Field>
                     )}
@@ -169,13 +171,22 @@ const Swap = () => {
                     )}
                 />
 
+                {Object.keys(errors).length > 0 && (
+                    <Message
+                        color="red"
+                        inverted
+                        header="There was some errors with your submission"
+                        list={[`All fields are required!`]}
+                    />
+                )}
+
                 <Form.Field>
                     <div>
                         <Button
                             primary
                             size="huge"
                             loading={loading}
-                            disable={status}>
+                            disabled={status}>
                             EXCHANGE
                         </Button>
                         <Button secondary size="huge" type="reset">
