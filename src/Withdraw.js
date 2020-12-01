@@ -5,7 +5,8 @@ import {
     Dropdown,
     Button,
     Form,
-    Checkbox
+    Checkbox,
+    Message
 } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
 import { withdraw } from './actions'
@@ -24,7 +25,6 @@ const options = [
 ]
 function Withdraw() {
     const { handleSubmit, control, errors, reset } = useForm()
-    const [currentAccount, setCurrentAccount] = React.useState(null)
     const [coin, setCoin] = React.useState('XLM')
     const [loading, setLoading] = React.useState()
 
@@ -43,7 +43,7 @@ function Withdraw() {
             )
         }
     })
-
+    console.log(errors)
     const onSubmitHandler = async value => {
         setLoading(true)
         value.coin = coin
@@ -150,6 +150,15 @@ function Withdraw() {
                         </Form.Field>
                     )}
                 />
+
+                {Object.keys(errors).length > 0 && (
+                    <Message
+                        color="red"
+                        inverted
+                        header="There was some errors with your submission"
+                        list={[`All fields are required!`]}
+                    />
+                )}
 
                 <Form.Field>
                     <div>
