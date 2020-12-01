@@ -1,21 +1,35 @@
 import * as React from 'react'
 import { Menu } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
+import { Tab } from 'semantic-ui-react'
+import Transactions from './Transactions'
+import Withdrawals from './Withdrawals'
 
-function AdminNav() {
+const panes = [
+    {
+        menuItem: 'Transactions',
+        render: () => (
+            <Tab.Pane attached={false}>
+                <Transactions />
+            </Tab.Pane>
+        )
+    },
+    {
+        menuItem: 'Withdrawals',
+        render: () => (
+            <Tab.Pane attached={false}>
+                <Withdrawals />
+            </Tab.Pane>
+        )
+    }
+]
+
+const AdminNav = () => {
     return (
-        <Menu inverted pointing secondary size="huge">
-            <Menu.Item active={true}>
-                <NavLink to="/admin/txs" activeClassName="active">
-                    Transactions
-                </NavLink>
-            </Menu.Item>
-            <Menu.Item>
-                <NavLink to="/admin/withdrawals" activeClassName={'active'}>
-                    Withdrawals
-                </NavLink>
-            </Menu.Item>
-        </Menu>
+        <Tab
+            menu={{ secondary: true, pointing: true, inverted: true }}
+            panes={panes}
+        />
     )
 }
 

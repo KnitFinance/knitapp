@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { Header, Icon, Table, Label } from 'semantic-ui-react'
+import { getSwap } from './actions'
 
-import AdminNav from './AdminNav'
-
-function truncate(str, max, sep) {
+const truncate = (str, max, sep) => {
     max = max || 6
 
     var len = str.length
@@ -24,12 +23,61 @@ function truncate(str, max, sep) {
     return str
 }
 
-function Transactions() {
+const Transactions = () => {
+    const [items, setItems] = React.useState([])
+
+    React.useEffect(() => {
+        getSwap().then(res => {
+            setItems(res.data.data.result)
+        })
+    }, [])
+
+    const listItems = items.map((item, index) => (
+        <Table.Row key={index}>
+            <Table.Cell collapsing>
+                {truncate(item.ethWallet, 16, '...')}
+            </Table.Cell>
+            <Table.Cell>{item.createdAt}</Table.Cell>
+            <Table.Cell collapsing textAlign="right">
+                {item.amount}
+            </Table.Cell>
+            <Table.Cell collapsing textAlign="right">
+                {item.currency}
+            </Table.Cell>
+            <Table.Cell collapsing textAlign="right">
+                {`${item.tokens} k${item.currency}`}
+            </Table.Cell>
+            <Table.Cell collapsing>
+                <a
+                    target="_blank"
+                    href={`https://kovan.etherscan.io/tx/${item.txnId}`}>
+                    {truncate(item.txnId, 8, '...')}
+                </a>
+            </Table.Cell>
+
+            <Table.Cell collapsing>
+                {item.isDeposit && item.status && (
+                    <Label size="mini" color="green">
+                        Confirm
+                    </Label>
+                )}
+                {item.isDeposit && !item.status && (
+                    <Label size="mini" color="blue">
+                        Deposit
+                    </Label>
+                )}
+                {!item.isDeposit && !item.status && (
+                    <Label size="mini" color="black">
+                        Waiting
+                    </Label>
+                )}
+            </Table.Cell>
+        </Table.Row>
+    ))
+
     return (
         <React.Fragment>
-            <AdminNav />
-
-            <Table celled striped inverted>
+            <Table celled striped>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell colSpan="7">
@@ -48,79 +96,12 @@ function Transactions() {
                 </Table.Header>
 
                 <Table.Body>
-                    <Table.Row>
-                        <Table.Cell collapsing>
-                            {truncate(
-                                '0xd42dD0BDadA11B2865A4a0b019BBca671116F2c7',
-                                16,
-                                '...'
-                            )}
-                        </Table.Cell>
-                        <Table.Cell>{Date().substring(4, 16)}</Table.Cell>
-                        <Table.Cell collapsing textAlign="right">
-                            12.0844
-                        </Table.Cell>
-                        <Table.Cell collapsing textAlign="right">
-                            XLM
-                        </Table.Cell>
-                        <Table.Cell collapsing textAlign="right">
-                            {`11.99 kXLM`}
-                        </Table.Cell>
-                        <Table.Cell collapsing>
-                            <a
-                                target="_blank"
-                                href="https://etherscan.io/address/0x788231f6f148004eaaa2413953bc362e95c28c8f">
-                                {truncate(
-                                    '0x41a1f081b393af8c23986d8ea53f2ac6f57222fdc4265170d9f6fb1b2ffd5dfa',
-                                    8,
-                                    '...'
-                                )}
-                            </a>
-                        </Table.Cell>
-
-                        <Table.Cell collapsing>
-                            <Label size="mini" color="blue">
-                                Deposit
-                            </Label>
-                        </Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell collapsing>
-                            {truncate(
-                                '0xd42dD0BDadA11B2865A4a0b019BBca67111',
-                                16,
-                                '...'
-                            )}
-                        </Table.Cell>
-                        <Table.Cell>{Date().substring(4, 16)}</Table.Cell>
-                        <Table.Cell collapsing textAlign="right">
-                            0.083
-                        </Table.Cell>
-                        <Table.Cell collapsing textAlign="right">
-                            XRP
-                        </Table.Cell>
-                        <Table.Cell collapsing textAlign="right">
-                            {`0.082 kXRP`}
-                        </Table.Cell>
-                        <Table.Cell collapsing>
-                            <a
-                                target="_blank"
-                                href="https://etherscan.io/address/0x788231f6f148004eaaa2413953bc362e95c28c8f">
-                                {truncate(
-                                    '0x41a1f081b393af8c23986d8ea53f2ac6f57222fdc426517fa',
-                                    8,
-                                    '...'
-                                )}
-                            </a>
-                        </Table.Cell>
-
-                        <Table.Cell collapsing>
-                            <Label size="mini" color="green">
-                                Confirm
-                            </Label>
-                        </Table.Cell>
-                    </Table.Row>
+                    {listItems}
+                    {items.length === 0 && (
+                        <Table.Row>
+                            <Table.Cell>No transaction yet!</Table.Cell>
+                        </Table.Row>
+                    )}
                 </Table.Body>
             </Table>
         </React.Fragment>

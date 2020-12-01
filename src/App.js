@@ -9,6 +9,7 @@ import { Container, Divider, Header as UiHeader } from 'semantic-ui-react'
 import Swap from './Swap'
 import Withdraw from './Withdraw'
 import Login from './Login'
+import Dashboard from './Dashboard'
 import FooterNav from './FooterNav'
 // import MobileNav from './MobileNav'
 import Transactions from './Transactions'
@@ -56,6 +57,7 @@ function TopMenu() {
 function App() {
     const [user, setUser] = useState(localStorage.getItem('user') || null)
     const logout = () => {
+        localStorage.removeItem('user')
         setUser(null)
     }
     const value = {
@@ -79,13 +81,7 @@ function App() {
                             <Withdraw />
                         </Route>
                         <Route exact path="/admin">
-                            <Login />
-                        </Route>
-                        <Route exact path="/admin/txs">
-                            <Transactions />
-                        </Route>
-                        <Route exact path="/admin/withdrawals">
-                            <Withdrawals />
+                            {user === null ? <Login /> : <Dashboard />}
                         </Route>
                         <Route path="*">
                             <NoMatch />

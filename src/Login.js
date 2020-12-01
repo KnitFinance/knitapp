@@ -2,9 +2,8 @@ import * as React from 'react'
 import { Header, Divider, Input, Button, Form } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
 import { login } from './actions'
-//import AdminNav from './AdminNav'
 
-function Login() {
+function Login({ history }) {
     const { handleSubmit, control } = useForm()
     const [loading, setLoading] = React.useState()
     const onSubmitHandler = async values => {
@@ -12,6 +11,7 @@ function Login() {
         try {
             const { data } = await login(values)
             localStorage.setItem('user', data.data.token)
+            window.location.reload(false)
         } catch (e) {
             console.log(e)
         }

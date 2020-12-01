@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Button } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 import { UserContext } from './actions/userContext'
 
@@ -17,18 +17,35 @@ const FooterNav = () => {
                 </NavLink>
             </Menu.Item>
             <UserContext.Consumer>
-                {({ user }) => (
-                    <Menu.Item>
+                {({ user, logout }) => (
+                    <>
                         {user === null ? (
-                            <NavLink to="/admin" activeClassName={'active'}>
-                                Sign In
-                            </NavLink>
+                            <Menu.Item>
+                                <NavLink to="/admin" activeClassName={'active'}>
+                                    Sign In
+                                </NavLink>
+                            </Menu.Item>
                         ) : (
-                            <NavLink to="/admin" activeClassName={'active'}>
-                                My Account
-                            </NavLink>
+                            <>
+                                <Menu.Item>
+                                    <NavLink
+                                        to="/admin"
+                                        activeClassName={'active'}>
+                                        My Account
+                                    </NavLink>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Button
+                                        basic
+                                        circular
+                                        inverted
+                                        icon="shutdown"
+                                        onClick={() => logout()}
+                                    />
+                                </Menu.Item>
+                            </>
                         )}
-                    </Menu.Item>
+                    </>
                 )}
             </UserContext.Consumer>
         </Menu>
