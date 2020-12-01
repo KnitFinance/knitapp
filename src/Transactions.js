@@ -32,6 +32,8 @@ const Transactions = () => {
         })
     }, [])
 
+    console.log(items)
+
     const listItems = items.map((item, index) => (
         <Table.Row key={index}>
             <Table.Cell collapsing>

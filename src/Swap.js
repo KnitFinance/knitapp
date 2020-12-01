@@ -13,7 +13,7 @@ import {
     Message
 } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
-import { swap } from './actions'
+import { swap, depositstatus } from './actions'
 
 const options = [
     { key: 'xlm', text: 'Stellar', value: 'XLM' },
@@ -21,22 +21,58 @@ const options = [
     { key: 'btc', text: 'Bitcoin', value: 'BTC' }
 ]
 
-function Swap() {
+const useInterval = (callback, delay) => {
+    const savedCallback = React.useRef(() => {})
+    // Remember the latest callback.
+    React.useEffect(() => {
+        savedCallback.current = callback
+    }, [callback])
+    // Set up the interval.
+    React.useEffect(() => {
+        function tick() {
+            savedCallback.current()
+        }
+        if (delay !== null) {
+            let id = setInterval(tick, delay)
+            return () => clearInterval(id)
+        }
+    }, [delay])
+}
+
+const Swap = () => {
     const { handleSubmit, control, errors } = useForm()
-    const [loading, setLoading] = React.useState()
+    const [loading, setLoading] = React.useState(false)
+    const [status, setStatus] = React.useState(false)
+
     const [coin, setCoin] = React.useState('XLM')
+    const [transaction, setTransaction] = React.useState(null)
 
     const onSubmitHandler = async values => {
         setLoading(true)
         values.coin = coin
         try {
-            const result = await swap(values)
-            console.log(result)
+            const { data } = await swap(values)
+            setTransaction(data.data)
+            setStatus(true)
         } catch (e) {
             console.log(e)
         }
         setLoading(false)
     }
+
+    useInterval(
+        () => {
+            if (transaction !== null) {
+                depositstatus(transaction.txId)
+                    .then(val => {
+                        if (val.data.data.status === true) setStatus(false)
+                    })
+                    .catch(err => setLoading(false))
+            }
+        },
+        status ? 3000 : null
+    )
+
     return (
         <React.Fragment>
             <Header inverted as="h2">
@@ -140,15 +176,19 @@ function Swap() {
                 </Form.Field>
             </Form>
 
-            {loading && (
+            {status && (
                 <Segment inverted placeholder>
                     <Header icon>
                         <Icon loading name="certificate" />
-                        <pre>0x788231f6F148004EaAA2413953Bc362e95C28c8f</pre>
+                        {transaction && (
+                            <>
+                                <pre>{transaction.txId}</pre>
 
-                        <Header inverted as="h3">
-                            You will recive approximately 12 kXLM
-                        </Header>
+                                <Header inverted as="h3">
+                                    You will recive approximately 12 kXLM
+                                </Header>
+                            </>
+                        )}
                     </Header>
                 </Segment>
             )}
