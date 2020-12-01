@@ -11,9 +11,7 @@ import Withdraw from './Withdraw'
 import Login from './Login'
 import Dashboard from './Dashboard'
 import FooterNav from './FooterNav'
-// import MobileNav from './MobileNav'
-import Transactions from './Transactions'
-import Withdrawals from './Withdrawals'
+
 import { UserContext } from './actions/userContext'
 
 function NoMatch() {
@@ -74,7 +72,7 @@ function App() {
                     <Divider hidden />
                     <Divider hidden />
                     <Switch>
-                        <Route exact path="/">
+                        <Route exact path="/" components={Swap}>
                             <Swap />
                         </Route>
                         <Route exact path="/withdraw">
