@@ -27,6 +27,7 @@ function Swap() {
     const [coin, setCoin] = React.useState('XLM')
 
     const onSubmitHandler = async values => {
+        setLoading(true)
         values.coin = coin
         try {
             const result = await swap(values)
@@ -34,6 +35,7 @@ function Swap() {
         } catch (e) {
             console.log(e)
         }
+        setLoading(false)
     }
     return (
         <React.Fragment>

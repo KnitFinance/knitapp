@@ -1,12 +1,11 @@
+import React, { useState } from 'react'
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     useLocation
 } from 'react-router-dom'
-
 import { Container, Divider, Header as UiHeader } from 'semantic-ui-react'
-
 import Swap from './Swap'
 import Withdraw from './Withdraw'
 import Login from './Login'
@@ -14,6 +13,7 @@ import FooterNav from './FooterNav'
 // import MobileNav from './MobileNav'
 import Transactions from './Transactions'
 import Withdrawals from './Withdrawals'
+import { UserContext } from './actions/userContext'
 
 function NoMatch() {
     let location = useLocation()
@@ -54,39 +54,49 @@ function TopMenu() {
 }
 
 function App() {
+    const [user, setUser] = useState(localStorage.getItem('user') || null)
+    const logout = () => {
+        setUser(null)
+    }
+    const value = {
+        user: user,
+        logout: logout
+    }
     return (
-        <Container inverted text>
-            <Router>
+        <UserContext.Provider value={value}>
+            <Container inverted text>
+                <Router>
+                    <Divider hidden />
+                    <TopMenu />
+                    <Divider hidden />
+                    <Divider hidden />
+                    <Divider hidden />
+                    <Switch>
+                        <Route exact path="/">
+                            <Swap />
+                        </Route>
+                        <Route exact path="/withdraw">
+                            <Withdraw />
+                        </Route>
+                        <Route exact path="/admin">
+                            <Login />
+                        </Route>
+                        <Route exact path="/admin/txs">
+                            <Transactions />
+                        </Route>
+                        <Route exact path="/admin/withdrawals">
+                            <Withdrawals />
+                        </Route>
+                        <Route path="*">
+                            <NoMatch />
+                        </Route>
+                    </Switch>
+                </Router>
                 <Divider hidden />
-                <TopMenu />
                 <Divider hidden />
                 <Divider hidden />
-                <Divider hidden />
-                <Switch>
-                    <Route exact path="/">
-                        <Swap />
-                    </Route>
-                    <Route exact path="/withdraw">
-                        <Withdraw />
-                    </Route>
-                    <Route exact path="/admin">
-                        <Login />
-                    </Route>
-                    <Route exact path="/admin/txs">
-                        <Transactions />
-                    </Route>
-                    <Route exact path="/admin/withdrawals">
-                        <Withdrawals />
-                    </Route>
-                    <Route path="*">
-                        <NoMatch />
-                    </Route>
-                </Switch>
-            </Router>
-            <Divider hidden />
-            <Divider hidden />
-            <Divider hidden />
-        </Container>
+            </Container>
+        </UserContext.Provider>
     )
 }
 

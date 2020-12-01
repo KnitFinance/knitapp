@@ -10,7 +10,8 @@ function Login() {
     const onSubmitHandler = async values => {
         setLoading(true)
         try {
-            await login(values)
+            const { data } = await login(values)
+            localStorage.setItem('user', data.data.token)
         } catch (e) {
             console.log(e)
         }
@@ -26,7 +27,7 @@ function Login() {
                 <Controller
                     control={control}
                     name="email"
-                    defaultValue={''}
+                    defaultValue={'admin@knit.fin'}
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
@@ -34,6 +35,7 @@ function Login() {
                                 size="huge"
                                 placeholder="Email address"
                                 onChange={onChange}
+                                value={value}
                             />
                         </Form.Field>
                     )}
@@ -41,7 +43,7 @@ function Login() {
                 <Controller
                     control={control}
                     name="password"
-                    defaultValue={''}
+                    defaultValue={'123456789'}
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
@@ -50,6 +52,7 @@ function Login() {
                                 type="password"
                                 placeholder="Password"
                                 onChange={onChange}
+                                value={value}
                             />
                         </Form.Field>
                     )}
