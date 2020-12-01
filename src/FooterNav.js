@@ -33,7 +33,7 @@ const FooterNav = () => {
                                     as={NavLink}
                                     exact
                                     to="/admin"
-                                    children="My Account"
+                                    children="Admin"
                                 />
                                 <Menu.Item>
                                     <Button

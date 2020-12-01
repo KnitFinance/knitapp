@@ -1,8 +1,6 @@
 import * as React from 'react'
 import {
-    Container,
     Header,
-    Divider,
     Input,
     Dropdown,
     Button,
@@ -45,13 +43,17 @@ const Swap = () => {
     const [status, setStatus] = React.useState(false)
 
     const [coin, setCoin] = React.useState('XLM')
+    const [amount, setAmount] = React.useState('')
+
     const [transaction, setTransaction] = React.useState(null)
 
     const onSubmitHandler = async values => {
         setLoading(true)
+        setAmount(values.amount)
         values.coin = coin
         try {
             const { data } = await swap(values)
+            console.log(data)
             setTransaction(data.data)
             setStatus(true)
         } catch (e) {
@@ -65,12 +67,13 @@ const Swap = () => {
             if (transaction !== null) {
                 depositstatus(transaction.txId)
                     .then(val => {
+                        console.log(val.data.data.status)
                         if (val.data.data.status === true) setStatus(false)
                     })
                     .catch(err => setLoading(false))
             }
         },
-        status ? 3000 : null
+        status ? 30000 : null
     )
 
     return (
@@ -166,7 +169,11 @@ const Swap = () => {
 
                 <Form.Field>
                     <div>
-                        <Button primary size="huge" loading={loading}>
+                        <Button
+                            primary
+                            size="huge"
+                            loading={loading}
+                            disable={status}>
                             EXCHANGE
                         </Button>
                         <Button secondary size="huge" type="reset">
@@ -182,10 +189,10 @@ const Swap = () => {
                         <Icon loading name="certificate" />
                         {transaction && (
                             <>
-                                <pre>{transaction.txId}</pre>
+                                <pre>{transaction.walletAddress}</pre>
 
                                 <Header inverted as="h3">
-                                    You will recive approximately 12 kXLM
+                                    {`You will recive approximately ${amount} k${coin}`}
                                 </Header>
                             </>
                         )}

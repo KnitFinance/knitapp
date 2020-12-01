@@ -9,7 +9,7 @@ const panes = [
     {
         menuItem: 'Transactions',
         render: () => (
-            <Tab.Pane attached={false}>
+            <Tab.Pane attached={false} inverted>
                 <Transactions />
             </Tab.Pane>
         )
@@ -17,7 +17,7 @@ const panes = [
     {
         menuItem: 'Withdrawals',
         render: () => (
-            <Tab.Pane attached={false}>
+            <Tab.Pane attached={false} inverted>
                 <Withdrawals />
             </Tab.Pane>
         )
