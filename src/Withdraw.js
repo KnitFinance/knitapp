@@ -72,6 +72,7 @@ function Withdraw() {
             // )
             const { tx } = response
             value.txnId = tx
+            value.status = true
             await withdraw(value)
         } catch (e) {
             console.log(e)

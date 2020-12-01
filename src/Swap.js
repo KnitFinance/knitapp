@@ -67,13 +67,13 @@ const Swap = () => {
             if (transaction !== null) {
                 depositstatus(transaction.txId)
                     .then(val => {
-                        console.log(val.data.data.status)
+                        console.log(val.data.data)
                         if (val.data.data.status === true) setStatus(false)
                     })
                     .catch(err => setLoading(false))
             }
         },
-        status ? 30000 : null
+        status ? 3000 : null
     )
 
     return (

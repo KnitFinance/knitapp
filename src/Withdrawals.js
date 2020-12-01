@@ -31,21 +31,22 @@ function Withdrawals() {
             setItems(res.data.data.result)
         })
     }, [])
+    console.log(items)
 
     const listItems = items.map((item, index) => (
         <Table.Row key={index} inverted>
             <Table.Cell collapsing>
-                {truncate(item.ethWallet, 16, '...')}
+                {truncate(item.walletTo, 16, '...')}
             </Table.Cell>
             <Table.Cell>{item.createdAt}</Table.Cell>
             <Table.Cell collapsing textAlign="right">
                 {item.amount}
             </Table.Cell>
             <Table.Cell collapsing textAlign="right">
-                {item.currency}
+                {item.coin}
             </Table.Cell>
             <Table.Cell collapsing textAlign="right">
-                {`${item.tokens} k${item.currency}`}
+                {`${item.amount} k${item.coin}`}
             </Table.Cell>
             <Table.Cell collapsing>
                 <a
@@ -56,19 +57,9 @@ function Withdrawals() {
             </Table.Cell>
 
             <Table.Cell collapsing>
-                {item.isDeposit && item.status && (
+                {item.status && (
                     <Label size="mini" color="green">
                         Confirm
-                    </Label>
-                )}
-                {item.isDeposit && !item.status && (
-                    <Label size="mini" color="blue">
-                        Deposit
-                    </Label>
-                )}
-                {!item.isDeposit && !item.status && (
-                    <Label size="mini" color="black">
-                        Waiting
                     </Label>
                 )}
             </Table.Cell>
@@ -84,7 +75,7 @@ function Withdrawals() {
                         </Table.HeaderCell>
                     </Table.Row>
                     <Table.Row>
-                        <Table.HeaderCell>Wallet</Table.HeaderCell>
+                        <Table.HeaderCell>Receiving Wallet</Table.HeaderCell>
                         <Table.HeaderCell>Date</Table.HeaderCell>
                         <Table.HeaderCell>Amount</Table.HeaderCell>
                         <Table.HeaderCell>Coin</Table.HeaderCell>
