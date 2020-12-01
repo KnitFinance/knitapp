@@ -23,7 +23,7 @@ const options = [
     // { key: 'kltc', text: 'K-LTC', value: 'kltc' }
 ]
 function Withdraw() {
-    const { handleSubmit, control, errors } = useForm()
+    const { handleSubmit, control, errors, reset } = useForm()
     const [currentAccount, setCurrentAccount] = React.useState(null)
     const [coin, setCoin] = React.useState('XLM')
     const [loading, setLoading] = React.useState()
@@ -48,9 +48,6 @@ function Withdraw() {
         setLoading(true)
         value.coin = coin
 
-        //dummy
-        value.walletFrom = 'WillRemoveLater'
-
         const web3Instance = window.web3
         const accounts = await web3Instance.eth.getAccounts()
         let contractInstance = contract(contractAbi[coin])
@@ -74,8 +71,10 @@ function Withdraw() {
             value.txnId = tx
             value.status = true
             await withdraw(value)
+            reset()
         } catch (e) {
             console.log(e)
+            reset()
         }
         setLoading(false)
     }
@@ -89,7 +88,7 @@ function Withdraw() {
                 <Controller
                     control={control}
                     name="amount"
-                    defaultValue={0}
+                    defaultValue={''}
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
@@ -107,7 +106,7 @@ function Withdraw() {
                                 onChange={onChange}
                                 type="number"
                                 onBlur={onBlur}
-                                selected={value}
+                                value={value}
                                 step="any"
                                 labelPosition="right"
                                 size="huge"
@@ -128,7 +127,7 @@ function Withdraw() {
                                 placeholder="Your Receiving Address"
                                 onChange={onChange}
                                 onBlur={onBlur}
-                                selected={value}
+                                value={value}
                             />
                         </Form.Field>
                     )}

@@ -41,6 +41,7 @@ const Swap = () => {
     const { handleSubmit, control, errors } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
+    const [visible, setVisible] = React.useState(false)
 
     const [coin, setCoin] = React.useState('XLM')
     const [amount, setAmount] = React.useState('')
@@ -61,6 +62,7 @@ const Swap = () => {
         }
         setLoading(false)
     }
+    const dismissHandle = () => setVisible(false)
 
     useInterval(
         () => {
@@ -198,6 +200,19 @@ const Swap = () => {
                         )}
                     </Header>
                 </Segment>
+            )}
+            {visible && (
+                <Message
+                    positive
+                    inverted
+                    onDismiss={dismissHandle}
+                    header="Success!"
+                    list={[
+                        `You have recived ${amount} k${coin}`,
+                        'Recived wallet XXXXXX',
+                        `Transaction : link`
+                    ]}
+                />
             )}
         </React.Fragment>
     )
