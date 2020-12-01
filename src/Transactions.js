@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Header, Icon, Table, Label } from 'semantic-ui-react'
+import { Table, Label } from 'semantic-ui-react'
 import { getSwap } from './actions'
 
 const truncate = (str, max, sep) => {
@@ -50,6 +50,7 @@ const Transactions = () => {
             <Table.Cell collapsing>
                 <a
                     target="_blank"
+                    rel="noreferrer"
                     href={`https://kovan.etherscan.io/tx/${item.txnId}`}>
                     {truncate(item.txnId, 8, '...')}
                 </a>
