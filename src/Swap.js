@@ -46,11 +46,11 @@ const Swap = () => {
 
     const onSubmitHandler = async values => {
         setLoading(true)
+        setVisible(false)
         setAmount(values.amount)
         values.coin = coin
         try {
             const { data } = await swap(values)
-            console.log(data.data.contractAddress)
             setTransaction(data.data)
             setStatus(true)
         } catch (e) {
@@ -65,7 +65,7 @@ const Swap = () => {
             if (transaction !== null) {
                 depositstatus(transaction.txId)
                     .then(val => {
-                        console.log(val.data.data)
+                        console.log(val.data.data.status)
                         if (val.data.data.status === true) {
                             setDeposit(val.data.data)
                             setStatus(false)
