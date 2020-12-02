@@ -10,23 +10,21 @@ import {
 } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
 import { withdraw } from './actions'
+import { optionsWithdraw } from './utils'
 
 const contract = require('@truffle/contract')
 const contractAbi = {
-    XLM: require('./abi/KnitStellar.json')
+    XLM: require('./abi/KnitStellar.json'),
+    XRP: require('./abi/KnitRipple.json')
 }
 
 const Web3 = require('web3')
 
-const options = [
-    { key: 'XLM', text: 'K-XLM', value: 'XLM' }
-    // { key: 'kxrp', text: 'K-XRP', value: 'kxrp' },
-    // { key: 'kltc', text: 'K-LTC', value: 'kltc' }
-]
 function Withdraw() {
     const { handleSubmit, control, errors, reset } = useForm()
     const [coin, setCoin] = React.useState('XLM')
     const [loading, setLoading] = React.useState()
+    const [visible, setVisible] = React.useState(false)
 
     React.useEffect(() => {
         const ethEnabled = () => {
@@ -43,7 +41,7 @@ function Withdraw() {
             )
         }
     })
-    console.log(errors)
+
     const onSubmitHandler = async value => {
         setLoading(true)
         value.coin = coin
@@ -60,17 +58,10 @@ function Withdraw() {
                     from: accounts[0]
                 }
             )
-            // const response = await tokenInstant.mint(
-            //     accounts[0],
-            //     web3Instance.utils.toWei('2', 'ether'),
-            //     {
-            //         from: accounts[0]
-            //     }
-            // )
-            const { tx } = response
-            value.txnId = tx
+            value.txnId = response.tx
             value.status = true
             await withdraw(value)
+            setVisible(true)
             reset()
         } catch (e) {
             console.log(e)
@@ -78,6 +69,7 @@ function Withdraw() {
         }
         setLoading(false)
     }
+    const dismissHandle = () => setVisible(false)
 
     return (
         <React.Fragment>
@@ -95,7 +87,7 @@ function Withdraw() {
                             <Input
                                 label={
                                     <Dropdown
-                                        options={options}
+                                        options={optionsWithdraw}
                                         size="huge"
                                         defaultValue={coin}
                                         onChange={(e, data) =>
@@ -110,7 +102,7 @@ function Withdraw() {
                                 step="any"
                                 labelPosition="right"
                                 size="huge"
-                                placeholder="Send"
+                                placeholder="Amount"
                             />
                         </Form.Field>
                     )}
@@ -171,6 +163,15 @@ function Withdraw() {
                     </div>
                 </Form.Field>
             </Form>
+            {visible && (
+                <Message
+                    positive
+                    inverted
+                    onDismiss={dismissHandle}
+                    header="Success!"
+                    content={`Your withdrawal will be processed soon.`}
+                />
+            )}
         </React.Fragment>
     )
 }

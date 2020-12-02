@@ -12,12 +12,7 @@ import {
 } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
 import { swap, depositstatus } from './actions'
-
-const options = [
-    { key: 'xlm', text: 'Stellar', value: 'XLM' },
-    { key: 'xrp', text: 'Ripple', value: 'XRP' },
-    { key: 'btc', text: 'Bitcoin', value: 'BTC' }
-]
+import { options } from './utils'
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -42,6 +37,7 @@ const Swap = () => {
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
     const [visible, setVisible] = React.useState(false)
+    const [deposit, setDeposit] = React.useState(false)
 
     const [coin, setCoin] = React.useState('XLM')
     const [amount, setAmount] = React.useState('')
@@ -54,6 +50,7 @@ const Swap = () => {
         values.coin = coin
         try {
             const { data } = await swap(values)
+            console.log(data.data.contractAddress)
             setTransaction(data.data)
             setStatus(true)
         } catch (e) {
@@ -70,14 +67,16 @@ const Swap = () => {
                     .then(val => {
                         console.log(val.data.data)
                         if (val.data.data.status === true) {
+                            setDeposit(val.data.data)
                             setStatus(false)
+                            setVisible(true)
                             reset()
                         }
                     })
                     .catch(err => setLoading(false))
             }
         },
-        status ? 3000 : null
+        status ? 10000 : null
     )
 
     return (
@@ -113,7 +112,7 @@ const Swap = () => {
                                 labelPosition="right"
                                 size="huge"
                                 value={value}
-                                placeholder="Send"
+                                placeholder="Amount"
                             />
                         </Form.Field>
                     )}
@@ -219,9 +218,9 @@ const Swap = () => {
                     onDismiss={dismissHandle}
                     header="Success!"
                     list={[
-                        `You have recived ${amount} k${coin}`,
-                        'Recived wallet XXXXXX',
-                        `Transaction : link`
+                        `You have received ${deposit.tokens} k${deposit.coin}`,
+                        `Received wallet ${deposit.ethWallet}`,
+                        `Token address ${transaction.contractAddress}`
                     ]}
                 />
             )}
