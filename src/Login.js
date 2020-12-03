@@ -27,7 +27,7 @@ function Login({ history }) {
                 <Controller
                     control={control}
                     name="email"
-                    defaultValue={'admin@knit.fin'}
+                    defaultValue={''}
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
@@ -43,7 +43,7 @@ function Login({ history }) {
                 <Controller
                     control={control}
                     name="password"
-                    defaultValue={'123456789'}
+                    defaultValue={''}
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
