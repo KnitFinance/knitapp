@@ -41,7 +41,7 @@ pre {
 }
 
 .ui.text.container {
-    min-width: 65vw !important;
+    min-width: 75vw !important;
 }
 
 .ui.menu {
@@ -57,4 +57,23 @@ pre {
     .ui.menu.screennav {
         display: none !important;
     }
+}
+
+.centermiddle {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin: 10px auto;
+    flex-direction: column;
+}
+
+.whatyouget {
+    min-height: 100%;
+    box-sizing: border-box;
+    color: #fff;
+}
+
+.maticbtn {
+    cursor: not-allowed !important;
 }
