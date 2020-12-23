@@ -15,7 +15,8 @@ import { optionsWithdraw } from './utils'
 const contract = require('@truffle/contract')
 const contractAbi = {
     XLM: require('./abi/KnitStellar.json'),
-    XRP: require('./abi/KnitRipple.json')
+    XRP: require('./abi/KnitRipple.json'),
+    LTC: require('./abi/KnitLitecoin.json')
 }
 
 const Web3 = require('web3')
