@@ -18,15 +18,7 @@ const FooterNav = () => {
             <UserContext.Consumer>
                 {({ user, logout }) => (
                     <>
-                        {user === null ? (
-                            <Menu.Item
-                                header
-                                as={NavLink}
-                                exact
-                                to="/admin"
-                                children="Sign In"
-                            />
-                        ) : (
+                        {user !== null && (
                             <>
                                 <Menu.Item
                                     header
