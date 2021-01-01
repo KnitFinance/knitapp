@@ -13,12 +13,9 @@ import { useForm, Controller } from 'react-hook-form'
 import { withdraw } from './actions'
 import { optionsWithdraw, isMetamask } from './utils'
 import ConnectMetamask from './ConnectMetamask'
+import * as contractAbi from './abi'
+
 const contract = require('@truffle/contract')
-const contractAbi = {
-    XLM: require('./abi/KnitStellar.json'),
-    XRP: require('./abi/KnitRipple.json'),
-    LTC: require('./abi/KnitLitecoin.json')
-}
 
 const Web3 = require('web3')
 
@@ -181,7 +178,7 @@ function Withdraw() {
                         )}
                     </Grid.Column>
                     <Grid.Column width={6}>
-                        <ConnectMetamask />
+                        <ConnectMetamask coin={coin} />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

@@ -1,3 +1,6 @@
+import * as contractAbi from './abi'
+const contract = require('@truffle/contract')
+
 const list = [
     {
         name: 'Ethereum',
@@ -68,4 +71,17 @@ export const isMetamask = () => {
         return true
     }
     return false
+}
+
+export const getTokanBalance = async (coin, walletAddress) => {
+    const contractInstance = contract(contractAbi[coin])
+    const web3 = window?.web3
+    let result = 0
+    contractInstance.setProvider(web3?.currentProvider)
+    try {
+        const tokenInstant = await contractInstance.deployed()
+        let balance = await tokenInstant.balanceOf(walletAddress)
+        result = balance / 10 ** 18
+    } catch (e) {}
+    return result
 }

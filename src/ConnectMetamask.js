@@ -1,13 +1,29 @@
 import React from 'react'
 import { Button, Message, Statistic, Label } from 'semantic-ui-react'
-import { isMetamask } from './utils'
+import { isMetamask, getTokanBalance } from './utils'
 
-const ConnectMetamask = () => {
+const ConnectMetamask = ({ coin }) => {
     const [isMeta, setIsMeta] = React.useState(true)
     const [isMetamaskEnabled, setIsMetamaskEnabled] = React.useState(false)
     const [selectedAccount, setSelectedAccount] = React.useState(null)
+    const [tokenBalance, setTokanBalance] = React.useState(0)
 
     React.useEffect(() => {
+        const getBalance = (coin, account) => {
+            getTokanBalance(coin, account).then(balance => {
+                setTokanBalance(balance)
+            })
+        }
+        const getAccount = () => {
+            const { ethereum } = window
+            ethereum
+                .request({ method: 'eth_requestAccounts' })
+                .then(accounts => {
+                    getBalance(coin, accounts[0])
+                    setSelectedAccount(accounts[0])
+                })
+        }
+
         if (!isMetamask()) {
             setIsMeta(false)
         } else {
@@ -15,19 +31,12 @@ const ConnectMetamask = () => {
                 getAccount()
                 setIsMetamaskEnabled(true)
             }
-            //OnChange account event
             window.ethereum.on('accountsChanged', function(accounts) {
                 setSelectedAccount(accounts[0])
             })
         }
-    }, [isMeta, selectedAccount])
+    }, [isMeta, selectedAccount, coin])
 
-    const getAccount = () => {
-        const { ethereum } = window
-        ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
-            setSelectedAccount(accounts[0])
-        })
-    }
     return (
         <div className="whatyouget">
             {!isMeta && !isMetamaskEnabled && (
@@ -52,7 +61,7 @@ const ConnectMetamask = () => {
                 <div className="centermiddle whatyouget">
                     <p>You are connected to MetaMask</p>
                     <Statistic inverted color="violet">
-                        <Statistic.Value>~20.06</Statistic.Value>
+                        <Statistic.Value>{tokenBalance}</Statistic.Value>
                         <Statistic.Label>
                             <span aria-label="Knit XLM" data-balloon-pos="up">
                                 kXLM
