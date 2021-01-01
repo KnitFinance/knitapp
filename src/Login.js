@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Header, Divider, Input, Button, Form } from 'semantic-ui-react'
+import { Header, Input, Button, Form } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
 import { login } from './actions'
 

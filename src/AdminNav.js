@@ -1,6 +1,4 @@
 import * as React from 'react'
-import { Menu } from 'semantic-ui-react'
-import { NavLink } from 'react-router-dom'
 import { Tab } from 'semantic-ui-react'
 import Transactions from './Transactions'
 import Withdrawals from './Withdrawals'
