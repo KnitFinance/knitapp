@@ -42,7 +42,7 @@ const Swap = () => {
     const [visible, setVisible] = React.useState(false)
     const [deposit, setDeposit] = React.useState(false)
 
-    const [coin, setCoin] = React.useState('XLM')
+    const [coin, setCoin] = React.useState('ETH')
     const [amount, setAmount] = React.useState('')
 
     const [transaction, setTransaction] = React.useState(null)
@@ -116,7 +116,7 @@ const Swap = () => {
                                                 <Dropdown
                                                     options={options}
                                                     size="huge"
-                                                    defaultValue="XLM"
+                                                    defaultValue={coin}
                                                     onChange={(e, data) =>
                                                         setCoin(data.value)
                                                     }
