@@ -10,14 +10,13 @@ import {
     Header,
     Icon,
     Input,
-    Label,
     Message,
     Segment
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap } from './actions'
 
-import { options } from './utils'
+import { options, optionsWithdraw } from './utils'
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -38,7 +37,7 @@ const useInterval = (callback, delay) => {
 }
 
 const Swap = () => {
-    const { handleSubmit, control, errors, reset } = useForm()
+    const { handleSubmit, control, errors, reset, setValue } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
     const [visible, setVisible] = React.useState(false)
@@ -52,8 +51,9 @@ const Swap = () => {
     const onSubmitHandler = async values => {
         setLoading(true)
         setVisible(false)
-        setAmount(values.amount)
+        setAmount(values.token)
         values.coin = coin
+
         try {
             const { data } = await swap(values)
             setTransaction(data.data)
@@ -70,7 +70,6 @@ const Swap = () => {
             if (transaction !== null) {
                 depositstatus(transaction.txId)
                     .then(val => {
-                        console.log(val.data.data.status)
                         if (val.data.data.status === true) {
                             setDeposit(val.data.data)
                             setStatus(false)
@@ -122,14 +121,21 @@ const Swap = () => {
                                                     options={options}
                                                     size="huge"
                                                     defaultValue={coin}
-                                                    onChange={(e, data) =>
+                                                    onChange={(e, data) => {
                                                         setCoin(data.value)
-                                                    }
+                                                    }}
                                                 />
                                             }
                                             onChange={onChange}
                                             type="number"
-                                            onBlur={onBlur}
+                                            onBlur={e =>
+                                                setValue(
+                                                    'token',
+                                                    (e.target.value / 100) *
+                                                        97.5,
+                                                    { shouldDirty: true }
+                                                )
+                                            }
                                             labelPosition="right"
                                             size="huge"
                                             value={value}
@@ -138,32 +144,26 @@ const Swap = () => {
                                     </Form.Field>
                                 )}
                             />
-
                             <Controller
                                 control={control}
-                                name="amount"
+                                name="token"
                                 defaultValue={''}
-                                rules={{ required: true }}
                                 render={({ onChange, onBlur, value, ref }) => (
                                     <Form.Field>
                                         <Input
                                             label={
                                                 <Dropdown
-                                                    options={options}
+                                                    options={optionsWithdraw}
                                                     size="huge"
-                                                    defaultValue={coin}
-                                                    onChange={(e, data) =>
-                                                        setCoin(data.value)
-                                                    }
+                                                    value={coin}
                                                 />
                                             }
-                                            onChange={onChange}
-                                            type="number"
-                                            onBlur={onBlur}
+                                            type="text"
                                             labelPosition="right"
                                             size="huge"
-                                            value={value}
+                                            value={`~${value}`}
                                             placeholder="Receiving Amount"
+                                            readOnly
                                         />
                                     </Form.Field>
                                 )}
@@ -265,7 +265,7 @@ const Swap = () => {
 
                 <Grid.Row>
                     {status && (
-                        <Segment inverted placeholder>
+                        <Segment inverted placeholder style={{ width: '100%' }}>
                             <Header icon>
                                 <Icon loading name="certificate" />
                                 {transaction && (
