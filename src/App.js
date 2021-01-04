@@ -18,6 +18,7 @@ import Login from './Login'
 import Swap from './Swap'
 import { UserContext } from './actions/userContext'
 import Withdraw from './Withdraw'
+import { getInfo } from './actions'
 
 function NoMatch() {
     let location = useLocation()
@@ -44,7 +45,12 @@ function NoMatch() {
     )
 }
 
-function TopMenu() {
+const TopMenu = () => {
+    const [info, setInfo] = useState([])
+
+    React.useEffect(() => {
+        getInfo().then(res => setInfo(res.data.data.balance))
+    }, [])
     return (
         <div className={'topmenusec'}>
             <a href="/">
@@ -55,22 +61,12 @@ function TopMenu() {
 
             <Statistic.Group size={'mini'} inverted color="blue">
                 <Statistic></Statistic>
-                <Statistic>
-                    <Statistic.Value>22</Statistic.Value>
-                    <Statistic.Label>ETH</Statistic.Label>
-                </Statistic>
-                <Statistic>
-                    <Statistic.Value>22</Statistic.Value>
-                    <Statistic.Label>ETH</Statistic.Label>
-                </Statistic>
-                <Statistic>
-                    <Statistic.Value>22</Statistic.Value>
-                    <Statistic.Label>ETH</Statistic.Label>
-                </Statistic>
-                <Statistic>
-                    <Statistic.Value>22</Statistic.Value>
-                    <Statistic.Label>ETH</Statistic.Label>
-                </Statistic>
+                {info.map((value, index) => (
+                    <Statistic key={index}>
+                        <Statistic.Value>{value.tokens}</Statistic.Value>
+                        <Statistic.Label>{value._id.currency}</Statistic.Label>
+                    </Statistic>
+                ))}
             </Statistic.Group>
 
             <FooterNav />
