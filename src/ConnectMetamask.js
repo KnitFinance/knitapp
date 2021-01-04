@@ -64,7 +64,7 @@ const ConnectMetamask = ({ coin }) => {
                         <Statistic.Value>{tokenBalance}</Statistic.Value>
                         <Statistic.Label>
                             <span aria-label="Knit XLM" data-balloon-pos="up">
-                                kXLM
+                                K-{coin}
                             </span>
                         </Statistic.Label>
                     </Statistic>
