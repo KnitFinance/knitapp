@@ -77,3 +77,6 @@ pre {
 .maticbtn {
     cursor: not-allowed !important;
 }
+.ui.statistics {
+    margin: 0 !important;
+}

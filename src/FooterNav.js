@@ -1,5 +1,7 @@
 import * as React from 'react'
-import { Menu, Button } from 'semantic-ui-react'
+
+import { Button, Menu, Segment, Statistic } from 'semantic-ui-react'
+
 import { NavLink } from 'react-router-dom'
 import { UserContext } from './actions/userContext'
 

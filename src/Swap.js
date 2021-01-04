@@ -1,20 +1,22 @@
 import * as React from 'react'
+
 import {
-    Header,
-    Input,
-    Dropdown,
     Button,
-    Form,
     Checkbox,
-    Segment,
-    Icon,
-    Message,
+    Divider,
+    Dropdown,
+    Form,
     Grid,
-    Statistic,
-    Label
+    Header,
+    Icon,
+    Input,
+    Label,
+    Message,
+    Segment
 } from 'semantic-ui-react'
-import { useForm, Controller } from 'react-hook-form'
-import { swap, depositstatus } from './actions'
+import { Controller, useForm } from 'react-hook-form'
+import { depositstatus, swap } from './actions'
+
 import { options } from './utils'
 
 const useInterval = (callback, delay) => {
@@ -86,7 +88,11 @@ const Swap = () => {
         <React.Fragment>
             <Grid>
                 <Grid.Row>
-                    <Grid.Column width={8}>
+                    <Form
+                        inverted
+                        className="centermiddle"
+                        onSubmit={handleSubmit(onSubmitHandler)}
+                        name={'swap'}>
                         <div className="centermiddle">
                             <Button.Group>
                                 <Button color="violet">Ethereum</Button>
@@ -99,11 +105,10 @@ const Swap = () => {
                                 </Button>
                             </Button.Group>
                         </div>
+                        <Divider hidden />
+                        <Divider hidden />
 
-                        <Form
-                            inverted
-                            onSubmit={handleSubmit(onSubmitHandler)}
-                            name={'swap'}>
+                        <Form.Group>
                             <Controller
                                 control={control}
                                 name="amount"
@@ -128,12 +133,43 @@ const Swap = () => {
                                             labelPosition="right"
                                             size="huge"
                                             value={value}
-                                            placeholder="Amount"
+                                            placeholder="Sending Amount"
                                         />
                                     </Form.Field>
                                 )}
                             />
 
+                            <Controller
+                                control={control}
+                                name="amount"
+                                defaultValue={''}
+                                rules={{ required: true }}
+                                render={({ onChange, onBlur, value, ref }) => (
+                                    <Form.Field>
+                                        <Input
+                                            label={
+                                                <Dropdown
+                                                    options={options}
+                                                    size="huge"
+                                                    defaultValue={coin}
+                                                    onChange={(e, data) =>
+                                                        setCoin(data.value)
+                                                    }
+                                                />
+                                            }
+                                            onChange={onChange}
+                                            type="number"
+                                            onBlur={onBlur}
+                                            labelPosition="right"
+                                            size="huge"
+                                            value={value}
+                                            placeholder="Receiving Amount"
+                                        />
+                                    </Form.Field>
+                                )}
+                            />
+                        </Form.Group>
+                        <Form.Group>
                             <Controller
                                 control={control}
                                 name="depositWallet"
@@ -142,7 +178,7 @@ const Swap = () => {
                                 render={({ onChange, onBlur, value, ref }) => (
                                     <Form.Field>
                                         <Input
-                                            size="huge"
+                                            size="large"
                                             placeholder="Your Sending Address"
                                             onChange={onChange}
                                             onBlur={onBlur}
@@ -160,7 +196,7 @@ const Swap = () => {
                                 render={({ onChange, onBlur, value, ref }) => (
                                     <Form.Field>
                                         <Input
-                                            size="huge"
+                                            size="large"
                                             placeholder="Your ETH Address"
                                             onChange={onChange}
                                             onBlur={onBlur}
@@ -169,74 +205,62 @@ const Swap = () => {
                                     </Form.Field>
                                 )}
                             />
+                        </Form.Group>
 
-                            <Controller
-                                control={control}
-                                name="terms"
-                                rules={{ required: true }}
-                                defaultValue={false}
-                                render={({
-                                    onChange,
-                                    onBlur,
-                                    value,
-                                    name,
-                                    ref
-                                }) => (
-                                    <Form.Field>
-                                        <Checkbox
-                                            onBlur={onBlur}
-                                            onChange={e => onChange(!value)}
-                                            checked={value}
-                                            inputRef={ref}
-                                            label="I agree to the terms and privacy policy"
-                                        />
-                                    </Form.Field>
-                                )}
-                            />
-
-                            {Object.keys(errors).length > 0 && (
-                                <Message
-                                    color="red"
-                                    inverted
-                                    header="There was some errors with your submission"
-                                    list={[`All fields are required!`]}
-                                />
+                        <Controller
+                            control={control}
+                            name="terms"
+                            rules={{ required: true }}
+                            defaultValue={false}
+                            render={({
+                                onChange,
+                                onBlur,
+                                value,
+                                name,
+                                ref
+                            }) => (
+                                <Form.Field>
+                                    <Checkbox
+                                        onBlur={onBlur}
+                                        onChange={e => onChange(!value)}
+                                        checked={value}
+                                        inputRef={ref}
+                                        label="I agree to the terms and privacy policy"
+                                    />
+                                </Form.Field>
                             )}
+                        />
 
-                            <Form.Field>
-                                <div>
-                                    <Button
-                                        primary
-                                        size="huge"
-                                        loading={loading}
-                                        disabled={status}>
-                                        EXCHANGE
-                                    </Button>
-                                    <Button secondary size="huge" type="reset">
-                                        RESET
-                                    </Button>
-                                </div>
-                            </Form.Field>
-                        </Form>
-                    </Grid.Column>
-                    <Grid.Column width={8}>
-                        <div className="centermiddle whatyouget">
-                            <p>You will recive</p>
-                            <Statistic inverted color="violet">
-                                <Statistic.Value>~20.06</Statistic.Value>
-                                <Statistic.Label>
-                                    <span
-                                        aria-label="Knit XLM"
-                                        data-balloon-pos="up">
-                                        kXLM
-                                    </span>
-                                </Statistic.Label>
-                            </Statistic>
-                            <Label color="violet">
-                                0xB26b668120f20D31e1c5c6C634Ec36D28c2FAfFa
-                            </Label>
-                        </div>
-                    </Grid.Column>
+                        {Object.keys(errors).length > 0 && (
+                            <Message
+                                color="red"
+                                inverted
+                                header="There was some errors with your submission"
+                                list={[`All fields are required!`]}
+                            />
+                        )}
+                        <Divider hidden />
+                        <Divider hidden />
+
+                        <Form.Field>
+                            <div>
+                                <Button
+                                    primary
+                                    size="huge"
+                                    loading={loading}
+                                    disabled={status}>
+                                    EXCHANGE
+                                </Button>
+                                <Button
+                                    basic
+                                    color="red"
+                                    size="huge"
+                                    type="reset">
+                                    RESET
+                                </Button>
+                            </div>
+                        </Form.Field>
+                    </Form>
                 </Grid.Row>
 
                 <Grid.Row>

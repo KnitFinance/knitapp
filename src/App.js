@@ -1,18 +1,23 @@
+import {
+    Container,
+    Divider,
+    Statistic,
+    Header as UiHeader
+} from 'semantic-ui-react'
 import React, { useState } from 'react'
 import {
+    Route,
     BrowserRouter as Router,
     Switch,
-    Route,
     useLocation
 } from 'react-router-dom'
-import { Container, Divider, Header as UiHeader } from 'semantic-ui-react'
-import Swap from './Swap'
-import Withdraw from './Withdraw'
-import Login from './Login'
+
 import Dashboard from './Dashboard'
 import FooterNav from './FooterNav'
-
+import Login from './Login'
+import Swap from './Swap'
 import { UserContext } from './actions/userContext'
+import Withdraw from './Withdraw'
 
 function NoMatch() {
     let location = useLocation()
@@ -47,6 +52,27 @@ function TopMenu() {
                     src="https://knit.finance/img/logo-light.png"
                     alt="logo"></img>
             </a>
+
+            <Statistic.Group size={'mini'} inverted color="blue">
+                <Statistic></Statistic>
+                <Statistic>
+                    <Statistic.Value>22</Statistic.Value>
+                    <Statistic.Label>ETH</Statistic.Label>
+                </Statistic>
+                <Statistic>
+                    <Statistic.Value>22</Statistic.Value>
+                    <Statistic.Label>ETH</Statistic.Label>
+                </Statistic>
+                <Statistic>
+                    <Statistic.Value>22</Statistic.Value>
+                    <Statistic.Label>ETH</Statistic.Label>
+                </Statistic>
+                <Statistic>
+                    <Statistic.Value>22</Statistic.Value>
+                    <Statistic.Label>ETH</Statistic.Label>
+                </Statistic>
+            </Statistic.Group>
+
             <FooterNav />
         </div>
     )
