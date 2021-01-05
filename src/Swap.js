@@ -49,21 +49,21 @@ const Swap = () => {
     const [status, setStatus] = React.useState(false)
     const [visible, setVisible] = React.useState(false)
     const [deposit, setDeposit] = React.useState(false)
-
+    const [time, setTime] = React.useState(null)
     const [coin, setCoin] = React.useState('ETH')
     const [amount, setAmount] = React.useState('')
-
     const [transaction, setTransaction] = React.useState(null)
+    var HALF_HOUR = 60 * 30 * 1000
 
     const onSubmitHandler = async values => {
         setLoading(true)
         setVisible(false)
         setAmount(values.token)
         values.coin = coin
-
         try {
             const { data } = await swap(values)
             setTransaction(data.data)
+            setTime(new Date())
             setStatus(true)
         } catch (e) {
             console.log(e)
@@ -83,14 +83,17 @@ const Swap = () => {
                             setVisible(true)
                             reset()
                         }
+                        if (new Date() - time >= HALF_HOUR) {
+                            setStatus(false)
+                            setTime(null)
+                            reset()
+                        }
                     })
                     .catch(err => setLoading(false))
             }
         },
         status ? 10000 : null
     )
-
-    console.log(errors)
 
     return (
         <React.Fragment>
