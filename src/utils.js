@@ -3,16 +3,6 @@ const contract = require('@truffle/contract')
 
 const list = [
     {
-        name: 'Ethereum',
-        knitName: 'K-ETH',
-        symbol: 'ETH'
-    },
-    {
-        name: 'Bitcoin',
-        knitName: 'K-BTC',
-        symbol: 'BTC'
-    },
-    {
         name: 'Stellar',
         knitName: 'K-XLM',
         symbol: 'XLM'
@@ -26,6 +16,11 @@ const list = [
         name: 'Litecoin',
         knitName: 'K-LTC',
         symbol: 'LTC'
+    },
+    {
+        name: 'Bitcoin',
+        knitName: 'K-BTC',
+        symbol: 'BTC'
     },
     {
         name: 'Bitcoin Cash',
@@ -51,6 +46,11 @@ const list = [
         name: 'Bitcoin SV',
         knitName: 'K-BSV',
         symbol: 'BSV'
+    },
+    {
+        name: 'Ethereum',
+        knitName: 'K-ETH',
+        symbol: 'ETH'
     }
 ]
 
