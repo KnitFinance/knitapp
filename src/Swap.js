@@ -271,6 +271,7 @@ const Swap = () => {
                                 {transaction && (
                                     <>
                                         <pre>{transaction.walletAddress}</pre>
+                                        <pre>{transaction.memo}</pre>
 
                                         <Header inverted as="h3">
                                             {`You will recive approximately ${amount} k${coin}`}
