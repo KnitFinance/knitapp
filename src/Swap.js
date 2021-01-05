@@ -37,7 +37,14 @@ const useInterval = (callback, delay) => {
 }
 
 const Swap = () => {
-    const { handleSubmit, control, errors, reset, setValue } = useForm()
+    const {
+        handleSubmit,
+        control,
+        errors,
+        reset,
+        setValue,
+        setError
+    } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
     const [visible, setVisible] = React.useState(false)
@@ -82,6 +89,8 @@ const Swap = () => {
         },
         status ? 10000 : null
     )
+
+    console.log(errors)
 
     return (
         <React.Fragment>
@@ -128,14 +137,29 @@ const Swap = () => {
                                             }
                                             onChange={onChange}
                                             type="number"
-                                            onBlur={e =>
-                                                setValue(
-                                                    'token',
+                                            onBlur={e => {
+                                                const commission =
                                                     (e.target.value / 100) *
-                                                        97.5,
-                                                    { shouldDirty: true }
-                                                )
-                                            }
+                                                    0.25
+                                                const minimumAmount = 0.0000001
+                                                const numberOfToken =
+                                                    e.target.value -
+                                                    (commission + minimumAmount)
+
+                                                if (numberOfToken < 0) {
+                                                    setError('token', {
+                                                        type: 'manual',
+                                                        message:
+                                                            'Minimum amount required!'
+                                                    })
+                                                } else {
+                                                    setValue(
+                                                        'token',
+                                                        numberOfToken,
+                                                        { shouldDirty: true }
+                                                    )
+                                                }
+                                            }}
                                             labelPosition="right"
                                             size="huge"
                                             value={value}
@@ -232,12 +256,23 @@ const Swap = () => {
                         />
 
                         {Object.keys(errors).length > 0 && (
-                            <Message
-                                color="red"
-                                inverted
-                                header="There was some errors with your submission"
-                                list={[`All fields are required!`]}
-                            />
+                            <>
+                                {errors.token ? (
+                                    <Message
+                                        color="red"
+                                        inverted
+                                        header="There was some errors with your submission"
+                                        list={[`${errors.token.message}`]}
+                                    />
+                                ) : (
+                                    <Message
+                                        color="red"
+                                        inverted
+                                        header="There was some errors with your submission"
+                                        list={[`All fields are required!`]}
+                                    />
+                                )}
+                            </>
                         )}
                         <Divider hidden />
                         <Divider hidden />
