@@ -36,9 +36,7 @@ const Transactions = () => {
 
     const listItems = items.map((item, index) => (
         <Table.Row key={index} inverted>
-            <Table.Cell collapsing>
-                {truncate(item.ethWallet, 16, '...')}
-            </Table.Cell>
+            <Table.Cell collapsing>{item.ethWallet}</Table.Cell>
             <Table.Cell>{item.createdAt}</Table.Cell>
             <Table.Cell collapsing textAlign="right">
                 {item.amount}

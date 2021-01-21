@@ -212,7 +212,7 @@ const Swap = () => {
                                 control={control}
                                 name="depositWallet"
                                 defaultValue={''}
-                                rules={{ required: true }}
+                                rules={{ required: true, minLength: 10 }}
                                 render={({ onChange, onBlur, value, ref }) => (
                                     <Form.Field>
                                         <Input
@@ -230,7 +230,7 @@ const Swap = () => {
                                 control={control}
                                 name="ethWallet"
                                 defaultValue={''}
-                                rules={{ required: true }}
+                                rules={{ required: true, minLength: 10 }}
                                 render={({ onChange, onBlur, value, ref }) => (
                                     <Form.Field>
                                         <Input
@@ -349,7 +349,7 @@ const Swap = () => {
                                         <pre>{transaction.memo}</pre>
 
                                         <Header inverted as="h3">
-                                            {`You will recive approximately ${amount} k${coin}`}
+                                            {`You will receive approximately ${amount} k${coin}`}
                                         </Header>
                                     </>
                                 )}

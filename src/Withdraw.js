@@ -105,7 +105,7 @@ function Withdraw() {
                                 control={control}
                                 name="walletTo"
                                 defaultValue={''}
-                                rules={{ required: true }}
+                                rules={{ required: true, minLength: 10 }}
                                 render={({ onChange, onBlur, value, ref }) => (
                                     <Form.Field>
                                         <Input
