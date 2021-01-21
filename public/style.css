@@ -1,6 +1,6 @@
 body {
-    background: linear-gradient(#1e0b56, #0e0529) !important;
-    background-image: url('https://knit.finance/img/parallax-dark.webp') !important;
+  background: linear-gradient(#1e0b56, #0e0529) !important;
+  background-image: url('https://knit.finance/img/parallax-dark.webp') !important;
 }
 
 .ui.form .ui.dropdown,
@@ -17,66 +17,63 @@ body {
 .ui.form input[type='time'],
 .ui.form input[type='url'],
 .ui.form textarea {
-    line-height: 28px !important;
-    border: 2px solid #4824d4 !important;
+  line-height: 28px !important;
+  border: 2px solid #4824d4 !important;
 }
 
 code,
 pre {
-    font-family: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console',
-        'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
-        'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
-        monospace !important;
+  font-family: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console',
+    'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
+    'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
+    monospace !important;
 }
 
 .ui.primary.button {
-    background-color: #7b5eea !important;
+  background-color: #7b5eea !important;
 }
 
 .topmenusec {
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
 }
 
 .ui.text.container {
-    min-width: 75vw !important;
+  min-width: 75vw !important;
 }
 
 .ui.menu {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 /* Mobile */
-
 @media only screen and (max-width: 600px) {
-    .ui.menu.mobilenav {
-        display: block !important;
-    }
-    .ui.menu.screennav {
-        display: none !important;
-    }
+  .ui.menu.mobilenav {
+    display: block !important;
+  }
+
+  .ui.menu.screennav {
+    display: none !important;
+  }
 }
 
 .centermiddle {
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    margin: 10px auto;
-    flex-direction: column;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin: 10px auto;
+  flex-direction: column;
 }
 
 .whatyouget {
-    min-height: 100%;
-    box-sizing: border-box;
-    color: #fff;
+  min-height: 100%;
+  box-sizing: border-box;
+  color: #fff;
 }
 
-.maticbtn {
-    cursor: not-allowed !important;
-}
 .ui.statistics {
-    margin: 0 !important;
+  margin: 0 !important;
 }

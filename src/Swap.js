@@ -106,13 +106,24 @@ const Swap = () => {
                         name={'swap'}>
                         <div className="centermiddle">
                             <Button.Group>
-                                <Button color="violet">Ethereum</Button>
+                                <Button color="violet" type="button">
+                                    Ethereum
+                                </Button>
                                 <Button.Or />
                                 <Button
                                     className="maticbtn"
                                     aria-label="Coming Soon"
-                                    data-balloon-pos="up">
+                                    data-balloon-pos="up"
+                                    type="button">
                                     Matic
+                                </Button>
+                                <Button.Or />
+                                <Button
+                                    className="maticbtn"
+                                    aria-label="Coming Soon"
+                                    data-balloon-pos="up"
+                                    type="button">
+                                    Polkadot
                                 </Button>
                             </Button.Group>
                         </div>
@@ -233,6 +244,32 @@ const Swap = () => {
                                 )}
                             />
                         </Form.Group>
+                        {coin === 'XLM' && (
+                            <Form.Group>
+                                <Controller
+                                    control={control}
+                                    name="memo"
+                                    defaultValue={''}
+                                    rules={{ required: true }}
+                                    render={({
+                                        onChange,
+                                        onBlur,
+                                        value,
+                                        ref
+                                    }) => (
+                                        <Form.Field>
+                                            <Input
+                                                size="large"
+                                                placeholder="Memo"
+                                                onChange={onChange}
+                                                onBlur={onBlur}
+                                                value={value}
+                                            />
+                                        </Form.Field>
+                                    )}
+                                />
+                            </Form.Group>
+                        )}
 
                         <Controller
                             control={control}
