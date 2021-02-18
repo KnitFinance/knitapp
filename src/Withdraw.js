@@ -36,7 +36,7 @@ function Withdraw() {
         setLoading(true)
         value.coin = coin
 
-        const web3Instance = window.web3
+        const web3Instance = new Web3(window.web3.currentProvider)
         const accounts = await web3Instance.eth.getAccounts()
         let contractInstance = contract(contractAbi[coin])
         contractInstance.setProvider(web3Instance.currentProvider)
@@ -60,7 +60,6 @@ function Withdraw() {
         setLoading(false)
     }
     const dismissHandle = () => setVisible(false)
-
     return (
         <React.Fragment>
             <Header inverted as="h2">
