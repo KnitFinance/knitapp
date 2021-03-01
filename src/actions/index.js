@@ -13,9 +13,12 @@ export const addMerchant = data =>
     http.post('/custodian/minter', data, {
         headers: headers
     })
-export const addMerchantLimit = data => http.post('/custodian/limit', data)
-export const getMerchant = () =>
-    http.get('/custodian/merchants', {
+export const addMerchantLimit = data =>
+    http.post('/custodian/limit', data, {
+        headers: headers
+    })
+export const getMerchant = coin =>
+    http.get(`/custodian/merchants/${coin}`, {
         headers: headers
     })
 export const getMerchantLimit = (coin, wallet) =>

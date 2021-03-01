@@ -10,7 +10,7 @@ import {
 } from 'semantic-ui-react'
 import { addMerchant, getMerchant, getMerchantLimit } from './actions'
 import { Controller, useForm } from 'react-hook-form'
-
+import LimitForm from './components/LimitForm'
 import { optionsWithdraw } from './utils'
 
 const Web3 = require('web3')
@@ -31,7 +31,7 @@ const Transactions = () => {
     } = useForm()
 
     React.useEffect(() => {
-        getMerchant().then(res => {
+        getMerchant('all').then(res => {
             // const resMapped = res.data.data.balance.map((bal, ind) => {
             //     getMerchantLimit(bal.coin, bal.wallet).then(result => {
             //         bal.limit = result.data.limit
@@ -39,8 +39,7 @@ const Transactions = () => {
             //         return bal
             //     })
             // })
-            // console.log(resMapped)
-            setItems(res.data.data.balance)
+            setItems(res.data.data.merchants)
         })
     }, [])
 
@@ -60,7 +59,7 @@ const Transactions = () => {
             <Table.Cell>{item.coin}</Table.Cell>
             <Table.Cell collapsing textAlign="right"></Table.Cell>
             <Table.Cell collapsing textAlign="right">
-                {item.currency}
+                <LimitForm wallet={item.wallet} coin={item.coin} />
             </Table.Cell>
         </Table.Row>
     ))
