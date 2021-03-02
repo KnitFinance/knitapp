@@ -13,7 +13,7 @@ const LimitForm = ({ coin, wallet, reload, setReload }) => {
         setIsLoading(true)
         values.coin = coin
         try {
-            const res = await addMerchantLimit(values)
+            await addMerchantLimit(values)
             setReload(!reload)
         } catch (e) {
             console.log(e)
