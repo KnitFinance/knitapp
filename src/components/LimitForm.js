@@ -4,17 +4,22 @@ import { Button, Form, Input, Message, Modal } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { addMerchantLimit } from '../actions'
 
-const LimitForm = ({ coin, wallet }) => {
+const LimitForm = ({ coin, wallet, reload, setReload }) => {
     const { handleSubmit, control, errors } = useForm()
     const [open, setOpen] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(false)
+
     const onSubmit = async values => {
+        setIsLoading(true)
         values.coin = coin
         try {
             const res = await addMerchantLimit(values)
-            console.log(res)
+            setReload(!reload)
         } catch (e) {
             console.log(e)
         }
+        setOpen(false)
+        setIsLoading(false)
     }
 
     return (
@@ -22,8 +27,8 @@ const LimitForm = ({ coin, wallet }) => {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={<Button>Show Modal</Button>}>
-            <Modal.Header>Add Merchant Limit - {coin}</Modal.Header>
+            trigger={<Button>Set Limit</Button>}>
+            <Modal.Header>Set Merchant Limit - {coin}</Modal.Header>
             <Modal.Content>
                 <Form onSubmit={handleSubmit(onSubmit)} name={'limit_form'}>
                     <Controller
@@ -75,7 +80,7 @@ const LimitForm = ({ coin, wallet }) => {
                         )}
                     />
 
-                    <Button primary type="submit">
+                    <Button primary type="submit" loading={isLoading}>
                         Submit
                     </Button>
                     <Button color="black" onClick={() => setOpen(false)}>

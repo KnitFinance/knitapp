@@ -20,6 +20,8 @@ const Transactions = () => {
     const [items, setItems] = React.useState([])
     const [open, setOpen] = React.useState(false)
     const [token, setToken] = React.useState('XLM')
+    const [limit, setLimit] = React.useState({})
+    const [reload, setReload] = React.useState(false)
 
     const {
         handleSubmit,
@@ -32,16 +34,26 @@ const Transactions = () => {
 
     React.useEffect(() => {
         getMerchant('all').then(res => {
-            // const resMapped = res.data.data.balance.map((bal, ind) => {
-            //     getMerchantLimit(bal.coin, bal.wallet).then(result => {
-            //         bal.limit = result.data.limit
-            //         console.log(result.data.limit)
-            //         return bal
-            //     })
-            // })
             setItems(res.data.data.merchants)
+            limitSet(res.data.data.merchants)
         })
-    }, [])
+    }, [reload])
+
+    const limitSet = async merchants => {
+        let limitData = {}
+        for await (const merchant of merchants) {
+            try {
+                const { data } = await getMerchantLimit(
+                    merchant.coin,
+                    merchant.wallet
+                )
+                limitData[merchant.wallet] = data.data.limit
+            } catch (e) {
+                console.log('err', e)
+            }
+        }
+        setLimit(limitData)
+    }
 
     const onSubmit = async values => {
         values.coin = token
@@ -57,9 +69,16 @@ const Transactions = () => {
         <Table.Row key={index} inverted>
             <Table.Cell collapsing>{item.wallet}</Table.Cell>
             <Table.Cell>{item.coin}</Table.Cell>
-            <Table.Cell collapsing textAlign="right"></Table.Cell>
             <Table.Cell collapsing textAlign="right">
-                <LimitForm wallet={item.wallet} coin={item.coin} />
+                {limit[item.wallet] >= 0 ? limit[item.wallet] : '--'}
+            </Table.Cell>
+            <Table.Cell collapsing textAlign="right">
+                <LimitForm
+                    wallet={item.wallet}
+                    coin={item.coin}
+                    reload={reload}
+                    setReload={setReload}
+                />
             </Table.Cell>
         </Table.Row>
     ))
@@ -97,7 +116,6 @@ const Transactions = () => {
             </Table>
 
             <Modal
-                centered={false}
                 open={open}
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}>
