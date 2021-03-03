@@ -46,8 +46,8 @@ const Swap = () => {
         setError
     } = useForm()
     const [loading, setLoading] = React.useState(false)
-    const [status, setStatus] = React.useState(false)
-    const [isTxid, setIsTxid] = React.useState(true)
+    const [status, setStatus] = React.useState(true)
+    const [txid, setTxid] = React.useState('Sdfsf')
     const [visible, setVisible] = React.useState(false)
     const [deposit, setDeposit] = React.useState(false)
     const [time, setTime] = React.useState(null)
@@ -70,6 +70,10 @@ const Swap = () => {
             console.log(e)
         }
         setLoading(false)
+    }
+
+    const onTransactionHandler = () => {
+        console.log()
     }
     const dismissHandle = () => setVisible(false)
 
@@ -329,10 +333,19 @@ const Swap = () => {
                             <div className="row-details">
                                 <div>Transaction ID </div>
                                 <div>
-                                    <Input
-                                        action="Submit"
-                                        placeholder="Transaction hash"
-                                    />
+                                    <Form onSubmit={onSubmitHandler}>
+                                        <Form.Field>
+                                            <Input
+                                                action="Submit"
+                                                placeholder="Transaction hash"
+                                                onChange={val =>
+                                                    console.log(
+                                                        val.target.value
+                                                    )
+                                                }
+                                            />
+                                        </Form.Field>
+                                    </Form>
                                 </div>
                             </div>
                         </Segment>
