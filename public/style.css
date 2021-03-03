@@ -68,6 +68,20 @@ pre {
   flex-direction: column;
 }
 
+.tab-middle {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin: 10px auto;
+  flex-direction: column;
+}
+
+.row-details {
+  display: flex;
+  justify-content: space-between;
+}
+
 .whatyouget {
   min-height: 100%;
   box-sizing: border-box;
