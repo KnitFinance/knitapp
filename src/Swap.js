@@ -46,7 +46,7 @@ const Swap = () => {
         setError
     } = useForm()
     const [loading, setLoading] = React.useState(false)
-    const [status, setStatus] = React.useState(true)
+    const [status, setStatus] = React.useState(false)
     const [txid, setTxid] = React.useState('Sdfsf')
     const [visible, setVisible] = React.useState(false)
     const [deposit, setDeposit] = React.useState(false)
