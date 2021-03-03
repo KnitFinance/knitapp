@@ -7,6 +7,6 @@ const BCH = require('./KnitBitcoinCash.json')
 const ZEC = require('./KnitZcash.json')
 const DOGE = require('./KnitDogecoin.json')
 const DASH = require('./KnitDash.json')
-const BSV = require('./KnitBitcoinSV.json')
+const BSV = require('./KnitBitcoinSv.json')
 
 export { BTC, ETH, XLM, XRP, LTC, BCH, ZEC, DOGE, DASH, BSV }
