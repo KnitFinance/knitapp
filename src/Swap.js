@@ -47,7 +47,8 @@ const Swap = () => {
     } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
-    const [txid, setTxid] = React.useState('Sdfsf')
+    const [txid, setTxid] = React.useState(null)
+    const [isTxid, setIsTxid] = React.useState(false)
     const [visible, setVisible] = React.useState(false)
     const [deposit, setDeposit] = React.useState(false)
     const [time, setTime] = React.useState(null)
@@ -73,7 +74,8 @@ const Swap = () => {
     }
 
     const onTransactionHandler = () => {
-        console.log()
+        console.log(txid)
+        setIsTxid(true)
     }
     const dismissHandle = () => setVisible(false)
 
@@ -309,51 +311,67 @@ const Swap = () => {
                                     <h3>Transaction Details</h3>
                                 </div>
                                 <div>
-                                    <Icon loading name="sync" />
+                                    {isTxid && <Icon loading name="sync" />}
                                 </div>
                             </div>
                         </Segment>
                         <Segment>
                             <div className="row-details">
                                 <div>Wallet</div>
-                                <div>
-                                    <pre>{'transaction.walletAddress'}</pre>
-                                </div>
+                                <div>{'transaction.walletAddress'}</div>
                             </div>
                         </Segment>
                         <Segment>
                             <div className="row-details">
                                 <div>Memo</div>
-                                <div>
-                                    <pre>{'transaction.memo'}</pre>
-                                </div>
+                                <div>{'transaction.memo'}</div>
                             </div>
                         </Segment>
                         <Segment>
                             <div className="row-details">
                                 <div>Transaction ID </div>
                                 <div>
-                                    <Form onSubmit={onSubmitHandler}>
-                                        <Form.Field>
-                                            <Input
-                                                action="Submit"
-                                                placeholder="Transaction hash"
-                                                onChange={val =>
-                                                    console.log(
-                                                        val.target.value
-                                                    )
-                                                }
-                                            />
-                                        </Form.Field>
-                                    </Form>
+                                    {!isTxid ? (
+                                        <Form onSubmit={onTransactionHandler}>
+                                            <Form.Field>
+                                                <Input
+                                                    action="Submit"
+                                                    placeholder="Transaction hash"
+                                                    onChange={val =>
+                                                        setTxid(
+                                                            val.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </Form.Field>
+                                        </Form>
+                                    ) : (
+                                        <>{txid}</>
+                                    )}
                                 </div>
                             </div>
                         </Segment>
-                        <Message warning attached="bottom">
-                            <Icon name="info" />
-                            Submit your transaction hash to complete this
-                            transaction
-                        </Message>
+                        {!isTxid && (
+                            <Message warning attached="bottom">
+                                <Icon name="info" />
+                                Submit your transaction hash to complete this
+                                transaction
+                            </Message>
+                        )}
+                        {visible && (
+                            <Message
+                                positive
+                                inverted
+                                onDismiss={dismissHandle}
+                                header="Success!"
+                                attached="bottom"
+                                list={[
+                                    `You have received ${deposit.tokens} k${deposit.coin}`,
+                                    `Received wallet ${deposit.ethWallet}`,
+                                    `Token address ${transaction?.contractAddress}`
+                                ]}
+                            />
+                        )}
                     </Segment.Group>
                     {/*<Segment placeholder style={{ width: '100%' }}>
                         <Header icon>
@@ -371,19 +389,6 @@ const Swap = () => {
                         </Header>
                     </Segment>*/}
                 </>
-            )}
-            {visible && (
-                <Message
-                    positive
-                    inverted
-                    onDismiss={dismissHandle}
-                    header="Success!"
-                    list={[
-                        `You have received ${deposit.tokens} k${deposit.coin}`,
-                        `Received wallet ${deposit.ethWallet}`,
-                        `Token address ${transaction.contractAddress}`
-                    ]}
-                />
             )}
         </React.Fragment>
     )
