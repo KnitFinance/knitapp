@@ -14,7 +14,7 @@ import {
     Segment
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
-import { depositstatus, swap } from './actions'
+import { depositstatus, swap, swapVerify } from './actions'
 
 import { options, optionsWithdraw } from './utils'
 
@@ -64,6 +64,7 @@ const Swap = () => {
         values.coin = coin
         try {
             const { data } = await swap(values)
+            console.log('Swap data', data)
             setTransaction(data.data)
             setTime(new Date())
             setStatus(true)
@@ -73,16 +74,31 @@ const Swap = () => {
         setLoading(false)
     }
 
-    const onTransactionHandler = () => {
-        console.log(txid)
-        setIsTxid(true)
+    const onTransactionHandler = async () => {
+        const values = {
+            txnId: transaction.txnId,
+            txnhash: txid,
+            amount: transaction.amount,
+            ethWallet: transaction.ethWallet,
+            coin: transaction.coin,
+            depositWallet: transaction.depositWallet,
+            wallet: transaction.wallet
+        }
+        try {
+            const { data } = await swapVerify(values)
+            setIsTxid(true)
+
+            console.log(data)
+        } catch (e) {
+            console.log(e)
+        }
     }
     const dismissHandle = () => setVisible(false)
 
     useInterval(
         () => {
             if (transaction !== null) {
-                depositstatus(transaction.txId)
+                depositstatus(transaction.txnId)
                     .then(val => {
                         if (val.data.data.status === true) {
                             setDeposit(val.data.data)
@@ -209,23 +225,42 @@ const Swap = () => {
                         )}
                     />
                 </Form.Group>
-                <Controller
-                    control={control}
-                    name="ethWallet"
-                    defaultValue={''}
-                    rules={{ required: true, minLength: 10 }}
-                    render={({ onChange, onBlur, value, ref }) => (
-                        <Form.Field>
-                            <Input
-                                size="large"
-                                placeholder="Your ETH Address"
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value}
-                            />
-                        </Form.Field>
-                    )}
-                />
+                <Form.Group>
+                    <Controller
+                        control={control}
+                        name="depositWallet"
+                        defaultValue={''}
+                        rules={{ required: true, minLength: 10 }}
+                        render={({ onChange, onBlur, value, ref }) => (
+                            <Form.Field>
+                                <Input
+                                    size="large"
+                                    placeholder="Your Sending Address"
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    value={value}
+                                />
+                            </Form.Field>
+                        )}
+                    />
+                    <Controller
+                        control={control}
+                        name="ethWallet"
+                        defaultValue={''}
+                        rules={{ required: true, minLength: 10 }}
+                        render={({ onChange, onBlur, value, ref }) => (
+                            <Form.Field>
+                                <Input
+                                    size="large"
+                                    placeholder="Your ETH Address"
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    value={value}
+                                />
+                            </Form.Field>
+                        )}
+                    />
+                </Form.Group>
                 {coin === 'XLM' && (
                     <Controller
                         control={control}
@@ -318,13 +353,13 @@ const Swap = () => {
                         <Segment>
                             <div className="row-details">
                                 <div>Wallet</div>
-                                <div>{'transaction.walletAddress'}</div>
+                                <div>{transaction.wallet}</div>
                             </div>
                         </Segment>
                         <Segment>
                             <div className="row-details">
                                 <div>Memo</div>
-                                <div>{'transaction.memo'}</div>
+                                <div>{transaction.memo}</div>
                             </div>
                         </Segment>
                         <Segment>

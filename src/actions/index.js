@@ -5,7 +5,10 @@ export const login = data => http.post('/login', data)
 export const signup = data => http.post('/signup', data)
 export const swap = data => http.post('/swap', data)
 export const withdraw = data => http.post('/withdraw', data)
-export const depositstatus = txId => http.get(`/depositstatus/${txId}`)
+export const swapVerify = data => http.post('/swap/verify', data)
+
+export const depositstatus = txId =>
+    http.get(`/custodian/depositstatus/${txId}`)
 export const getWithdraw = () => http.get('/withdraw')
 export const getSwap = () => http.get('/swap')
 export const getInfo = () => http.get('/coins')
