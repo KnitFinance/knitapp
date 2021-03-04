@@ -84,8 +84,11 @@ const Swap = () => {
             depositWallet: transaction.depositWallet,
             wallet: transaction.wallet
         }
+        console.log('onTransactionHandler', values)
+
         try {
             const { data } = await swapVerify(values)
+            console.log(data)
             setIsTxid(true)
 
             console.log(data)
@@ -100,6 +103,7 @@ const Swap = () => {
             if (transaction !== null) {
                 depositstatus(transaction.txnId)
                     .then(val => {
+                        console.log('useInterval', val)
                         if (val.data.data.status === true) {
                             setDeposit(val.data.data)
                             setStatus(false)
