@@ -397,20 +397,6 @@ const Swap = () => {
                                 transaction
                             </Message>
                         )}
-                        {visible && (
-                            <Message
-                                positive
-                                inverted
-                                onDismiss={dismissHandle}
-                                header="Success!"
-                                attached="bottom"
-                                list={[
-                                    `You have received ${deposit.tokens} k${deposit.coin}`,
-                                    `Received wallet ${deposit.ethWallet}`,
-                                    `Token address ${transaction?.contractAddress}`
-                                ]}
-                            />
-                        )}
                     </Segment.Group>
                     {/*<Segment placeholder style={{ width: '100%' }}>
                         <Header icon>
@@ -428,6 +414,19 @@ const Swap = () => {
                         </Header>
                     </Segment>*/}
                 </>
+            )}
+            {visible && (
+                <Message
+                    positive
+                    inverted
+                    onDismiss={dismissHandle}
+                    header="Success!"
+                    list={[
+                        `You have received ${deposit.tokens} k${deposit.coin}`,
+                        `Received wallet ${deposit.ethWallet}`,
+                        `Token address ${transaction?.contractAddress}`
+                    ]}
+                />
             )}
         </React.Fragment>
     )
