@@ -103,7 +103,7 @@ const Swap = () => {
             if (transaction !== null) {
                 depositstatus(transaction.txnId)
                     .then(val => {
-                        console.log('useInterval', val)
+                        console.log('Deposit Status', val.data.data.status)
                         if (val.data.data.status === true) {
                             setDeposit(val.data.data)
                             setStatus(false)
@@ -422,7 +422,7 @@ const Swap = () => {
                     onDismiss={dismissHandle}
                     header="Success!"
                     list={[
-                        `You have received ${deposit.tokens} k${deposit.coin}`,
+                        `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
                         `Received wallet ${deposit.ethWallet}`,
                         `Token address ${transaction?.contractAddress}`
                     ]}
