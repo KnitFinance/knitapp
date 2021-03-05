@@ -15,7 +15,7 @@ const LimitForm = ({ coin, wallet, reload, setReload }) => {
         getMerchantLimit(coin, wallet).then(res => {
             setLimit(res.data.data.limit)
         })
-    }, [])
+    }, [coin, wallet])
 
     const onSubmit = async values => {
         setIsLoading(true)
