@@ -13,15 +13,14 @@ import { Controller, useForm } from 'react-hook-form'
 import LimitForm from './components/LimitForm'
 import { optionsWithdraw } from './utils'
 
-const Web3 = require('web3')
-let web3 = new Web3('ws://localhost:8545')
+const Web3Utils = require('web3-utils')
 
 const Transactions = () => {
     const [items, setItems] = React.useState([])
     const [open, setOpen] = React.useState(false)
     const [token, setToken] = React.useState('XLM')
-    const [limit, setLimit] = React.useState({})
     const [reload, setReload] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(false)
 
     const {
         handleSubmit,
@@ -35,43 +34,26 @@ const Transactions = () => {
     React.useEffect(() => {
         getMerchant('all').then(res => {
             setItems(res.data.data.merchants)
-            limitSet(res.data.data.merchants)
         })
     }, [reload])
 
-    const limitSet = async merchants => {
-        let limitData = {}
-        for await (const merchant of merchants) {
-            try {
-                const { data } = await getMerchantLimit(
-                    merchant.coin,
-                    merchant.wallet
-                )
-                limitData[merchant.wallet] = data.data.limit
-            } catch (e) {
-                console.log('err', e)
-            }
-        }
-        setLimit(limitData)
-    }
-
     const onSubmit = async values => {
+        setIsLoading(true)
         values.coin = token
         try {
             const { data } = await addMerchant(values)
+            setOpen(false)
         } catch (e) {
             console.log('err', e)
+            setOpen(false)
         }
-        console.log(values)
+        setIsLoading(false)
     }
 
     const listItems = items.map((item, index) => (
         <Table.Row key={index} inverted>
             <Table.Cell collapsing>{item.wallet}</Table.Cell>
             <Table.Cell>{item.coin}</Table.Cell>
-            <Table.Cell collapsing textAlign="right">
-                {limit[item.wallet] >= 0 ? limit[item.wallet] : '--'}
-            </Table.Cell>
             <Table.Cell collapsing textAlign="right">
                 <LimitForm
                     wallet={item.wallet}
@@ -88,7 +70,7 @@ const Transactions = () => {
             <Table celled striped>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell colSpan="3">
+                        <Table.HeaderCell colSpan="2">
                             Merchants
                         </Table.HeaderCell>
                         <Table.HeaderCell>
@@ -100,7 +82,6 @@ const Transactions = () => {
                     <Table.Row>
                         <Table.HeaderCell>Wallet</Table.HeaderCell>
                         <Table.HeaderCell>Coin</Table.HeaderCell>
-                        <Table.HeaderCell>Limit</Table.HeaderCell>
                         <Table.HeaderCell>Action</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -130,7 +111,7 @@ const Transactions = () => {
                             defaultValue={''}
                             rules={{
                                 required: true,
-                                validate: value => web3.utils.isAddress(value)
+                                validate: value => Web3Utils.isAddress(value)
                             }}
                             render={({ onChange, onBlur, value, ref }) => (
                                 <Form.Field>
@@ -160,7 +141,7 @@ const Transactions = () => {
                             />
                         </Form.Field>
 
-                        <Button primary type="submit">
+                        <Button primary type="submit" loading={isLoading}>
                             Submit
                         </Button>
                         <Button

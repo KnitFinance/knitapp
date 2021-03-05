@@ -10,7 +10,10 @@ export const swapVerify = data => http.post('/swap/verify', data)
 export const depositstatus = txId => http.get(`/depositstatus/${txId}`)
 export const getWithdraw = () => http.get('/withdraw')
 export const getSwap = () => http.get('/swap')
-export const getInfo = () => http.get('/coins')
+export const getInfo = () =>
+    http.get('/custodian/coins', {
+        headers: headers
+    })
 export const addMerchant = data =>
     http.post('/custodian/minter', data, {
         headers: headers
