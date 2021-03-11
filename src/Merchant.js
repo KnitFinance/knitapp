@@ -8,10 +8,11 @@ import {
     Message,
     Select
 } from 'semantic-ui-react'
-import { addMerchant, getMerchant, getMerchantLimit } from './actions'
+import { addMerchant, getMerchant } from './actions'
 import { Controller, useForm } from 'react-hook-form'
 import LimitForm from './components/LimitForm'
 import { optionsWithdraw } from './utils'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 const Web3Utils = require('web3-utils')
 
@@ -21,6 +22,9 @@ const Transactions = () => {
     const [token, setToken] = React.useState('XLM')
     const [reload, setReload] = React.useState(false)
     const [isLoading, setIsLoading] = React.useState(false)
+    const [network, setNetwork] = React.useState(
+        reactLocalStorage.get('network', 'BSC')
+    )
 
     const {
         handleSubmit,
@@ -32,7 +36,7 @@ const Transactions = () => {
     } = useForm()
 
     React.useEffect(() => {
-        getMerchant('all').then(res => {
+        getMerchant('all', network).then(res => {
             setItems(res.data.data.merchants)
         })
     }, [reload])
@@ -40,6 +44,7 @@ const Transactions = () => {
     const onSubmit = async values => {
         setIsLoading(true)
         values.coin = token
+        values.network = network
         try {
             const { data } = await addMerchant(values)
             setOpen(false)

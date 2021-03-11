@@ -14,6 +14,7 @@ import { withdraw } from './actions'
 import { optionsWithdraw, isMetamask } from './utils'
 import ConnectMetamask from './ConnectMetamask'
 import * as contractAbi from './abi'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 const contract = require('@truffle/contract')
 
@@ -25,6 +26,9 @@ function Withdraw() {
     const [loading, setLoading] = React.useState()
     const [visible, setVisible] = React.useState(false)
     const [isMeta, setIsMeta] = React.useState(true)
+    const [network, setNetwork] = React.useState(
+        reactLocalStorage.get('network', 'BSC')
+    )
 
     React.useEffect(() => {
         if (!isMetamask()) {
@@ -50,6 +54,7 @@ function Withdraw() {
             )
             value.txnId = response.tx
             value.status = true
+            value.network = network
             await withdraw(value)
             setVisible(true)
             reset()

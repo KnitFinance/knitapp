@@ -19,6 +19,7 @@ import Swap from './Swap'
 import { UserContext } from './actions/userContext'
 import Withdraw from './Withdraw'
 import { getInfo } from './actions'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 function NoMatch() {
     let location = useLocation()
@@ -47,9 +48,12 @@ function NoMatch() {
 
 const TopMenu = () => {
     const [info, setInfo] = useState([])
+    const [network, setNetwork] = React.useState(
+        reactLocalStorage.get('network', 'BSC')
+    )
 
     React.useEffect(() => {
-        getInfo().then(res => setInfo(res.data.data.balance))
+        getInfo(network).then(res => setInfo(res.data.data.balance))
     }, [])
     return (
         <div className={'topmenusec'}>

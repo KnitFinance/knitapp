@@ -6,14 +6,6 @@ export const signup = data => http.post('/signup', data)
 export const swap = data => http.post('/swap', data)
 export const withdraw = data => http.post('/withdraw', data)
 export const swapVerify = data => http.post('/swap/verify', data)
-
-export const depositstatus = txId => http.get(`/depositstatus/${txId}`)
-export const getWithdraw = () => http.get('/withdraw')
-export const getSwap = () => http.get('/swap')
-export const getInfo = () =>
-    http.get('/custodian/coins', {
-        headers: headers
-    })
 export const addMerchant = data =>
     http.post('/custodian/minter', data, {
         headers: headers
@@ -22,11 +14,19 @@ export const addMerchantLimit = data =>
     http.post('/custodian/limit', data, {
         headers: headers
     })
-export const getMerchant = coin =>
-    http.get(`/custodian/merchants/${coin}`, {
+
+export const getMerchant = (coin, network = 'ETH') =>
+    http.get(`/custodian/merchants/${coin}/${network}`, {
         headers: headers
     })
-export const getMerchantLimit = (coin, wallet) =>
-    http.get(`/custodian/limit/${coin}/${wallet}`, {
+export const getMerchantLimit = (coin, wallet, network = 'ETH') =>
+    http.get(`/custodian/limit/${coin}/${wallet}/${network}`, {
+        headers: headers
+    })
+export const depositstatus = txId => http.get(`/depositstatus/${txId}`)
+export const getWithdraw = (network = 'ETH') => http.get(`/withdraw/${network}`)
+export const getSwap = (network = 'ETH') => http.get(`/swap/${network}`)
+export const getInfo = (network = 'ETH') =>
+    http.get(`/custodian/coins/${network}`, {
         headers: headers
     })

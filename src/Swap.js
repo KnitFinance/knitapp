@@ -17,6 +17,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
 
 import { options, optionsWithdraw } from './utils'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -56,15 +57,18 @@ const Swap = () => {
     const [amount, setAmount] = React.useState('')
     const [transaction, setTransaction] = React.useState(null)
     var HALF_HOUR = 60 * 30 * 1000
+    const [network, setNetwork] = React.useState(
+        reactLocalStorage.get('network', 'BSC')
+    )
 
     const onSubmitHandler = async values => {
         setLoading(true)
         setVisible(false)
         setAmount(values.token)
         values.coin = coin
+        values.network = network
         try {
             const { data } = await swap(values)
-            console.log('Swap data', data)
             setTransaction(data.data)
             setTime(new Date())
             setStatus(true)
@@ -82,16 +86,13 @@ const Swap = () => {
             ethWallet: transaction.ethWallet,
             coin: transaction.coin,
             depositWallet: transaction.depositWallet,
-            wallet: transaction.wallet
+            wallet: transaction.wallet,
+            network: network
         }
-        console.log('onTransactionHandler', values)
 
         try {
             const { data } = await swapVerify(values)
-            console.log(data)
             setIsTxid(true)
-
-            console.log(data)
         } catch (e) {
             console.log(e)
         }
@@ -131,24 +132,32 @@ const Swap = () => {
                 name={'swap'}>
                 <div className="tab-middle">
                     <Button.Group>
-                        <Button color="violet" type="button">
+                        <Button
+                            color={network === 'ETH' ? 'violet' : ''}
+                            type="button"
+                            onClick={() => {
+                                setNetwork('ETH')
+                                reactLocalStorage.set('network', 'ETH')
+                            }}>
                             Ethereum
                         </Button>
                         <Button.Or />
                         <Button
                             className="maticbtn"
-                            aria-label="Coming Soon"
-                            data-balloon-pos="up"
-                            type="button">
-                            Matic
+                            color={network === 'BSC' ? 'violet' : ''}
+                            type="button"
+                            onClick={() => {
+                                setNetwork('BSC')
+                                reactLocalStorage.set('network', 'BSC')
+                            }}>
+                            BSC
                         </Button>
                         <Button.Or />
                         <Button
                             className="maticbtn"
-                            aria-label="Coming Soon"
-                            data-balloon-pos="up"
+                            color={network === 'MATIC' ? 'violet' : ''}
                             type="button">
-                            Polkadot
+                            Matic
                         </Button>
                     </Button.Group>
                 </div>

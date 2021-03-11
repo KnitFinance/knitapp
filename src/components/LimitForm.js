@@ -3,6 +3,8 @@ import * as React from 'react'
 import { Button, Form, Input, Message, Modal } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { addMerchantLimit, getMerchantLimit } from '../actions'
+import { reactLocalStorage } from 'reactjs-localstorage'
+
 const Web3Utils = require('web3-utils')
 
 const LimitForm = ({ coin, wallet, reload, setReload }) => {
@@ -10,9 +12,12 @@ const LimitForm = ({ coin, wallet, reload, setReload }) => {
     const [open, setOpen] = React.useState(false)
     const [isLoading, setIsLoading] = React.useState(false)
     const [limit, setLimit] = React.useState({})
+    const [network, setNetwork] = React.useState(
+        reactLocalStorage.get('network', 'BSC')
+    )
 
     React.useEffect(() => {
-        getMerchantLimit(coin, wallet).then(res => {
+        getMerchantLimit(coin, wallet, network).then(res => {
             setLimit(res.data.data.limit)
         })
     }, [coin, wallet])
@@ -20,6 +25,7 @@ const LimitForm = ({ coin, wallet, reload, setReload }) => {
     const onSubmit = async values => {
         setIsLoading(true)
         values.coin = coin
+        values.network = network
         try {
             await addMerchantLimit(values)
             setReload(!reload)

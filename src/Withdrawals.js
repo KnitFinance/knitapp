@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Header, Icon, Table, Label } from 'semantic-ui-react'
 import { getWithdraw } from './actions'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 const truncate = (str, max, sep) => {
     max = max || 6
@@ -25,9 +26,12 @@ const truncate = (str, max, sep) => {
 
 function Withdrawals() {
     const [items, setItems] = React.useState([])
+    const [network, setNetwork] = React.useState(
+        reactLocalStorage.get('network', 'BSC')
+    )
 
     React.useEffect(() => {
-        getWithdraw().then(res => {
+        getWithdraw(network).then(res => {
             setItems(res.data.data.result)
         })
     }, [])

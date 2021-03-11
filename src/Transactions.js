@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Table, Label } from 'semantic-ui-react'
 import { getSwap } from './actions'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 const truncate = (str, max, sep) => {
     max = max || 6
@@ -25,12 +26,13 @@ const truncate = (str, max, sep) => {
 
 const Transactions = () => {
     const [items, setItems] = React.useState([])
+    const network = reactLocalStorage.get('network', 'BSC')
 
     React.useEffect(() => {
-        getSwap().then(res => {
+        getSwap(network).then(res => {
             setItems(res.data.data.result)
         })
-    }, [])
+    }, [network])
 
     console.log(items)
 
