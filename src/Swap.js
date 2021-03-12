@@ -156,7 +156,11 @@ const Swap = () => {
                         <Button
                             className="maticbtn"
                             color={network === 'MATIC' ? 'violet' : ''}
-                            type="button">
+                            type="button"
+                            onClick={() => {
+                                setNetwork('MATIC')
+                                reactLocalStorage.set('network', 'MATIC')
+                            }}>
                             Matic
                         </Button>
                     </Button.Group>
