@@ -6,8 +6,6 @@ import {
     Divider,
     Dropdown,
     Form,
-    Grid,
-    Header,
     Icon,
     Input,
     Message,
@@ -15,7 +13,6 @@ import {
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
-
 import { options, optionsWithdraw } from './utils'
 import { reactLocalStorage } from 'reactjs-localstorage'
 
@@ -54,7 +51,6 @@ const Swap = () => {
     const [deposit, setDeposit] = React.useState(false)
     const [time, setTime] = React.useState(null)
     const [coin, setCoin] = React.useState('ETH')
-    const [amount, setAmount] = React.useState('')
     const [transaction, setTransaction] = React.useState(null)
     var HALF_HOUR = 60 * 30 * 1000
     const [network, setNetwork] = React.useState(
@@ -64,7 +60,6 @@ const Swap = () => {
     const onSubmitHandler = async values => {
         setLoading(true)
         setVisible(false)
-        setAmount(values.token)
         values.coin = coin
         values.network = network
         try {
@@ -91,7 +86,7 @@ const Swap = () => {
         }
 
         try {
-            const { data } = await swapVerify(values)
+            await swapVerify(values)
             setIsTxid(true)
         } catch (e) {
             console.log(e)
@@ -411,21 +406,6 @@ const Swap = () => {
                             </Message>
                         )}
                     </Segment.Group>
-                    {/*<Segment placeholder style={{ width: '100%' }}>
-                        <Header icon>
-                            <Icon loading name="certificate" />
-                            {!transaction && (
-                                <>
-                                    <pre>{'transaction.walletAddress'}</pre>
-                                    <pre>{'transaction.memo'}</pre>
-
-                                    <Header inverted as="h3">
-                                        {`You will receive approximately ${amount} k${coin}`}
-                                    </Header>
-                                </>
-                            )}
-                        </Header>
-                    </Segment>*/}
                 </>
             )}
             {visible && (
