@@ -1,6 +1,11 @@
 body {
-  background: linear-gradient(#1e0b56, #0e0529) !important;
-  background-image: url('https://knit.finance/img/parallax-dark.webp') !important;
+    background: rgb(2, 0, 36) !important;
+    background: linear-gradient(
+        90deg,
+        rgba(2, 0, 36, 1) 0%,
+        rgba(1, 1, 47, 1) 35%,
+        rgba(1, 12, 46, 1) 100%
+    ) !important;
 }
 
 .ui.form .ui.dropdown,
@@ -17,77 +22,120 @@ body {
 .ui.form input[type='time'],
 .ui.form input[type='url'],
 .ui.form textarea {
-  line-height: 28px !important;
-  border: 2px solid #4824d4 !important;
+    line-height: 28px !important;
+    border: 2px solid #020024 !important;
 }
 
 code,
 pre {
-  font-family: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console',
-    'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
-    'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
-    monospace !important;
+    font-family: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console',
+        'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
+        'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
+        monospace !important;
 }
 
 .ui.primary.button {
-  background-color: #7b5eea !important;
+    background-color: #7b5eea !important;
 }
 
 .topmenusec {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
 }
 
 .ui.text.container {
-  min-width: 75vw !important;
+    min-width: 75vw !important;
 }
 
 .ui.menu {
-  margin: 0 !important;
+    margin: 0 !important;
 }
 
 /* Mobile */
 @media only screen and (max-width: 600px) {
-  .ui.menu.mobilenav {
-    display: block !important;
-  }
+    .ui.menu.mobilenav {
+        display: block !important;
+    }
 
-  .ui.menu.screennav {
-    display: none !important;
-  }
+    .ui.menu.screennav {
+        display: none !important;
+    }
 }
 
 .centermiddle {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  margin: 10px auto;
-  flex-direction: column;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin: 10px auto;
+    flex-direction: column;
+}
+.centermiddleswap {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 10px auto;
+    flex-direction: column;
 }
 
 .tab-middle {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  margin: 10px auto;
-  flex-direction: column;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin: 10px auto;
+    flex-direction: column;
 }
 
 .row-details {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .whatyouget {
-  min-height: 100%;
-  box-sizing: border-box;
-  color: #fff;
+    min-height: 100%;
+    box-sizing: border-box;
+    color: #fff;
 }
 
 .ui.statistics {
-  margin: 0 !important;
+    margin: 0 !important;
+}
+.swapv2 {
+    border-radius: 20px;
+    border: 2px solid #010158;
+    padding: 15px;
+    width: 50vw;
+}
+
+.ui.inverted.form input:not([type]),
+.ui.inverted.form input[type='date'],
+.ui.inverted.form input[type='datetime-local'],
+.ui.inverted.form input[type='email'],
+.ui.inverted.form input[type='file'],
+.ui.inverted.form input[type='number'],
+.ui.inverted.form input[type='password'],
+.ui.inverted.form input[type='search'],
+.ui.inverted.form input[type='tel'],
+.ui.inverted.form input[type='text'],
+.ui.inverted.form input[type='time'],
+.ui.inverted.form input[type='url'] {
+    background: #170049 !important;
+    color: #fff !important;
+}
+.ui.label,
+.ui.dropdown .menu,
+.ui.dropdown .menu > .item {
+    background-color: #170049 !important;
+    color: #fff !important;
+}
+.ui.dropdown .menu .active.item,
+.ui.dropdown .menu .item:hover {
+    background-color: #4902de !important;
+}
+.reslt {
+    margin: 15px 0;
+    display: none;
 }

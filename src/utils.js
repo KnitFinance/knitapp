@@ -51,6 +51,21 @@ const list = [
         name: 'Ethereum',
         knitName: 'K-ETH',
         symbol: 'ETH'
+    },
+    {
+        name: 'Tomo',
+        knitName: 'K-TOMO',
+        symbol: 'TOMO'
+    },
+    {
+        name: 'Sia Coin',
+        knitName: 'K-SC',
+        symbol: 'SC'
+    },
+    {
+        name: 'Frontier',
+        knitName: 'K-FRONT',
+        symbol: 'FRONT'
     }
 ]
 

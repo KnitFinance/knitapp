@@ -9,7 +9,8 @@ import {
     Icon,
     Input,
     Message,
-    Segment
+    Segment,
+    Statistic
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
@@ -121,15 +122,17 @@ const Swapv2 = () => {
 
     return (
         <React.Fragment>
+            <Divider hidden />
+            <Divider hidden />
             <Form
                 inverted
-                className="centermiddle swapv2"
+                className="centermiddleswap swapv2"
                 onSubmit={handleSubmit(onSubmitHandler)}
                 name={'swap'}>
                 <div className="tab-middle">
                     <Button.Group>
                         <Button
-                            color={network === 'ETH' ? 'violet' : ''}
+                            color={network === 'ETH' ? 'black' : 'grey'}
                             type="button"
                             onClick={() => {
                                 setNetwork('ETH')
@@ -140,7 +143,7 @@ const Swapv2 = () => {
                         <Button.Or />
                         <Button
                             className="maticbtn"
-                            color={network === 'BSC' ? 'violet' : ''}
+                            color={network === 'BSC' ? 'black' : 'grey'}
                             type="button"
                             onClick={() => {
                                 setNetwork('BSC')
@@ -151,7 +154,7 @@ const Swapv2 = () => {
                         <Button.Or />
                         <Button
                             className="maticbtn"
-                            color={network === 'MATIC' ? 'violet' : ''}
+                            color={network === 'MATIC' ? 'black' : 'grey'}
                             type="button"
                             onClick={() => {
                                 setNetwork('MATIC')
@@ -162,118 +165,90 @@ const Swapv2 = () => {
                     </Button.Group>
                 </div>
                 <Divider hidden />
-                <Divider hidden />
+                <Controller
+                    control={control}
+                    name="amount"
+                    defaultValue={''}
+                    rules={{ required: true }}
+                    render={({ onChange, onBlur, value, ref }) => (
+                        <Form.Field>
+                            <Input
+                                label={
+                                    <Dropdown
+                                        options={options}
+                                        size="huge"
+                                        defaultValue={coin}
+                                        onChange={(e, data) => {
+                                            setCoin(data.value)
+                                        }}
+                                    />
+                                }
+                                onChange={onChange}
+                                type="number"
+                                onBlur={e => {
+                                    const commission =
+                                        (e.target.value / 100) * 0.25
+                                    const minimumAmount = 0.0000001
+                                    const numberOfToken =
+                                        e.target.value -
+                                        (commission + minimumAmount)
 
-                <Form.Group>
-                    <Controller
-                        control={control}
-                        name="amount"
-                        defaultValue={''}
-                        rules={{ required: true }}
-                        render={({ onChange, onBlur, value, ref }) => (
-                            <Form.Field>
-                                <Input
-                                    label={
-                                        <Dropdown
-                                            options={options}
-                                            size="huge"
-                                            defaultValue={coin}
-                                            onChange={(e, data) => {
-                                                setCoin(data.value)
-                                            }}
-                                        />
+                                    if (numberOfToken < 0) {
+                                        setError('token', {
+                                            type: 'manual',
+                                            message: 'Minimum amount required!'
+                                        })
+                                    } else {
+                                        setValue('token', numberOfToken, {
+                                            shouldDirty: true
+                                        })
                                     }
-                                    onChange={onChange}
-                                    type="number"
-                                    onBlur={e => {
-                                        const commission =
-                                            (e.target.value / 100) * 0.25
-                                        const minimumAmount = 0.0000001
-                                        const numberOfToken =
-                                            e.target.value -
-                                            (commission + minimumAmount)
+                                }}
+                                labelPosition="right"
+                                size="huge"
+                                value={value}
+                                placeholder="Sending Amount"
+                            />
+                        </Form.Field>
+                    )}
+                />
 
-                                        if (numberOfToken < 0) {
-                                            setError('token', {
-                                                type: 'manual',
-                                                message:
-                                                    'Minimum amount required!'
-                                            })
-                                        } else {
-                                            setValue('token', numberOfToken, {
-                                                shouldDirty: true
-                                            })
-                                        }
-                                    }}
-                                    labelPosition="right"
-                                    size="huge"
-                                    value={value}
-                                    placeholder="Sending Amount"
-                                />
-                            </Form.Field>
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name="token"
-                        defaultValue={''}
-                        render={({ onChange, onBlur, value, ref }) => (
-                            <Form.Field>
-                                <Input
-                                    label={
-                                        <Dropdown
-                                            options={optionsWithdraw}
-                                            size="huge"
-                                            value={coin}
-                                        />
-                                    }
-                                    type="text"
-                                    labelPosition="right"
-                                    size="huge"
-                                    value={`~${value}`}
-                                    placeholder="Receiving Amount"
-                                    readOnly
-                                />
-                            </Form.Field>
-                        )}
-                    />
-                </Form.Group>
-                <Form.Group>
-                    <Controller
-                        control={control}
-                        name="depositWallet"
-                        defaultValue={''}
-                        rules={{ required: true, minLength: 10 }}
-                        render={({ onChange, onBlur, value, ref }) => (
-                            <Form.Field>
-                                <Input
-                                    size="large"
-                                    placeholder="Your Sending Address"
-                                    onChange={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                />
-                            </Form.Field>
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name="ethWallet"
-                        defaultValue={''}
-                        rules={{ required: true, minLength: 10 }}
-                        render={({ onChange, onBlur, value, ref }) => (
-                            <Form.Field>
-                                <Input
-                                    size="large"
-                                    placeholder="Your ETH Address"
-                                    onChange={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                />
-                            </Form.Field>
-                        )}
-                    />
-                </Form.Group>
+                <Controller
+                    control={control}
+                    name="depositWallet"
+                    defaultValue={''}
+                    rules={{ required: true, minLength: 10 }}
+                    render={({ onChange, onBlur, value, ref }) => (
+                        <Form.Field>
+                            <Input
+                                size="large"
+                                placeholder="Your Sending Address"
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                fluid
+                            />
+                        </Form.Field>
+                    )}
+                />
+                <Controller
+                    control={control}
+                    name="ethWallet"
+                    defaultValue={''}
+                    rules={{ required: true, minLength: 10 }}
+                    render={({ onChange, onBlur, value, ref }) => (
+                        <Form.Field>
+                            <Input
+                                size="large"
+                                placeholder="Your ETH Address"
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                fluid
+                            />
+                        </Form.Field>
+                    )}
+                />
                 {coin === 'XLM' && (
                     <Controller
                         control={control}
@@ -312,6 +287,25 @@ const Swapv2 = () => {
                     )}
                 />
 
+                <div className="reslt">
+                    <Segment inverted>
+                        <Statistic.Group inverted>
+                            <Statistic>
+                                <Statistic.Value>22</Statistic.Value>
+                                <Statistic.Label>Faves</Statistic.Label>
+                            </Statistic>
+                            <Statistic>
+                                <Statistic.Value>31,200</Statistic.Value>
+                                <Statistic.Label>Views</Statistic.Label>
+                            </Statistic>
+                            <Statistic>
+                                <Statistic.Value>22</Statistic.Value>
+                                <Statistic.Label>Members</Statistic.Label>
+                            </Statistic>
+                        </Statistic.Group>
+                    </Segment>
+                </div>
+
                 {Object.keys(errors).length > 0 && (
                     <>
                         {errors.token ? (
@@ -331,19 +325,17 @@ const Swapv2 = () => {
                         )}
                     </>
                 )}
-                <Divider hidden />
-                <Divider hidden />
-
                 <Form.Field>
                     <div>
                         <Button
-                            primary
-                            size="huge"
+                            basic
+                            color="grey"
+                            size="medium"
                             loading={loading}
                             disabled={status}>
                             EXCHANGE
                         </Button>
-                        <Button basic color="red" size="huge" type="reset">
+                        <Button basic color="red" size="medium" type="reset">
                             RESET
                         </Button>
                     </div>

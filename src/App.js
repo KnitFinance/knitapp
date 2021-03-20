@@ -16,6 +16,7 @@ import Dashboard from './Dashboard'
 import FooterNav from './FooterNav'
 import Login from './Login'
 import Swap from './Swap'
+import Swapv2 from './Swapv2'
 import { UserContext } from './actions/userContext'
 import Withdraw from './Withdraw'
 import { getInfo } from './actions'
@@ -100,6 +101,9 @@ function App() {
                     <Switch>
                         <Route exact path="/" components={Swap}>
                             <Swap />
+                        </Route>
+                        <Route exact path="/v2" components={Swapv2}>
+                            <Swapv2 />
                         </Route>
                         <Route exact path="/withdraw">
                             <Withdraw />

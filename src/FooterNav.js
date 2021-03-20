@@ -9,6 +9,7 @@ const FooterNav = () => {
     return (
         <Menu className={'screennav'} inverted pointing secondary size="huge">
             <Menu.Item header as={NavLink} exact to="/" children="Home" />
+            <Menu.Item header as={NavLink} exact to="/v2" children="Swap" />
             <Menu.Item
                 header
                 as={NavLink}
