@@ -137,5 +137,9 @@ pre {
 }
 .reslt {
     margin: 15px 0;
-    display: none;
+    display: block;
+}
+.ui.statistics {
+    display: flex;
+    justify-content: space-between;
 }

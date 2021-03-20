@@ -289,18 +289,18 @@ const Swapv2 = () => {
 
                 <div className="reslt">
                     <Segment inverted>
-                        <Statistic.Group inverted>
+                        <Statistic.Group inverted size="small">
                             <Statistic>
                                 <Statistic.Value>22</Statistic.Value>
-                                <Statistic.Label>Faves</Statistic.Label>
+                                <Statistic.Label>ETH</Statistic.Label>
                             </Statistic>
                             <Statistic>
-                                <Statistic.Value>31,200</Statistic.Value>
-                                <Statistic.Label>Views</Statistic.Label>
+                                <Statistic.Value>0.02%</Statistic.Value>
+                                <Statistic.Label>Tx Fee</Statistic.Label>
                             </Statistic>
                             <Statistic>
-                                <Statistic.Value>22</Statistic.Value>
-                                <Statistic.Label>Members</Statistic.Label>
+                                <Statistic.Value>21.003</Statistic.Value>
+                                <Statistic.Label>KETH</Statistic.Label>
                             </Statistic>
                         </Statistic.Group>
                     </Segment>
