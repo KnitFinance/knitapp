@@ -43,7 +43,8 @@ const Swapv2 = () => {
         errors,
         reset,
         setValue,
-        setError
+        setError,
+        getValue
     } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
@@ -53,6 +54,8 @@ const Swapv2 = () => {
     const [deposit, setDeposit] = React.useState(false)
     const [time, setTime] = React.useState(null)
     const [coin, setCoin] = React.useState('ETH')
+    const [token, setToken] = React.useState(null)
+    const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
     var HALF_HOUR = 60 * 30 * 1000
     const [network, setNetwork] = React.useState(
@@ -199,6 +202,8 @@ const Swapv2 = () => {
                                             message: 'Minimum amount required!'
                                         })
                                     } else {
+                                        setToken(numberOfToken)
+                                        setEnterAmount(e.target.value)
                                         setValue('token', numberOfToken, {
                                             shouldDirty: true
                                         })
@@ -286,25 +291,28 @@ const Swapv2 = () => {
                         </Form.Field>
                     )}
                 />
-
-                <div className="reslt">
-                    <Segment inverted>
-                        <Statistic.Group inverted size="small">
-                            <Statistic>
-                                <Statistic.Value>22</Statistic.Value>
-                                <Statistic.Label>ETH</Statistic.Label>
-                            </Statistic>
-                            <Statistic>
-                                <Statistic.Value>0.02%</Statistic.Value>
-                                <Statistic.Label>Tx Fee</Statistic.Label>
-                            </Statistic>
-                            <Statistic>
-                                <Statistic.Value>21.003</Statistic.Value>
-                                <Statistic.Label>KETH</Statistic.Label>
-                            </Statistic>
-                        </Statistic.Group>
-                    </Segment>
-                </div>
+                {token !== null && enterAmount != null && (
+                    <div className="reslt">
+                        <Segment inverted>
+                            <Statistic.Group inverted size="small">
+                                <Statistic>
+                                    <Statistic.Value>
+                                        {enterAmount}
+                                    </Statistic.Value>
+                                    <Statistic.Label>{coin}</Statistic.Label>
+                                </Statistic>
+                                <Statistic>
+                                    <Statistic.Value>0.25%</Statistic.Value>
+                                    <Statistic.Label>Tx Fee</Statistic.Label>
+                                </Statistic>
+                                <Statistic>
+                                    <Statistic.Value>{token}</Statistic.Value>
+                                    <Statistic.Label>K{coin}</Statistic.Label>
+                                </Statistic>
+                            </Statistic.Group>
+                        </Segment>
+                    </div>
+                )}
 
                 {Object.keys(errors).length > 0 && (
                     <>
