@@ -1,10 +1,10 @@
 body {
-    background: rgb(2, 0, 36) !important;
+    background: rgb(0, 0, 0) !important;
     background: linear-gradient(
-        90deg,
-        rgba(2, 0, 36, 1) 0%,
-        rgba(1, 1, 47, 1) 35%,
-        rgba(1, 12, 46, 1) 100%
+        15deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 35%,
+        rgba(0, 0, 0, 1) 100%
     ) !important;
 }
 
@@ -32,10 +32,6 @@ pre {
         'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
         'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
         monospace !important;
-}
-
-.ui.primary.button {
-    background-color: #7b5eea !important;
 }
 
 .topmenusec {
@@ -105,7 +101,7 @@ pre {
 }
 .swapv2 {
     border-radius: 20px;
-    border: 2px solid #010158;
+    border: 2px solid #444;
     padding: 15px;
     width: 50vw;
 }
@@ -122,18 +118,19 @@ pre {
 .ui.inverted.form input[type='text'],
 .ui.inverted.form input[type='time'],
 .ui.inverted.form input[type='url'] {
-    background: #170049 !important;
+    background: #000 !important;
+    border: 1px solid #949494 !important;
     color: #fff !important;
 }
 .ui.label,
 .ui.dropdown .menu,
 .ui.dropdown .menu > .item {
-    background-color: #170049 !important;
+    background-color: #444 !important;
     color: #fff !important;
 }
 .ui.dropdown .menu .active.item,
 .ui.dropdown .menu .item:hover {
-    background-color: #4902de !important;
+    background-color: #333 !important;
 }
 .reslt {
     margin: 15px 0;
