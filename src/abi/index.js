@@ -9,7 +9,7 @@ const DOGE = require('./KnitDogecoin.json')
 const DASH = require('./KnitDash.json')
 const BSV = require('./KnitBitcoinSV.json')
 const TOMO = require('./KnitTomo.json')
-const SC = require('./KnitTomo.json')
-const FRONT = require('./KnitTomo.json')
+const SC = require('./KnitSiacoin.json')
+const FRONT = require('./KnitFrontier.json')
 
 export { BTC, ETH, XLM, XRP, LTC, BCH, ZEC, DOGE, DASH, BSV, TOMO, SC, FRONT }
