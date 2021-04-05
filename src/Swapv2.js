@@ -67,6 +67,9 @@ const Swapv2 = () => {
         setVisible(false)
         values.coin = coin
         values.network = network
+        if (values.coin) {
+            values.depositWallet = '0x0000000000000000000000000000000000000000'
+        }
         try {
             const { data } = await swap(values)
             setTransaction(data.data)
@@ -217,25 +220,26 @@ const Swapv2 = () => {
                         </Form.Field>
                     )}
                 />
-
-                <Controller
-                    control={control}
-                    name="depositWallet"
-                    defaultValue={''}
-                    rules={{ required: true, minLength: 10 }}
-                    render={({ onChange, onBlur, value, ref }) => (
-                        <Form.Field>
-                            <Input
-                                size="large"
-                                placeholder="Your Sending Address"
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value}
-                                fluid
-                            />
-                        </Form.Field>
-                    )}
-                />
+                {coin !== 'ETH' && (
+                    <Controller
+                        control={control}
+                        name="depositWallet"
+                        defaultValue={''}
+                        rules={{ required: true, minLength: 10 }}
+                        render={({ onChange, onBlur, value, ref }) => (
+                            <Form.Field>
+                                <Input
+                                    size="large"
+                                    placeholder="Your Sending Address"
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    value={value}
+                                    fluid
+                                />
+                            </Form.Field>
+                        )}
+                    />
+                )}
                 <Controller
                     control={control}
                     name="ethWallet"
@@ -359,52 +363,75 @@ const Swapv2 = () => {
                                     <h3>Transaction Details</h3>
                                 </div>
                                 <div>
-                                    {isTxid && <Icon loading name="sync" />}
-                                </div>
-                            </div>
-                        </Segment>
-                        <Segment>
-                            <div className="row-details">
-                                <div>Wallet</div>
-                                <div>{transaction.wallet}</div>
-                            </div>
-                        </Segment>
-                        <Segment>
-                            <div className="row-details">
-                                <div>Memo</div>
-                                <div>{transaction.memo}</div>
-                            </div>
-                        </Segment>
-                        <Segment>
-                            <div className="row-details">
-                                <div>Transaction ID </div>
-                                <div>
-                                    {!isTxid ? (
-                                        <Form onSubmit={onTransactionHandler}>
-                                            <Form.Field>
-                                                <Input
-                                                    action="Submit"
-                                                    placeholder="Transaction hash"
-                                                    onChange={val =>
-                                                        setTxid(
-                                                            val.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </Form.Field>
-                                        </Form>
-                                    ) : (
-                                        <>{txid}</>
+                                    {(isTxid || coin === 'ETH') && (
+                                        <Icon loading name="sync" />
                                     )}
                                 </div>
                             </div>
                         </Segment>
-                        {!isTxid && (
-                            <Message warning attached="bottom">
-                                <Icon name="info" />
-                                Submit your transaction hash to complete this
-                                transaction
-                            </Message>
+                        {coin === 'ETH' ? (
+                            <>
+                                <Segment>
+                                    <div className="row-details">
+                                        <div>Address</div>
+                                        <div>{transaction.hdWallet}</div>
+                                    </div>
+                                </Segment>
+                                <Message warning attached="bottom">
+                                    <Icon name="info" />
+                                    Send your ETH to this address
+                                </Message>
+                            </>
+                        ) : (
+                            <>
+                                <Segment>
+                                    <div className="row-details">
+                                        <div>Wallet</div>
+                                        <div>{transaction.wallet}</div>
+                                    </div>
+                                </Segment>
+                                <Segment>
+                                    <div className="row-details">
+                                        <div>Memo</div>
+                                        <div>{transaction.memo}</div>
+                                    </div>
+                                </Segment>
+                                <Segment>
+                                    <div className="row-details">
+                                        <div>Transaction ID </div>
+                                        <div>
+                                            {!isTxid ? (
+                                                <Form
+                                                    onSubmit={
+                                                        onTransactionHandler
+                                                    }>
+                                                    <Form.Field>
+                                                        <Input
+                                                            action="Submit"
+                                                            placeholder="Transaction hash"
+                                                            onChange={val =>
+                                                                setTxid(
+                                                                    val.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        />
+                                                    </Form.Field>
+                                                </Form>
+                                            ) : (
+                                                <>{txid}</>
+                                            )}
+                                        </div>
+                                    </div>
+                                </Segment>
+                                {!isTxid && (
+                                    <Message warning attached="bottom">
+                                        <Icon name="info" />
+                                        Submit your transaction hash to complete
+                                        this transaction
+                                    </Message>
+                                )}
+                            </>
                         )}
                     </Segment.Group>
                 </>
