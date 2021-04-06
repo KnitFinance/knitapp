@@ -2,14 +2,14 @@ import {
     Container,
     Divider,
     Statistic,
-    Header as UiHeader
+    Header as UiHeader,
 } from 'semantic-ui-react'
 import React, { useState } from 'react'
 import {
     Route,
     BrowserRouter as Router,
     Switch,
-    useLocation
+    useLocation,
 } from 'react-router-dom'
 
 import Dashboard from './Dashboard'
@@ -35,7 +35,6 @@ function NoMatch() {
             </UiHeader>
             <Divider hidden />
             <UiHeader as="h3" inverted>
-                <a href="/">Home</a> &nbsp;
                 <a href="/">Swap</a> &nbsp;
                 <a href="/admin">Login</a> &nbsp;
                 <a href="/withdraw">Withdraw</a> &nbsp;
@@ -87,7 +86,7 @@ function App() {
     }
     const value = {
         user: user,
-        logout: logout
+        logout: logout,
     }
     return (
         <UserContext.Provider value={value}>
@@ -100,9 +99,6 @@ function App() {
                     <Divider hidden />
                     <Switch>
                         <Route exact path="/" components={Swap}>
-                            <Swap />
-                        </Route>
-                        <Route exact path="/v2" components={Swapv2}>
                             <Swapv2 />
                         </Route>
                         <Route exact path="/withdraw">
