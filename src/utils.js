@@ -3,82 +3,82 @@ const contract = require('@truffle/contract')
 
 const list = [
     {
-        name: 'Stellar',
-        knitName: 'K-XLM',
-        symbol: 'XLM'
-    },
-    {
-        name: 'Ripple',
-        knitName: 'K-XRP',
-        symbol: 'XRP'
-    },
-    {
-        name: 'Litecoin',
-        knitName: 'K-LTC',
-        symbol: 'LTC'
-    },
-    {
         name: 'Bitcoin',
         knitName: 'K-BTC',
-        symbol: 'BTC'
+        symbol: 'BTC',
     },
     {
         name: 'Bitcoin Cash',
         knitName: 'K-BCH',
-        symbol: 'BCH'
-    },
-    {
-        name: 'Zcash',
-        knitName: 'K-ZEC',
-        symbol: 'ZEC'
-    },
-    {
-        name: 'Dogecoin',
-        knitName: 'K-DOGE',
-        symbol: 'DOGE'
-    },
-    {
-        name: 'Dash',
-        knitName: 'K-DASH',
-        symbol: 'DASH'
+        symbol: 'BCH',
     },
     {
         name: 'Bitcoin SV',
         knitName: 'K-BSV',
-        symbol: 'BSV'
+        symbol: 'BSV',
+    },
+    {
+        name: 'Dash',
+        knitName: 'K-DASH',
+        symbol: 'DASH',
+    },
+    {
+        name: 'Dogecoin',
+        knitName: 'K-DOGE',
+        symbol: 'DOGE',
     },
     {
         name: 'Ethereum',
         knitName: 'K-ETH',
-        symbol: 'ETH'
-    },
-    {
-        name: 'Tomo',
-        knitName: 'K-TOMO',
-        symbol: 'TOMO'
-    },
-    {
-        name: 'Sia Coin',
-        knitName: 'K-SC',
-        symbol: 'SC'
+        symbol: 'ETH',
     },
     {
         name: 'Frontier',
         knitName: 'K-FRONT',
-        symbol: 'FRONT'
-    }
+        symbol: 'FRONT',
+    },
+    {
+        name: 'Litecoin',
+        knitName: 'K-LTC',
+        symbol: 'LTC',
+    },
+    {
+        name: 'Ripple',
+        knitName: 'K-XRP',
+        symbol: 'XRP',
+    },
+    {
+        name: 'Sia Coin',
+        knitName: 'K-SC',
+        symbol: 'SC',
+    },
+    {
+        name: 'Stellar',
+        knitName: 'K-XLM',
+        symbol: 'XLM',
+    },
+    {
+        name: 'Tomo',
+        knitName: 'K-TOMO',
+        symbol: 'TOMO',
+    },
+    {
+        name: 'Zcash',
+        knitName: 'K-ZEC',
+        symbol: 'ZEC',
+    },
 ]
 
 export const options = list.map(values => ({
     key: values.symbol,
     text: values.name,
-    value: values.symbol
+    value: values.symbol,
 }))
 
 export const optionsWithdraw = list.map(values => ({
     key: values.symbol,
     text: values.knitName,
-    value: values.symbol
+    value: values.symbol,
 }))
 
 export const isMetamask = () => {
