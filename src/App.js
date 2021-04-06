@@ -14,6 +14,7 @@ import {
 
 import Dashboard from './Dashboard'
 import FooterNav from './FooterNav'
+import Footer from './Footer'
 import Login from './Login'
 import Swap from './Swap'
 import Swapv2 from './Swapv2'
@@ -24,7 +25,6 @@ import { reactLocalStorage } from 'reactjs-localstorage'
 
 function NoMatch() {
     let location = useLocation()
-
     return (
         <Container>
             <Divider hidden />
@@ -96,7 +96,6 @@ function App() {
                     <TopMenu />
                     <Divider hidden />
                     <Divider hidden />
-                    <Divider hidden />
                     <Switch>
                         <Route exact path="/" components={Swap}>
                             <Swapv2 />
@@ -111,9 +110,11 @@ function App() {
                             <NoMatch />
                         </Route>
                     </Switch>
+                    <Divider hidden />
+                    <Divider hidden />
+                    <Footer />
                 </Router>
-                <Divider hidden />
-                <Divider hidden />
+
                 <Divider hidden />
             </Container>
         </UserContext.Provider>

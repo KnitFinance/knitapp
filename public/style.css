@@ -101,9 +101,24 @@ pre {
 }
 .swapv2 {
     border-radius: 20px;
-    border: 2px solid #444;
+    background-color: #222;
     padding: 15px;
-    width: 50vw;
+    width: 40vw;
+}
+
+.swapdetails {
+    border-radius: 20px;
+    background-color: #222;
+    padding: 15px;
+    width: 38vw;
+    margin-top: -30px;
+    padding-top: 30px;
+}
+
+@media only screen and (max-width: 992px) {
+    .swapv2 {
+        width: 96vw;
+    }
 }
 
 .ui.inverted.form input:not([type]),
@@ -119,7 +134,7 @@ pre {
 .ui.inverted.form input[type='time'],
 .ui.inverted.form input[type='url'] {
     background: #000 !important;
-    border: 1px solid #949494 !important;
+    border: 1px solid #444 !important;
     color: #fff !important;
 }
 .ui.label,
@@ -139,4 +154,28 @@ pre {
 .ui.statistics {
     display: flex;
     justify-content: space-between;
+}
+
+.ui.form .ui.dropdown {
+    border: 0 !important;
+}
+
+.ui.labeled.input > .label:not(.corner) {
+    width: 140px;
+}
+.resltul {
+    display: flex;
+    color: #fff;
+    justify-content: space-between;
+}
+.green {
+    color: green !important;
+}
+.text {
+    color: #ddd;
+}
+.footer {
+    margin-left: 5px;
+    font-size: 14px;
+    color: #eee;
 }

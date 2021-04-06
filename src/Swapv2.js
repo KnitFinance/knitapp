@@ -10,7 +10,7 @@ import {
     Input,
     Message,
     Segment,
-    Statistic
+    Statistic,
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
@@ -44,7 +44,7 @@ const Swapv2 = () => {
         reset,
         setValue,
         setError,
-        getValue
+        getValue,
     } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
@@ -80,7 +80,7 @@ const Swapv2 = () => {
                     ethWallet: data.data.ethWallet,
                     coin: data.data.coin,
                     network: network,
-                    hdWallet: data.data.hdWallet
+                    hdWallet: data.data.hdWallet,
                 }
                 await swapVerify(values)
             }
@@ -102,7 +102,7 @@ const Swapv2 = () => {
             coin: transaction.coin,
             depositWallet: transaction.depositWallet,
             wallet: transaction.wallet,
-            network: network
+            network: network,
         }
 
         try {
@@ -140,7 +140,6 @@ const Swapv2 = () => {
 
     return (
         <React.Fragment>
-            <Divider hidden />
             <Divider hidden />
             <Form
                 inverted
@@ -190,11 +189,12 @@ const Swapv2 = () => {
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
+                            <label>First Name</label>
                             <Input
                                 label={
                                     <Dropdown
                                         options={options}
-                                        size="huge"
+                                        size="large"
                                         defaultValue={coin}
                                         onChange={(e, data) => {
                                             setCoin(data.value)
@@ -214,18 +214,18 @@ const Swapv2 = () => {
                                     if (numberOfToken < 0) {
                                         setError('token', {
                                             type: 'manual',
-                                            message: 'Minimum amount required!'
+                                            message: 'Minimum amount required!',
                                         })
                                     } else {
                                         setToken(numberOfToken)
                                         setEnterAmount(e.target.value)
                                         setValue('token', numberOfToken, {
-                                            shouldDirty: true
+                                            shouldDirty: true,
                                         })
                                     }
                                 }}
                                 labelPosition="right"
-                                size="huge"
+                                size="large"
                                 value={value}
                                 placeholder="Sending Amount"
                             />
@@ -260,6 +260,7 @@ const Swapv2 = () => {
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
                             <Input
+                                action="Connect Wallet"
                                 size="large"
                                 placeholder={`Your ${network} Address`}
                                 onChange={onChange}
@@ -302,33 +303,20 @@ const Swapv2 = () => {
                                 onChange={e => onChange(!value)}
                                 checked={value}
                                 inputRef={ref}
-                                label="I agree to the terms and privacy policy"
+                                label={
+                                    <label>
+                                        I agree to the{' '}
+                                        <a href="https://knit.finance">terms</a>{' '}
+                                        and{' '}
+                                        <a href="https://knit.finance">
+                                            privacy policy
+                                        </a>{' '}
+                                    </label>
+                                }
                             />
                         </Form.Field>
                     )}
                 />
-                {token !== null && enterAmount != null && (
-                    <div className="reslt">
-                        <Segment inverted>
-                            <Statistic.Group inverted size="small">
-                                <Statistic>
-                                    <Statistic.Value>
-                                        {enterAmount}
-                                    </Statistic.Value>
-                                    <Statistic.Label>{coin}</Statistic.Label>
-                                </Statistic>
-                                <Statistic>
-                                    <Statistic.Value>0.25%</Statistic.Value>
-                                    <Statistic.Label>Tx Fee</Statistic.Label>
-                                </Statistic>
-                                <Statistic>
-                                    <Statistic.Value>{token}</Statistic.Value>
-                                    <Statistic.Label>K{coin}</Statistic.Label>
-                                </Statistic>
-                            </Statistic.Group>
-                        </Segment>
-                    </div>
-                )}
 
                 {Object.keys(errors).length > 0 && (
                     <>
@@ -349,11 +337,13 @@ const Swapv2 = () => {
                         )}
                     </>
                 )}
+                <Divider hidden />
+
                 <Form.Field>
                     <div>
                         <Button
                             basic
-                            color="grey"
+                            color="green"
                             size="medium"
                             loading={loading}
                             disabled={status}>
@@ -364,7 +354,29 @@ const Swapv2 = () => {
                         </Button>
                     </div>
                 </Form.Field>
+                <Divider hidden />
             </Form>
+            {token !== null && enterAmount != null && (
+                <div className="centermiddleswap swapdetails">
+                    <div className="resltul">
+                        <p>Asset Expected</p>
+                        <p>{coin}</p>
+                    </div>
+
+                    <div className="resltul">
+                        <p>{`Expected ${coin} value`}</p>
+                        <p>{enterAmount}</p>
+                    </div>
+                    <div className="resltul">
+                        <p>Transaction Fee</p>
+                        <p className="ui green">0.25%</p>
+                    </div>
+                    <div className="resltul">
+                        <p>{`K${coin}`}</p>
+                        <p>{token}</p>
+                    </div>
+                </div>
+            )}
 
             {status && (
                 <>
@@ -457,7 +469,7 @@ const Swapv2 = () => {
                     list={[
                         `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
                         `Received wallet ${deposit.ethWallet}`,
-                        `Token address ${transaction?.contractAddress}`
+                        `Token address ${transaction?.contractAddress}`,
                     ]}
                 />
             )}
