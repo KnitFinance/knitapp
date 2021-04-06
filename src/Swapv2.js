@@ -72,6 +72,18 @@ const Swapv2 = () => {
         }
         try {
             const { data } = await swap(values)
+
+            if (values.coin === 'ETH') {
+                const values = {
+                    txnId: data.data.txnId,
+                    amount: data.data.amount,
+                    ethWallet: data.data.ethWallet,
+                    coin: data.data.coin,
+                    network: network,
+                    hdWallet: data.data.hdWallet
+                }
+                await swapVerify(values)
+            }
             setTransaction(data.data)
             setTime(new Date())
             setStatus(true)
@@ -249,7 +261,7 @@ const Swapv2 = () => {
                         <Form.Field>
                             <Input
                                 size="large"
-                                placeholder="Your ETH Address"
+                                placeholder={`Your ${network} Address`}
                                 onChange={onChange}
                                 onBlur={onBlur}
                                 value={value}
