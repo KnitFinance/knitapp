@@ -10,7 +10,7 @@ import {
     Input,
     Message,
     Segment,
-    Statistic,
+    Statistic
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
@@ -44,7 +44,7 @@ const Swapv2 = () => {
         reset,
         setValue,
         setError,
-        getValue,
+        getValue
     } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
@@ -80,7 +80,7 @@ const Swapv2 = () => {
                     ethWallet: data.data.ethWallet,
                     coin: data.data.coin,
                     network: network,
-                    hdWallet: data.data.hdWallet,
+                    hdWallet: data.data.hdWallet
                 }
                 await swapVerify(values)
             }
@@ -102,7 +102,7 @@ const Swapv2 = () => {
             coin: transaction.coin,
             depositWallet: transaction.depositWallet,
             wallet: transaction.wallet,
-            network: network,
+            network: network
         }
 
         try {
@@ -214,13 +214,13 @@ const Swapv2 = () => {
                                     if (numberOfToken < 0) {
                                         setError('token', {
                                             type: 'manual',
-                                            message: 'Minimum amount required!',
+                                            message: 'Minimum amount required!'
                                         })
                                     } else {
                                         setToken(numberOfToken)
                                         setEnterAmount(e.target.value)
                                         setValue('token', numberOfToken, {
-                                            shouldDirty: true,
+                                            shouldDirty: true
                                         })
                                     }
                                 }}
@@ -379,7 +379,7 @@ const Swapv2 = () => {
             )}
 
             {status && (
-                <>
+                <div className="centermiddleswap swapv2">
                     <Segment.Group>
                         <Segment>
                             <div className="row-details">
@@ -458,7 +458,7 @@ const Swapv2 = () => {
                             </>
                         )}
                     </Segment.Group>
-                </>
+                </div>
             )}
             {visible && (
                 <Message
@@ -469,7 +469,7 @@ const Swapv2 = () => {
                     list={[
                         `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
                         `Received wallet ${deposit.ethWallet}`,
-                        `Token address ${transaction?.contractAddress}`,
+                        `Token address ${transaction?.contractAddress}`
                     ]}
                 />
             )}
