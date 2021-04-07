@@ -4,6 +4,7 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import 'semantic-ui-css/semantic.min.css'
 import 'balloon-css'
+import './style.css'
 
 ReactDOM.render(
     <React.StrictMode>

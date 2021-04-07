@@ -1,10 +1,11 @@
 body {
-    background: rgb(0, 0, 0) !important;
-    background: linear-gradient(
-        15deg,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 35%,
-        rgba(0, 0, 0, 1) 100%
+    background: rgb(0, 0, 0);
+    background-image: radial-gradient(
+        #031530,
+        #140e23,
+        #160717,
+        #10030b,
+        #000000
     ) !important;
 }
 
@@ -33,7 +34,10 @@ pre {
         'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
         monospace !important;
 }
-
+.wallet {
+    font-family: 'Monaco', 'Courier New', Courier, monospace !important;
+    letter-spacing: 1px;
+}
 .topmenusec {
     display: flex;
     align-items: center;
@@ -108,7 +112,7 @@ pre {
 
 .swapdetails {
     border-radius: 20px;
-    background-color: #222;
+    background-color: #151515;
     padding: 15px;
     width: 38vw;
     margin-top: -30px;

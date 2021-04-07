@@ -189,7 +189,6 @@ const Swapv2 = () => {
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, ref }) => (
                         <Form.Field>
-                            <label>First Name</label>
                             <Input
                                 label={
                                     <Dropdown
@@ -379,39 +378,39 @@ const Swapv2 = () => {
             )}
 
             {status && (
-                <>
+                <div className="centermiddleswap swapv2">
                     <Segment.Group>
-                        <Segment>
-                            <div className="row-details">
-                                <div>
-                                    <h3>Transaction Details</h3>
-                                </div>
-                                <div>
-                                    {(isTxid || coin === 'ETH') && (
-                                        <Icon loading name="sync" />
-                                    )}
-                                </div>
+                        <div className="row-details">
+                            <h3>Transaction Details</h3>
+                            <br />
+                            <br />
+                            <div>
+                                {(isTxid || coin === 'ETH') && (
+                                    <Icon loading name="sync" />
+                                )}
                             </div>
-                        </Segment>
+                        </div>
                         {coin === 'ETH' ? (
                             <>
-                                <Segment>
-                                    <div className="row-details">
-                                        <div>Address</div>
-                                        <div>{transaction.hdWallet}</div>
-                                    </div>
-                                </Segment>
-                                <Message warning attached="bottom">
-                                    <Icon name="info" />
-                                    Send your ETH to this address
-                                </Message>
+                                <div className="row-details">
+                                    <p>Deposit Address</p>
+                                    <p className="wallet">
+                                        {transaction.hdWallet}
+                                    </p>
+                                </div>
+                                <div className="row-details">
+                                    <p>{`Expected ${coin} value`}</p>
+                                    <p>{enterAmount}</p>
+                                </div>
                             </>
                         ) : (
                             <>
                                 <Segment>
                                     <div className="row-details">
                                         <div>Wallet</div>
-                                        <div>{transaction.wallet}</div>
+                                        <div className="wallet">
+                                            {transaction.wallet}
+                                        </div>
                                     </div>
                                 </Segment>
                                 <Segment>
@@ -458,7 +457,7 @@ const Swapv2 = () => {
                             </>
                         )}
                     </Segment.Group>
-                </>
+                </div>
             )}
             {visible && (
                 <Message
