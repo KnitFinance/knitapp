@@ -17,6 +17,7 @@ import { depositstatus, swap, swapVerify } from './actions'
 import { options, optionsWithdraw } from './utils'
 
 import { reactLocalStorage } from 'reactjs-localstorage'
+import { isMetamask } from './utils'
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -57,16 +58,69 @@ const Swapv2 = () => {
     const [token, setToken] = React.useState(null)
     const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
+    const [selectedAccount, setSelectedAccount] = React.useState(null)
+
     var HALF_HOUR = 60 * 30 * 1000
     const [network, setNetwork] = React.useState(
         reactLocalStorage.get('network', 'BSC')
     )
+
+    React.useEffect(() => {
+        const getInit = () => {
+            if (typeof window.ethereum !== 'undefined') {
+                if (window.ethereum.isConnected()) {
+                    window.ethereum
+                        .request({ method: 'eth_requestAccounts' })
+                        .then(accounts => {
+                            setSelectedAccount(accounts[0])
+                            switch (window.ethereum.networkVersion) {
+                                case 42:
+                                case 2:
+                                case 1:
+                                    setNetwork('ETH')
+                                    break
+                                case 97:
+                                case 56:
+                                    setNetwork('BSC')
+                                    break
+                                case 80001:
+                                    setNetwork('MATIC')
+                                default:
+                            }
+                        })
+                    window.ethereum.on('accountsChanged', function(accounts) {
+                        setSelectedAccount(accounts[0])
+                    })
+                    window.ethereum.on('chainChanged', chainId => {
+                        const _chainId = parseInt(chainId, 16)
+                        console.log(_chainId)
+                        switch (_chainId) {
+                            case 42:
+                            case 2:
+                            case 1:
+                                setNetwork('ETH')
+                                break
+                            case 97:
+                            case 56:
+                                setNetwork('BSC')
+                                break
+                            case 80001:
+                                setNetwork('MATIC')
+                            default:
+                        }
+                    })
+                }
+            }
+        }
+        getInit()
+    }, [])
 
     const onSubmitHandler = async values => {
         setLoading(true)
         setVisible(false)
         values.coin = coin
         values.network = network
+        values.ethWallet = selectedAccount
         if (values.coin) {
             values.depositWallet = '0x0000000000000000000000000000000000000000'
         }
@@ -252,25 +306,7 @@ const Swapv2 = () => {
                         )}
                     />
                 )}
-                <Controller
-                    control={control}
-                    name="ethWallet"
-                    defaultValue={''}
-                    rules={{ required: true, minLength: 10 }}
-                    render={({ onChange, onBlur, value, ref }) => (
-                        <Form.Field>
-                            <Input
-                                action="Connect Wallet"
-                                size="large"
-                                placeholder={`Your ${network} Address`}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value}
-                                fluid
-                            />
-                        </Form.Field>
-                    )}
-                />
+
                 {coin === 'XLM' && (
                     <Controller
                         control={control}
@@ -339,21 +375,40 @@ const Swapv2 = () => {
                 )}
                 <Divider hidden />
 
-                <Form.Field>
-                    <div>
-                        <Button
-                            basic
-                            color="green"
-                            size="medium"
-                            loading={loading}
-                            disabled={status}>
-                            EXCHANGE
-                        </Button>
-                        <Button basic color="red" size="medium" type="reset">
-                            RESET
-                        </Button>
-                    </div>
-                </Form.Field>
+                {selectedAccount ? (
+                    <Form.Field>
+                        <div>
+                            <Button
+                                basic
+                                color="green"
+                                size="medium"
+                                loading={loading}
+                                disabled={status}>
+                                EXCHANGE
+                            </Button>
+                            <Button
+                                basic
+                                color="red"
+                                size="medium"
+                                type="reset">
+                                RESET
+                            </Button>
+                        </div>
+                    </Form.Field>
+                ) : (
+                    <Form.Field>
+                        <div>
+                            <Button
+                                basic
+                                color="green"
+                                size="medium"
+                                type="button"
+                                loading={loading}>
+                                Connect Wallet
+                            </Button>
+                        </div>
+                    </Form.Field>
+                )}
                 <Divider hidden />
             </Form>
             {token !== null && enterAmount != null && (
