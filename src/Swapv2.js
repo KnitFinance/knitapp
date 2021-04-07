@@ -10,7 +10,7 @@ import {
     Input,
     Message,
     Segment,
-    Statistic,
+    Menu,
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
@@ -64,6 +64,11 @@ const Swapv2 = () => {
     const [network, setNetwork] = React.useState(
         reactLocalStorage.get('network', 'BSC')
     )
+    const coptions = [
+        { key: 'edit', icon: 'edit', text: 'Edit Post', value: 'edit' },
+        { key: 'delete', icon: 'delete', text: 'Remove Post', value: 'delete' },
+        { key: 'hide', icon: 'hide', text: 'Hide Post', value: 'hide' },
+    ]
 
     React.useEffect(() => {
         const getInit = () => {
@@ -200,7 +205,17 @@ const Swapv2 = () => {
                 className="centermiddleswap swapv2"
                 onSubmit={handleSubmit(onSubmitHandler)}
                 name={'swap'}>
-                <div className="tab-middle"></div>
+                <div className="tab-right">
+                    <Dropdown
+                        text="Kovan"
+                        icon="ethereum"
+                        color="green"
+                        options={coptions}
+                        simple
+                        item
+                        floating
+                    />
+                </div>
                 <Divider hidden />
                 <Controller
                     control={control}
