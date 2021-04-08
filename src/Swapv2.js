@@ -10,14 +10,16 @@ import {
     Input,
     Message,
     Segment,
-    Menu,
+    Menu
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
 import { options, optionsWithdraw } from './utils'
 
 import { reactLocalStorage } from 'reactjs-localstorage'
-import { isMetamask } from './utils'
+import { isMetamask, networkNames, contractNetwork } from './utils'
+
+const Web3 = require('web3')
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -45,7 +47,7 @@ const Swapv2 = () => {
         reset,
         setValue,
         setError,
-        getValue,
+        getValue
     } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
@@ -59,60 +61,45 @@ const Swapv2 = () => {
     const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
     const [selectedAccount, setSelectedAccount] = React.useState(null)
+    const [networkName, setNetworkName] = React.useState('Other')
 
     var HALF_HOUR = 60 * 30 * 1000
-    const [network, setNetwork] = React.useState(
-        reactLocalStorage.get('network', 'BSC')
-    )
+    const [network, setNetwork] = React.useState(false)
     const coptions = [
         { key: 'edit', icon: 'edit', text: 'Edit Post', value: 'edit' },
         { key: 'delete', icon: 'delete', text: 'Remove Post', value: 'delete' },
-        { key: 'hide', icon: 'hide', text: 'Hide Post', value: 'hide' },
+        { key: 'hide', icon: 'hide', text: 'Hide Post', value: 'hide' }
     ]
 
     React.useEffect(() => {
-        const getInit = () => {
+        const getInit = async () => {
             if (typeof window.ethereum !== 'undefined') {
                 if (window.ethereum.isConnected()) {
                     window.ethereum
                         .request({ method: 'eth_requestAccounts' })
                         .then(accounts => {
                             setSelectedAccount(accounts[0])
-                            switch (window.ethereum.networkVersion) {
-                                case 42:
-                                case 2:
-                                case 1:
-                                    setNetwork('ETH')
-                                    break
-                                case 97:
-                                case 56:
-                                    setNetwork('BSC')
-                                    break
-                                case 80001:
-                                    setNetwork('MATIC')
-                                default:
-                            }
+                            const netk = contractNetwork(
+                                window.ethereum.networkVersion
+                            )
+                            setNetwork(netk)
                         })
-                    window.ethereum.on('accountsChanged', function (accounts) {
+                    const tempName = networkNames(
+                        window.ethereum.networkVersion
+                    )
+                    setNetworkName(tempName)
+
+                    window.ethereum.on('accountsChanged', function(accounts) {
                         setSelectedAccount(accounts[0])
                     })
                     window.ethereum.on('chainChanged', chainId => {
                         const _chainId = parseInt(chainId, 16)
-                        console.log(_chainId)
-                        switch (_chainId) {
-                            case 42:
-                            case 2:
-                            case 1:
-                                setNetwork('ETH')
-                                break
-                            case 97:
-                            case 56:
-                                setNetwork('BSC')
-                                break
-                            case 80001:
-                                setNetwork('MATIC')
-                            default:
-                        }
+                        const networkNm = networkNames(_chainId)
+                        setNetworkName(networkNm)
+                        const networkContract = contractNetwork(_chainId)
+
+                        console.log(networkContract)
+                        setNetwork(networkContract)
                     })
                 }
             }
@@ -139,7 +126,7 @@ const Swapv2 = () => {
                     ethWallet: data.data.ethWallet,
                     coin: data.data.coin,
                     network: network,
-                    hdWallet: data.data.hdWallet,
+                    hdWallet: data.data.hdWallet
                 }
                 await swapVerify(values)
             }
@@ -161,7 +148,7 @@ const Swapv2 = () => {
             coin: transaction.coin,
             depositWallet: transaction.depositWallet,
             wallet: transaction.wallet,
-            network: network,
+            network: network
         }
 
         try {
@@ -196,7 +183,7 @@ const Swapv2 = () => {
         },
         status ? 10000 : null
     )
-
+    console.log(errors)
     return (
         <React.Fragment>
             <Divider hidden />
@@ -207,10 +194,9 @@ const Swapv2 = () => {
                 name={'swap'}>
                 <div className="tab-right">
                     <Dropdown
-                        text="Kovan"
+                        text={networkName}
                         icon="ethereum"
                         color="green"
-                        options={coptions}
                         simple
                         item
                         floating
@@ -248,13 +234,13 @@ const Swapv2 = () => {
                                     if (numberOfToken < 0) {
                                         setError('token', {
                                             type: 'manual',
-                                            message: 'Minimum amount required!',
+                                            message: 'Minimum amount required!'
                                         })
                                     } else {
                                         setToken(numberOfToken)
                                         setEnterAmount(e.target.value)
                                         setValue('token', numberOfToken, {
-                                            shouldDirty: true,
+                                            shouldDirty: true
                                         })
                                     }
                                 }}
@@ -286,7 +272,6 @@ const Swapv2 = () => {
                         )}
                     />
                 )}
-
                 {coin === 'XLM' && (
                     <Controller
                         control={control}
@@ -306,7 +291,6 @@ const Swapv2 = () => {
                         )}
                     />
                 )}
-
                 <Controller
                     control={control}
                     name="terms"
@@ -333,7 +317,6 @@ const Swapv2 = () => {
                         </Form.Field>
                     )}
                 />
-
                 {Object.keys(errors).length > 0 && (
                     <>
                         {errors.token ? (
@@ -353,6 +336,7 @@ const Swapv2 = () => {
                         )}
                     </>
                 )}
+
                 <Divider hidden />
 
                 {selectedAccount ? (
@@ -504,7 +488,7 @@ const Swapv2 = () => {
                     list={[
                         `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
                         `Received wallet ${deposit.ethWallet}`,
-                        `Token address ${transaction?.contractAddress}`,
+                        `Token address ${transaction?.contractAddress}`
                     ]}
                 />
             )}
