@@ -4,7 +4,7 @@ import {
     Statistic,
     Header as UiHeader,
 } from 'semantic-ui-react'
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import {
     Route,
     BrowserRouter as Router,
@@ -12,16 +12,16 @@ import {
     useLocation,
 } from 'react-router-dom'
 
-import Dashboard from './Dashboard'
 import FooterNav from './FooterNav'
 import Footer from './Footer'
-import Login from './Login'
-import Swap from './Swap'
-import Swapv2 from './Swapv2'
 import { UserContext } from './actions/userContext'
-import Withdraw from './Withdraw'
 import { getInfo } from './actions'
 import { reactLocalStorage } from 'reactjs-localstorage'
+
+const Swapv2 = React.lazy(() => import('./Swapv2'))
+const Dashboard = React.lazy(() => import('./Dashboard'))
+const Login = React.lazy(() => import('./Login'))
+const Withdraw = React.lazy(() => import('./Withdraw'))
 
 function NoMatch() {
     let location = useLocation()
@@ -96,23 +96,24 @@ function App() {
                     <TopMenu />
                     <Divider hidden />
                     <Divider hidden />
-                    <Switch>
-                        <Route exact path="/" components={Swap}>
-                            <Swapv2 />
-                        </Route>
-                        <Route exact path="/withdraw">
-                            <Withdraw />
-                        </Route>
-                        <Route exact path="/admin">
-                            {user === null ? <Login /> : <Dashboard />}
-                        </Route>
-                        <Route path="*">
-                            <NoMatch />
-                        </Route>
-                    </Switch>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Switch>
+                            <Route exact path="/" component={Swapv2} />
+                            <Route
+                                exact
+                                path="/withdraw"
+                                component={Withdraw}
+                            />
+                            <Route exact path="/admin">
+                                {user === null ? <Login /> : <Dashboard />}
+                            </Route>
+                            <Route path="*">
+                                <NoMatch />
+                            </Route>
+                        </Switch>
+                    </Suspense>
                     <Divider hidden />
                     <Divider hidden />
-                    <Footer />
                 </Router>
 
                 <Divider hidden />

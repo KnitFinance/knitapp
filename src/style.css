@@ -37,6 +37,17 @@ pre {
 .wallet {
     font-family: 'Monaco', 'Courier New', Courier, monospace !important;
     letter-spacing: 1px;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+
+    /* Non standard for WebKit */
+    word-break: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+    max-width: 80%;
 }
 
 .topmenusec {
@@ -121,10 +132,30 @@ pre {
     margin-top: -30px;
     padding-top: 30px;
 }
-
+.step2 {
+    background-color: #373737;
+}
+.step2 .ui.segments,
+.step3 .ui.message {
+    border: 0 none;
+    box-shadow: unset;
+}
+.step3 {
+    background-color: #373737;
+}
+.step3 .message {
+    background-color: transparent !important;
+    color: #fff;
+}
+.step3 .message .header {
+    color: green;
+}
 @media only screen and (max-width: 992px) {
     .swapv2 {
         width: 96vw;
+    }
+    .swapdetails {
+        width: 94vw;
     }
 }
 
@@ -196,4 +227,8 @@ pre {
 }
 .tab-right {
     text-align: right;
+}
+.fixed {
+    position: fixed;
+    bottom: 0;
 }

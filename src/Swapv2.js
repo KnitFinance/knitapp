@@ -11,13 +11,16 @@ import {
     Message,
     Segment,
     Menu,
+    Header,
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
 import { options, optionsWithdraw } from './utils'
 
 import { reactLocalStorage } from 'reactjs-localstorage'
-import { isMetamask } from './utils'
+import { isMetamask, networkNames, contractNetwork } from './utils'
+
+const Web3 = require('web3')
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -59,11 +62,10 @@ const Swapv2 = () => {
     const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
     const [selectedAccount, setSelectedAccount] = React.useState(null)
+    const [networkName, setNetworkName] = React.useState('Not Available')
 
     var HALF_HOUR = 60 * 30 * 1000
-    const [network, setNetwork] = React.useState(
-        reactLocalStorage.get('network', 'BSC')
-    )
+    const [network, setNetwork] = React.useState(false)
     const coptions = [
         { key: 'edit', icon: 'edit', text: 'Edit Post', value: 'edit' },
         { key: 'delete', icon: 'delete', text: 'Remove Post', value: 'delete' },
@@ -71,48 +73,34 @@ const Swapv2 = () => {
     ]
 
     React.useEffect(() => {
-        const getInit = () => {
+        const getInit = async () => {
             if (typeof window.ethereum !== 'undefined') {
                 if (window.ethereum.isConnected()) {
                     window.ethereum
                         .request({ method: 'eth_requestAccounts' })
                         .then(accounts => {
                             setSelectedAccount(accounts[0])
-                            switch (window.ethereum.networkVersion) {
-                                case 42:
-                                case 2:
-                                case 1:
-                                    setNetwork('ETH')
-                                    break
-                                case 97:
-                                case 56:
-                                    setNetwork('BSC')
-                                    break
-                                case 80001:
-                                    setNetwork('MATIC')
-                                default:
-                            }
+                            const netk = contractNetwork(
+                                window.ethereum.networkVersion
+                            )
+                            setNetwork(netk)
                         })
+                    const tempName = networkNames(
+                        window.ethereum.networkVersion
+                    )
+                    setNetworkName(tempName)
+
                     window.ethereum.on('accountsChanged', function (accounts) {
                         setSelectedAccount(accounts[0])
                     })
                     window.ethereum.on('chainChanged', chainId => {
                         const _chainId = parseInt(chainId, 16)
-                        console.log(_chainId)
-                        switch (_chainId) {
-                            case 42:
-                            case 2:
-                            case 1:
-                                setNetwork('ETH')
-                                break
-                            case 97:
-                            case 56:
-                                setNetwork('BSC')
-                                break
-                            case 80001:
-                                setNetwork('MATIC')
-                            default:
-                        }
+                        const networkNm = networkNames(_chainId)
+                        setNetworkName(networkNm)
+                        const networkContract = contractNetwork(_chainId)
+
+                        console.log(networkContract)
+                        setNetwork(networkContract)
                     })
                 }
             }
@@ -196,7 +184,7 @@ const Swapv2 = () => {
         },
         status ? 10000 : null
     )
-
+    console.log(errors)
     return (
         <React.Fragment>
             <Divider hidden />
@@ -207,10 +195,9 @@ const Swapv2 = () => {
                 name={'swap'}>
                 <div className="tab-right">
                     <Dropdown
-                        text="Kovan"
+                        text={networkName}
                         icon="ethereum"
                         color="green"
-                        options={coptions}
                         simple
                         item
                         floating
@@ -286,7 +273,6 @@ const Swapv2 = () => {
                         )}
                     />
                 )}
-
                 {coin === 'XLM' && (
                     <Controller
                         control={control}
@@ -306,7 +292,6 @@ const Swapv2 = () => {
                         )}
                     />
                 )}
-
                 <Controller
                     control={control}
                     name="terms"
@@ -333,7 +318,6 @@ const Swapv2 = () => {
                         </Form.Field>
                     )}
                 />
-
                 {Object.keys(errors).length > 0 && (
                     <>
                         {errors.token ? (
@@ -353,6 +337,7 @@ const Swapv2 = () => {
                         )}
                     </>
                 )}
+
                 <Divider hidden />
 
                 {selectedAccount ? (
@@ -414,13 +399,11 @@ const Swapv2 = () => {
             )}
 
             {status && (
-                <div className="centermiddleswap swapv2">
+                <div className="centermiddleswap swapv2 step2">
                     <Segment.Group>
-                        <Segment>
+                        <Segment basic>
                             <div className="row-details">
-                                <div>
-                                    <h3>Transaction Details</h3>
-                                </div>
+                                <Header inverted>Action required!</Header>
                                 <div>
                                     {(isTxid || coin === 'ETH') && (
                                         <Icon loading name="sync" />
@@ -430,37 +413,39 @@ const Swapv2 = () => {
                         </Segment>
                         {coin === 'ETH' ? (
                             <>
-                                <Segment>
+                                <Segment basic>
                                     <div className="row-details">
                                         <div>Address</div>
-                                        <div>{transaction.hdWallet}</div>
+                                        <div className="wallet">
+                                            {transaction.hdWallet}
+                                        </div>
                                     </div>
                                 </Segment>
-                                <Message warning attached="bottom">
-                                    <Icon name="info" />
-                                    Send your ETH to this address
-                                </Message>
                             </>
                         ) : (
                             <>
-                                <Segment>
+                                <Segment basic>
                                     <div className="row-details">
                                         <div>Wallet</div>
-                                        <div>{transaction.wallet}</div>
+                                        <div className="wallet">
+                                            {transaction.wallet}
+                                        </div>
                                     </div>
                                 </Segment>
-                                <Segment>
+                                <Segment basic>
                                     <div className="row-details">
                                         <div>Memo</div>
                                         <div>{transaction.memo}</div>
                                     </div>
                                 </Segment>
-                                <Segment>
+                                <Segment basic>
                                     <div className="row-details">
                                         <div>Transaction ID </div>
                                         <div>
                                             {!isTxid ? (
                                                 <Form
+                                                    fluid
+                                                    inverted
                                                     onSubmit={
                                                         onTransactionHandler
                                                     }>
@@ -478,14 +463,15 @@ const Swapv2 = () => {
                                                     </Form.Field>
                                                 </Form>
                                             ) : (
-                                                <>{txid}</>
+                                                <div className="wallet">
+                                                    {txid}
+                                                </div>
                                             )}
                                         </div>
                                     </div>
                                 </Segment>
                                 {!isTxid && (
-                                    <Message warning attached="bottom">
-                                        <Icon name="info" />
+                                    <Message warning>
                                         Submit your transaction hash to complete
                                         this transaction
                                     </Message>
@@ -496,17 +482,17 @@ const Swapv2 = () => {
                 </div>
             )}
             {visible && (
-                <Message
-                    positive
-                    inverted
-                    onDismiss={dismissHandle}
-                    header="Success!"
-                    list={[
-                        `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
-                        `Received wallet ${deposit.ethWallet}`,
-                        `Token address ${transaction?.contractAddress}`,
-                    ]}
-                />
+                <div className="centermiddleswap swapv2 step3">
+                    <Message
+                        onDismiss={dismissHandle}
+                        header="Success!"
+                        list={[
+                            `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
+                            `Received wallet ${deposit.ethWallet}`,
+                            `Token address ${transaction?.contractAddress}`,
+                        ]}
+                    />
+                </div>
             )}
         </React.Fragment>
     )
