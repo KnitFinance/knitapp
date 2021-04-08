@@ -203,16 +203,14 @@ const Swapv2 = () => {
                         ))}
                     </ul>
                     <div className="tab-right">
-                        {selectedAccount && (
-                            <Dropdown
-                                text={networkName}
-                                icon="ethereum"
-                                color="green"
-                                simple
-                                item
-                                floating
-                            />
-                        )}
+                        <Dropdown
+                            text={networkName}
+                            icon="ethereum"
+                            color="green"
+                            simple
+                            item
+                            floating
+                        />
                     </div>
                 </div>
                 <Divider hidden />
