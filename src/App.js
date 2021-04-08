@@ -2,18 +2,17 @@ import {
     Container,
     Divider,
     Statistic,
-    Header as UiHeader
+    Header as UiHeader,
 } from 'semantic-ui-react'
 import React, { useState, Suspense } from 'react'
 import {
     Route,
     BrowserRouter as Router,
     Switch,
-    useLocation
+    useLocation,
 } from 'react-router-dom'
 
 import FooterNav from './FooterNav'
-import Footer from './Footer'
 import { UserContext } from './actions/userContext'
 import { getInfo } from './actions'
 import { reactLocalStorage } from 'reactjs-localstorage'
@@ -86,7 +85,7 @@ function App() {
     }
     const value = {
         user: user,
-        logout: logout
+        logout: logout,
     }
     return (
         <UserContext.Provider value={value}>

@@ -68,9 +68,35 @@ const list = [
         symbol: 'ZEC',
     },
 ]
+export const allChain = () => {
+    return ['Ethereum', 'BSC', 'Matic']
+}
+export const chainName = networkId => {
+    let networkName = ''
+    switch (parseInt(networkId)) {
+        // case 1:
+        // case 2:
+        // case 3:
+        // case 4:
+        case 42:
+            networkName = 'Ethereum'
+            break
+        case 97:
+            //case 56:
+            networkName = 'BSC'
+            break
+        case 80001:
+            //case 137:
+            networkName = 'Matic'
+            break
+        default:
+            networkName = ''
+    }
+    return networkName
+}
 
 export const networkNames = networkId => {
-    let networkName = 'Other'
+    let networkName = 'Unsupported'
     switch (parseInt(networkId)) {
         // case 1:
         //     networkName = 'Main'
@@ -88,13 +114,13 @@ export const networkNames = networkId => {
             networkName = 'Kovan'
             break
         case 97:
-            networkName = 'Binance Smart Chain (Testnet)'
+            networkName = 'Testnet'
             break
         // case 56:
         //     networkName = 'Binance Smart Chain'
         //     break
         case 80001:
-            networkName = 'Matic (Testnet)'
+            networkName = 'Testnet'
             break
         // case 137:
         //     networkName = 'Matic'

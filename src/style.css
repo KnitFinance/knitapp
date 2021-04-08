@@ -37,13 +37,10 @@ pre {
 .wallet {
     font-family: 'Monaco', 'Courier New', Courier, monospace !important;
     letter-spacing: 1px;
-
     -ms-word-break: break-all;
     word-break: break-all;
-
     /* Non standard for WebKit */
     word-break: break-word;
-
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
@@ -132,28 +129,35 @@ pre {
     margin-top: -30px;
     padding-top: 30px;
 }
+
 .step2 {
     background-color: #373737;
 }
+
 .step2 .ui.segments,
 .step3 .ui.message {
     border: 0 none;
     box-shadow: unset;
 }
+
 .step3 {
     background-color: #373737;
 }
+
 .step3 .message {
     background-color: transparent !important;
     color: #fff;
 }
+
 .step3 .message .header {
     color: green;
 }
+
 @media only screen and (max-width: 992px) {
     .swapv2 {
         width: 96vw;
     }
+
     .swapdetails {
         width: 94vw;
     }
@@ -225,10 +229,53 @@ pre {
     font-size: 14px;
     color: #eee;
 }
+
 .tab-right {
     text-align: right;
+    font-size: 0.9rem;
 }
+
 .fixed {
     position: fixed;
     bottom: 0;
+}
+
+ul.network-tab {
+    list-style: none;
+    display: inline-flex;
+    padding: 0;
+    font-size: 0.9rem;
+}
+.uppercase {
+    text-transform: uppercase;
+}
+
+ul.network-tab li {
+    margin-right: 6px;
+}
+
+ul.network-tab li.active {
+    color: #21ba45 !important;
+}
+
+.netinfo {
+    float: left;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
