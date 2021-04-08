@@ -126,6 +126,9 @@ pre {
     .swapv2 {
         width: 96vw;
     }
+    .swapdetails {
+        width: 94vw;
+    }
 }
 
 .ui.inverted.form input:not([type]),
