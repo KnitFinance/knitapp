@@ -9,7 +9,8 @@ import {
     Icon,
     Input,
     Message,
-    Segment
+    Segment,
+    Popup,
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
@@ -41,7 +42,7 @@ const Swapv2 = () => {
         errors,
         reset,
         setValue,
-        setError
+        setError,
     } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
@@ -89,7 +90,7 @@ const Swapv2 = () => {
                     const chainNames = chainName(window.ethereum.networkVersion)
                     setCName(chainNames)
 
-                    window.ethereum.on('accountsChanged', function(accounts) {
+                    window.ethereum.on('accountsChanged', function (accounts) {
                         setSelectedAccount(accounts[0])
                     })
                     window.ethereum.on('chainChanged', chainId => {
@@ -128,7 +129,7 @@ const Swapv2 = () => {
                     ethWallet: data.data.ethWallet,
                     coin: data.data.coin,
                     network: network,
-                    hdWallet: data.data.hdWallet
+                    hdWallet: data.data.hdWallet,
                 }
                 await swapVerify(values)
             }
@@ -150,7 +151,7 @@ const Swapv2 = () => {
             coin: transaction.coin,
             depositWallet: transaction.depositWallet,
             wallet: transaction.wallet,
-            network: network
+            network: network,
         }
 
         try {
@@ -195,23 +196,23 @@ const Swapv2 = () => {
                 onSubmit={handleSubmit(onSubmitHandler)}
                 name={'swap'}>
                 <div className="header-wrapper">
-                    <ul className="network-tab">
+                    <ul className="network-tab uppercase">
                         {chains.map(value => (
                             <li className={cName === value ? 'active' : ''}>
                                 {value}
                             </li>
                         ))}
+                        <li>
+                            <Popup
+                                wide
+                                content="You can change network using Metamask"
+                                trigger={
+                                    <Icon name="question circle outline" />
+                                }
+                            />
+                        </li>
                     </ul>
-                    <div className="tab-right">
-                        <Dropdown
-                            text={networkName}
-                            icon="ethereum"
-                            color="green"
-                            simple
-                            item
-                            floating
-                        />
-                    </div>
+                    <p className="netinfo">{networkName}</p>
                 </div>
                 <Divider hidden />
                 <Controller
@@ -245,13 +246,13 @@ const Swapv2 = () => {
                                     if (numberOfToken < 0) {
                                         setError('token', {
                                             type: 'manual',
-                                            message: 'Minimum amount required!'
+                                            message: 'Minimum amount required!',
                                         })
                                     } else {
                                         setToken(numberOfToken)
                                         setEnterAmount(e.target.value)
                                         setValue('token', numberOfToken, {
-                                            shouldDirty: true
+                                            shouldDirty: true,
                                         })
                                     }
                                 }}
@@ -361,13 +362,6 @@ const Swapv2 = () => {
                                 disabled={status}>
                                 EXCHANGE
                             </Button>
-                            <Button
-                                basic
-                                color="red"
-                                size="medium"
-                                type="reset">
-                                RESET
-                            </Button>
                         </div>
                     </Form.Field>
                 ) : (
@@ -411,10 +405,10 @@ const Swapv2 = () => {
             {status && (
                 <div className="centermiddleswap swapv2">
                     <Segment.Group>
-                        <Segment>
+                        <Segment basic>
                             <div className="row-details">
                                 <div>
-                                    <h3>Transaction Details</h3>
+                                    <h3>Action required!</h3>
                                 </div>
                                 <div>
                                     {(isTxid || coin === 'ETH') && (
@@ -425,32 +419,37 @@ const Swapv2 = () => {
                         </Segment>
                         {coin === 'ETH' ? (
                             <>
-                                <Segment>
+                                <Segment basic>
                                     <div className="row-details">
                                         <div>Address</div>
-                                        <div>{transaction.hdWallet}</div>
+                                        <div className="wallet">
+                                            {transaction.hdWallet}
+                                        </div>
                                     </div>
                                 </Segment>
-                                <Message warning attached="bottom">
-                                    <Icon name="info" />
+                                <Message info>
                                     Send your ETH to this address
                                 </Message>
                             </>
                         ) : (
                             <>
-                                <Segment>
+                                <Segment basic>
                                     <div className="row-details">
                                         <div>Wallet</div>
-                                        <div>{transaction.wallet}</div>
+                                        <div className="wallet">
+                                            {transaction.wallet}
+                                        </div>
                                     </div>
                                 </Segment>
-                                <Segment>
+                                <Segment basic>
                                     <div className="row-details">
                                         <div>Memo</div>
-                                        <div>{transaction.memo}</div>
+                                        <div className="wallet">
+                                            {transaction.memo}
+                                        </div>
                                     </div>
                                 </Segment>
-                                <Segment>
+                                <Segment basic>
                                     <div className="row-details">
                                         <div>Transaction ID </div>
                                         <div>
@@ -479,8 +478,7 @@ const Swapv2 = () => {
                                     </div>
                                 </Segment>
                                 {!isTxid && (
-                                    <Message warning attached="bottom">
-                                        <Icon name="info" />
+                                    <Message info>
                                         Submit your transaction hash to complete
                                         this transaction
                                     </Message>
@@ -499,7 +497,7 @@ const Swapv2 = () => {
                     list={[
                         `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
                         `Received wallet ${deposit.ethWallet}`,
-                        `Token address ${transaction?.contractAddress}`
+                        `Token address ${transaction?.contractAddress}`,
                     ]}
                 />
             )}
