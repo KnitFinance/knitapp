@@ -5,68 +5,68 @@ const list = [
     {
         name: 'Bitcoin',
         knitName: 'K-BTC',
-        symbol: 'BTC'
+        symbol: 'BTC',
     },
     {
         name: 'Bitcoin Cash',
         knitName: 'K-BCH',
-        symbol: 'BCH'
+        symbol: 'BCH',
     },
     {
         name: 'Bitcoin SV',
         knitName: 'K-BSV',
-        symbol: 'BSV'
+        symbol: 'BSV',
     },
     {
         name: 'Dash',
         knitName: 'K-DASH',
-        symbol: 'DASH'
+        symbol: 'DASH',
     },
     {
         name: 'Dogecoin',
         knitName: 'K-DOGE',
-        symbol: 'DOGE'
+        symbol: 'DOGE',
     },
     {
         name: 'Ethereum',
         knitName: 'K-ETH',
-        symbol: 'ETH'
+        symbol: 'ETH',
     },
     {
         name: 'Frontier',
         knitName: 'K-FRONT',
-        symbol: 'FRONT'
+        symbol: 'FRONT',
     },
     {
         name: 'Litecoin',
         knitName: 'K-LTC',
-        symbol: 'LTC'
+        symbol: 'LTC',
     },
     {
         name: 'Ripple',
         knitName: 'K-XRP',
-        symbol: 'XRP'
+        symbol: 'XRP',
     },
     {
         name: 'Sia Coin',
         knitName: 'K-SC',
-        symbol: 'SC'
+        symbol: 'SC',
     },
     {
         name: 'Stellar',
         knitName: 'K-XLM',
-        symbol: 'XLM'
+        symbol: 'XLM',
     },
     {
         name: 'Tomo',
         knitName: 'K-TOMO',
-        symbol: 'TOMO'
+        symbol: 'TOMO',
     },
     {
         name: 'Zcash',
         knitName: 'K-ZEC',
-        symbol: 'ZEC'
-    }
+        symbol: 'ZEC',
+    },
 ]
 
 export const networkNames = networkId => {
@@ -127,13 +127,13 @@ export const contractNetwork = networkId => {
 export const options = list.map(values => ({
     key: values.symbol,
     text: values.name,
-    value: values.symbol
+    value: values.symbol,
 }))
 
 export const optionsWithdraw = list.map(values => ({
     key: values.symbol,
     text: values.knitName,
-    value: values.symbol
+    value: values.symbol,
 }))
 
 export const isMetamask = () => {
@@ -154,4 +154,25 @@ export const getTokanBalance = async (coin, walletAddress) => {
         result = balance / 10 ** 18
     } catch (e) {}
     return result
+}
+
+export const truncate = (str, max, sep) => {
+    max = max || 6
+
+    var len = str.length
+    if (len > max) {
+        sep = sep || '...'
+        var seplen = sep.length
+        if (seplen > max) {
+            return str.substr(len - max)
+        }
+        var n = -0.5 * (max - len - seplen)
+        var center = len / 2
+
+        var front = str.substr(0, center - n)
+        var back = str.substr(len - center + n)
+        return front + sep + back
+    }
+
+    return str
 }
