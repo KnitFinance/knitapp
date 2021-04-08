@@ -14,7 +14,7 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
 import { options } from './utils'
-import { networkNames, contractNetwork } from './utils'
+import { networkNames, contractNetwork, allChain, chainName } from './utils'
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -55,13 +55,18 @@ const Swapv2 = () => {
     const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
     const [selectedAccount, setSelectedAccount] = React.useState(null)
-    const [networkName, setNetworkName] = React.useState('Other')
+    const [networkName, setNetworkName] = React.useState('Unsupported')
+    const [cName, setCName] = React.useState('')
+    const [chains, setChains] = React.useState([])
 
     var HALF_HOUR = 60 * 30 * 1000
     const [network, setNetwork] = React.useState(false)
 
     React.useEffect(() => {
         const getInit = async () => {
+            const allChainList = allChain()
+            setChains(allChainList)
+
             if (typeof window.ethereum !== 'undefined') {
                 if (window.ethereum.isConnected()) {
                     window.ethereum
@@ -73,10 +78,16 @@ const Swapv2 = () => {
                             )
                             setNetwork(netk)
                         })
+
+                    // set netwrok name (MAIN, KOVAN, BSC testnet etc)
                     const tempName = networkNames(
                         window.ethereum.networkVersion
                     )
                     setNetworkName(tempName)
+
+                    // set chain name (ETH,BSC,MATIC etc)
+                    const chainNames = chainName(window.ethereum.networkVersion)
+                    setCName(chainNames)
 
                     window.ethereum.on('accountsChanged', function(accounts) {
                         setSelectedAccount(accounts[0])
@@ -86,6 +97,8 @@ const Swapv2 = () => {
                         const networkNm = networkNames(_chainId)
                         setNetworkName(networkNm)
                         const networkContract = contractNetwork(_chainId)
+                        const chainNames = chainName(_chainId)
+                        setCName(chainNames)
 
                         console.log(networkContract)
                         setNetwork(networkContract)
@@ -172,7 +185,7 @@ const Swapv2 = () => {
         },
         status ? 10000 : null
     )
-    console.log(errors)
+    console.log(chains, cName)
     return (
         <React.Fragment>
             <Divider hidden />
@@ -181,15 +194,24 @@ const Swapv2 = () => {
                 className="centermiddleswap swapv2"
                 onSubmit={handleSubmit(onSubmitHandler)}
                 name={'swap'}>
-                <div className="tab-right">
-                    <Dropdown
-                        text={networkName}
-                        icon="ethereum"
-                        color="green"
-                        simple
-                        item
-                        floating
-                    />
+                <div className="header-wrapper">
+                    <ul className="network-tab">
+                        {chains.map(value => (
+                            <li className={cName === value ? 'active' : ''}>
+                                {value}
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="tab-right">
+                        <Dropdown
+                            text={networkName}
+                            icon="ethereum"
+                            color="green"
+                            simple
+                            item
+                            floating
+                        />
+                    </div>
                 </div>
                 <Divider hidden />
                 <Controller

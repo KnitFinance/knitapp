@@ -5,72 +5,98 @@ const list = [
     {
         name: 'Bitcoin',
         knitName: 'K-BTC',
-        symbol: 'BTC',
+        symbol: 'BTC'
     },
     {
         name: 'Bitcoin Cash',
         knitName: 'K-BCH',
-        symbol: 'BCH',
+        symbol: 'BCH'
     },
     {
         name: 'Bitcoin SV',
         knitName: 'K-BSV',
-        symbol: 'BSV',
+        symbol: 'BSV'
     },
     {
         name: 'Dash',
         knitName: 'K-DASH',
-        symbol: 'DASH',
+        symbol: 'DASH'
     },
     {
         name: 'Dogecoin',
         knitName: 'K-DOGE',
-        symbol: 'DOGE',
+        symbol: 'DOGE'
     },
     {
         name: 'Ethereum',
         knitName: 'K-ETH',
-        symbol: 'ETH',
+        symbol: 'ETH'
     },
     {
         name: 'Frontier',
         knitName: 'K-FRONT',
-        symbol: 'FRONT',
+        symbol: 'FRONT'
     },
     {
         name: 'Litecoin',
         knitName: 'K-LTC',
-        symbol: 'LTC',
+        symbol: 'LTC'
     },
     {
         name: 'Ripple',
         knitName: 'K-XRP',
-        symbol: 'XRP',
+        symbol: 'XRP'
     },
     {
         name: 'Sia Coin',
         knitName: 'K-SC',
-        symbol: 'SC',
+        symbol: 'SC'
     },
     {
         name: 'Stellar',
         knitName: 'K-XLM',
-        symbol: 'XLM',
+        symbol: 'XLM'
     },
     {
         name: 'Tomo',
         knitName: 'K-TOMO',
-        symbol: 'TOMO',
+        symbol: 'TOMO'
     },
     {
         name: 'Zcash',
         knitName: 'K-ZEC',
-        symbol: 'ZEC',
-    },
+        symbol: 'ZEC'
+    }
 ]
+export const allChain = () => {
+    return ['Ethereum', 'BSC', 'Matic']
+}
+export const chainName = networkId => {
+    let networkName = ''
+    switch (parseInt(networkId)) {
+        // case 1:
+        // case 2:
+        // case 3:
+        // case 4:
+        case 42:
+            networkName = 'Ethereum'
+            break
+        case 97:
+            //case 56:
+            networkName = 'BSC'
+            break
+        case 80001:
+            //case 137:
+            networkName = 'Matic'
+            break
+        default:
+            networkName = ''
+    }
+    return networkName
+}
 
 export const networkNames = networkId => {
-    let networkName = 'Other'
+    let networkName = 'Unsupported'
     switch (parseInt(networkId)) {
         // case 1:
         //     networkName = 'Main'
@@ -127,13 +153,13 @@ export const contractNetwork = networkId => {
 export const options = list.map(values => ({
     key: values.symbol,
     text: values.name,
-    value: values.symbol,
+    value: values.symbol
 }))
 
 export const optionsWithdraw = list.map(values => ({
     key: values.symbol,
     text: values.knitName,
-    value: values.symbol,
+    value: values.symbol
 }))
 
 export const isMetamask = () => {
