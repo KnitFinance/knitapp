@@ -9,18 +9,12 @@ import {
     Icon,
     Input,
     Message,
-    Segment,
-    Menu,
-    Header,
+    Segment
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
-import { options, optionsWithdraw } from './utils'
-
-import { reactLocalStorage } from 'reactjs-localstorage'
-import { isMetamask, networkNames, contractNetwork } from './utils'
-
-const Web3 = require('web3')
+import { options } from './utils'
+import { networkNames, contractNetwork } from './utils'
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -47,8 +41,7 @@ const Swapv2 = () => {
         errors,
         reset,
         setValue,
-        setError,
-        getValue,
+        setError
     } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
@@ -62,15 +55,10 @@ const Swapv2 = () => {
     const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
     const [selectedAccount, setSelectedAccount] = React.useState(null)
-    const [networkName, setNetworkName] = React.useState('Not Available')
+    const [networkName, setNetworkName] = React.useState('Other')
 
     var HALF_HOUR = 60 * 30 * 1000
     const [network, setNetwork] = React.useState(false)
-    const coptions = [
-        { key: 'edit', icon: 'edit', text: 'Edit Post', value: 'edit' },
-        { key: 'delete', icon: 'delete', text: 'Remove Post', value: 'delete' },
-        { key: 'hide', icon: 'hide', text: 'Hide Post', value: 'hide' },
-    ]
 
     React.useEffect(() => {
         const getInit = async () => {
@@ -90,7 +78,7 @@ const Swapv2 = () => {
                     )
                     setNetworkName(tempName)
 
-                    window.ethereum.on('accountsChanged', function (accounts) {
+                    window.ethereum.on('accountsChanged', function(accounts) {
                         setSelectedAccount(accounts[0])
                     })
                     window.ethereum.on('chainChanged', chainId => {
@@ -127,7 +115,7 @@ const Swapv2 = () => {
                     ethWallet: data.data.ethWallet,
                     coin: data.data.coin,
                     network: network,
-                    hdWallet: data.data.hdWallet,
+                    hdWallet: data.data.hdWallet
                 }
                 await swapVerify(values)
             }
@@ -149,7 +137,7 @@ const Swapv2 = () => {
             coin: transaction.coin,
             depositWallet: transaction.depositWallet,
             wallet: transaction.wallet,
-            network: network,
+            network: network
         }
 
         try {
@@ -235,13 +223,13 @@ const Swapv2 = () => {
                                     if (numberOfToken < 0) {
                                         setError('token', {
                                             type: 'manual',
-                                            message: 'Minimum amount required!',
+                                            message: 'Minimum amount required!'
                                         })
                                     } else {
                                         setToken(numberOfToken)
                                         setEnterAmount(e.target.value)
                                         setValue('token', numberOfToken, {
-                                            shouldDirty: true,
+                                            shouldDirty: true
                                         })
                                     }
                                 }}
@@ -399,11 +387,13 @@ const Swapv2 = () => {
             )}
 
             {status && (
-                <div className="centermiddleswap swapv2 step2">
+                <div className="centermiddleswap swapv2">
                     <Segment.Group>
-                        <Segment basic>
+                        <Segment>
                             <div className="row-details">
-                                <Header inverted>Action required!</Header>
+                                <div>
+                                    <h3>Transaction Details</h3>
+                                </div>
                                 <div>
                                     {(isTxid || coin === 'ETH') && (
                                         <Icon loading name="sync" />
@@ -413,39 +403,37 @@ const Swapv2 = () => {
                         </Segment>
                         {coin === 'ETH' ? (
                             <>
-                                <Segment basic>
+                                <Segment>
                                     <div className="row-details">
                                         <div>Address</div>
-                                        <div className="wallet">
-                                            {transaction.hdWallet}
-                                        </div>
+                                        <div>{transaction.hdWallet}</div>
                                     </div>
                                 </Segment>
+                                <Message warning attached="bottom">
+                                    <Icon name="info" />
+                                    Send your ETH to this address
+                                </Message>
                             </>
                         ) : (
                             <>
-                                <Segment basic>
+                                <Segment>
                                     <div className="row-details">
                                         <div>Wallet</div>
-                                        <div className="wallet">
-                                            {transaction.wallet}
-                                        </div>
+                                        <div>{transaction.wallet}</div>
                                     </div>
                                 </Segment>
-                                <Segment basic>
+                                <Segment>
                                     <div className="row-details">
                                         <div>Memo</div>
                                         <div>{transaction.memo}</div>
                                     </div>
                                 </Segment>
-                                <Segment basic>
+                                <Segment>
                                     <div className="row-details">
                                         <div>Transaction ID </div>
                                         <div>
                                             {!isTxid ? (
                                                 <Form
-                                                    fluid
-                                                    inverted
                                                     onSubmit={
                                                         onTransactionHandler
                                                     }>
@@ -463,15 +451,14 @@ const Swapv2 = () => {
                                                     </Form.Field>
                                                 </Form>
                                             ) : (
-                                                <div className="wallet">
-                                                    {txid}
-                                                </div>
+                                                <>{txid}</>
                                             )}
                                         </div>
                                     </div>
                                 </Segment>
                                 {!isTxid && (
-                                    <Message warning>
+                                    <Message warning attached="bottom">
+                                        <Icon name="info" />
                                         Submit your transaction hash to complete
                                         this transaction
                                     </Message>
@@ -482,17 +469,17 @@ const Swapv2 = () => {
                 </div>
             )}
             {visible && (
-                <div className="centermiddleswap swapv2 step3">
-                    <Message
-                        onDismiss={dismissHandle}
-                        header="Success!"
-                        list={[
-                            `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
-                            `Received wallet ${deposit.ethWallet}`,
-                            `Token address ${transaction?.contractAddress}`,
-                        ]}
-                    />
-                </div>
+                <Message
+                    positive
+                    inverted
+                    onDismiss={dismissHandle}
+                    header="Success!"
+                    list={[
+                        `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
+                        `Received wallet ${deposit.ethWallet}`,
+                        `Token address ${transaction?.contractAddress}`
+                    ]}
+                />
             )}
         </React.Fragment>
     )
