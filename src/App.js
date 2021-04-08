@@ -2,14 +2,14 @@ import {
     Container,
     Divider,
     Statistic,
-    Header as UiHeader,
+    Header as UiHeader
 } from 'semantic-ui-react'
 import React, { useState, Suspense } from 'react'
 import {
     Route,
     BrowserRouter as Router,
     Switch,
-    useLocation,
+    useLocation
 } from 'react-router-dom'
 
 import FooterNav from './FooterNav'
@@ -52,9 +52,9 @@ const TopMenu = () => {
         reactLocalStorage.get('network', 'BSC')
     )
 
-    React.useEffect(() => {
-        getInfo(network).then(res => setInfo(res.data.data.balance))
-    }, [])
+    // React.useEffect(() => {
+    //     getInfo(network).then(res => setInfo(res.data.data.balance))
+    // }, [])
     return (
         <div className={'topmenusec'}>
             <a href="/">
@@ -86,7 +86,7 @@ function App() {
     }
     const value = {
         user: user,
-        logout: logout,
+        logout: logout
     }
     return (
         <UserContext.Provider value={value}>
