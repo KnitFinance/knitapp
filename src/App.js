@@ -114,7 +114,6 @@ function App() {
                     </Suspense>
                     <Divider hidden />
                     <Divider hidden />
-                    <Footer />
                 </Router>
 
                 <Divider hidden />

@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 
 const Footer = () => {
     return (
-        <Container>
+        <Container className="fixed">
             <Menu text inverted>
                 <Menu.Item header as={NavLink} exact to="/" children="Home" />
             </Menu>
