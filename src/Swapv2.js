@@ -10,7 +10,7 @@ import {
     Input,
     Message,
     Segment,
-    Popup,
+    Popup
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
@@ -42,7 +42,7 @@ const Swapv2 = () => {
         errors,
         reset,
         setValue,
-        setError,
+        setError
     } = useForm()
     const [loading, setLoading] = React.useState(false)
     const [status, setStatus] = React.useState(false)
@@ -56,7 +56,10 @@ const Swapv2 = () => {
     const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
     const [selectedAccount, setSelectedAccount] = React.useState(null)
-    const [networkName, setNetworkName] = React.useState('Unsupported')
+    const [networkName, setNetworkName] = React.useState({
+        networkName: 'connect network',
+        networkStatus: false
+    })
     const [cName, setCName] = React.useState('')
     const [chains, setChains] = React.useState([])
 
@@ -90,7 +93,7 @@ const Swapv2 = () => {
                     const chainNames = chainName(window.ethereum.networkVersion)
                     setCName(chainNames)
 
-                    window.ethereum.on('accountsChanged', function (accounts) {
+                    window.ethereum.on('accountsChanged', function(accounts) {
                         setSelectedAccount(accounts[0])
                     })
                     window.ethereum.on('chainChanged', chainId => {
@@ -129,7 +132,7 @@ const Swapv2 = () => {
                     ethWallet: data.data.ethWallet,
                     coin: data.data.coin,
                     network: network,
-                    hdWallet: data.data.hdWallet,
+                    hdWallet: data.data.hdWallet
                 }
                 await swapVerify(values)
             }
@@ -151,7 +154,7 @@ const Swapv2 = () => {
             coin: transaction.coin,
             depositWallet: transaction.depositWallet,
             wallet: transaction.wallet,
-            network: network,
+            network: network
         }
 
         try {
@@ -212,7 +215,17 @@ const Swapv2 = () => {
                             />
                         </li>
                     </ul>
-                    <p className="netinfo">{networkName}</p>
+                    <p
+                        className={
+                            networkName.networkStatus
+                                ? 'netinfo'
+                                : 'netinfo error'
+                        }>
+                        {!networkName.networkStatus && (
+                            <Icon name="warning circle" />
+                        )}
+                        {networkName.networkName}
+                    </p>
                 </div>
                 <Divider hidden />
                 <Controller
@@ -246,13 +259,13 @@ const Swapv2 = () => {
                                     if (numberOfToken < 0) {
                                         setError('token', {
                                             type: 'manual',
-                                            message: 'Minimum amount required!',
+                                            message: 'Minimum amount required!'
                                         })
                                     } else {
                                         setToken(numberOfToken)
                                         setEnterAmount(e.target.value)
                                         setValue('token', numberOfToken, {
-                                            shouldDirty: true,
+                                            shouldDirty: true
                                         })
                                     }
                                 }}
@@ -497,7 +510,7 @@ const Swapv2 = () => {
                     list={[
                         `You will receive ${deposit.tokens} k${deposit.coin} with in few minutes`,
                         `Received wallet ${deposit.ethWallet}`,
-                        `Token address ${transaction?.contractAddress}`,
+                        `Token address ${transaction?.contractAddress}`
                     ]}
                 />
             )}
