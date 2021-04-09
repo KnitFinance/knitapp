@@ -56,7 +56,10 @@ const Swapv2 = () => {
     const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
     const [selectedAccount, setSelectedAccount] = React.useState(null)
-    const [networkName, setNetworkName] = React.useState('connect network')
+    const [networkName, setNetworkName] = React.useState({
+        networkName: 'connect network',
+        networkStatus: false
+    })
     const [cName, setCName] = React.useState('')
     const [chains, setChains] = React.useState([])
 
