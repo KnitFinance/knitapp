@@ -7,7 +7,8 @@ import {
     Form,
     Checkbox,
     Message,
-    Grid
+    Divider,
+    Grid,
 } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
 import { withdraw } from './actions'
@@ -49,7 +50,7 @@ function Withdraw() {
             const response = await tokenInstant.burn(
                 web3Instance.utils.toWei(value.amount, 'ether'),
                 {
-                    from: accounts[0]
+                    from: accounts[0],
                 }
             )
             value.txnId = response.tx
@@ -70,10 +71,16 @@ function Withdraw() {
             <Header inverted as="h2">
                 Withdraw
             </Header>
+            <Divider hidden />
+            <Divider hidden />
+
             <Grid>
                 <Grid.Row>
                     <Grid.Column width={10}>
-                        <Form inverted onSubmit={handleSubmit(onSubmitHandler)}>
+                        <Form
+                            inverted
+                            onSubmit={handleSubmit(onSubmitHandler)}
+                            className="centermiddleswap swapdetails">
                             <Controller
                                 control={control}
                                 name="amount"
@@ -85,7 +92,7 @@ function Withdraw() {
                                             label={
                                                 <Dropdown
                                                     options={optionsWithdraw}
-                                                    size="huge"
+                                                    size="large"
                                                     defaultValue={coin}
                                                     onChange={(e, data) =>
                                                         setCoin(data.value)
@@ -99,7 +106,7 @@ function Withdraw() {
                                             inputRef={ref}
                                             step="any"
                                             labelPosition="right"
-                                            size="huge"
+                                            size="large"
                                             placeholder="Amount"
                                         />
                                     </Form.Field>
@@ -113,7 +120,7 @@ function Withdraw() {
                                 render={({ onChange, onBlur, value, ref }) => (
                                     <Form.Field>
                                         <Input
-                                            size="huge"
+                                            size="large"
                                             placeholder="Your Receiving Address"
                                             onChange={onChange}
                                             onBlur={onBlur}
@@ -134,7 +141,7 @@ function Withdraw() {
                                     onBlur,
                                     value,
                                     name,
-                                    ref
+                                    ref,
                                 }) => (
                                     <Form.Field>
                                         <Checkbox
@@ -160,13 +167,11 @@ function Withdraw() {
                                 <div>
                                     <Button
                                         primary
-                                        size="huge"
+                                        basic
+                                        size="large"
                                         loading={loading}
                                         disabled={!isMeta}>
                                         Withdraw
-                                    </Button>
-                                    <Button secondary size="huge" type="reset">
-                                        RESET
                                     </Button>
                                 </div>
                             </Form.Field>
