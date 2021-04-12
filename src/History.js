@@ -38,7 +38,10 @@ const History = () => {
             </Table.Cell>
             <Table.Cell>{item.network}</Table.Cell>
             <Table.Cell>{item.currency}</Table.Cell>
-            <Table.Cell>{item.tokens}</Table.Cell>
+            <Table.Cell>
+                {item.tokens}
+                <span className="small-text"> k{item.currency}</span>
+            </Table.Cell>
 
             <Table.Cell collapsing textAlign="right">
                 {item.status ? 'Completed' : 'Pending'}
