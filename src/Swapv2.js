@@ -15,7 +15,8 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { depositstatus, swap, swapVerify } from './actions'
 import { options } from './utils'
-import { networkNames, contractNetwork, allChain, chainName } from './utils'
+import { networkNames, contractNetwork, allChain } from './utils'
+import { CounterContext } from './context'
 
 const useInterval = (callback, delay) => {
     const savedCallback = React.useRef(() => {})
@@ -55,62 +56,25 @@ const Swapv2 = () => {
     const [token, setToken] = React.useState(null)
     const [enterAmount, setEnterAmount] = React.useState(null)
     const [transaction, setTransaction] = React.useState(null)
-    const [selectedAccount, setSelectedAccount] = React.useState(null)
-    const [networkName, setNetworkName] = React.useState({
-        networkName: 'connect network',
-        networkStatus: false
-    })
-    const [cName, setCName] = React.useState('')
+
     const [chains, setChains] = React.useState([])
 
+    const [
+        connectWallet,
+        setConnectWallet,
+        network,
+        setNetwork,
+        networkName,
+        setNetworkName,
+        chainName,
+        setChainName
+    ] = React.useContext(CounterContext)
+
     var HALF_HOUR = 60 * 30 * 1000
-    const [network, setNetwork] = React.useState(false)
 
     React.useEffect(() => {
-        const getInit = async () => {
-            const allChainList = allChain()
-            setChains(allChainList)
-
-            if (typeof window.ethereum !== 'undefined') {
-                if (window.ethereum.isConnected()) {
-                    window.ethereum
-                        .request({ method: 'eth_requestAccounts' })
-                        .then(accounts => {
-                            setSelectedAccount(accounts[0])
-                            const netk = contractNetwork(
-                                window.ethereum.networkVersion
-                            )
-                            setNetwork(netk)
-                        })
-
-                    // set netwrok name (MAIN, KOVAN, BSC testnet etc)
-                    const tempName = networkNames(
-                        window.ethereum.networkVersion
-                    )
-                    setNetworkName(tempName)
-
-                    // set chain name (ETH,BSC,MATIC etc)
-                    const chainNames = chainName(window.ethereum.networkVersion)
-                    setCName(chainNames)
-
-                    window.ethereum.on('accountsChanged', function(accounts) {
-                        setSelectedAccount(accounts[0])
-                    })
-                    window.ethereum.on('chainChanged', chainId => {
-                        const _chainId = parseInt(chainId, 16)
-                        const networkNm = networkNames(_chainId)
-                        setNetworkName(networkNm)
-                        const networkContract = contractNetwork(_chainId)
-                        const chainNames = chainName(_chainId)
-                        setCName(chainNames)
-
-                        console.log(networkContract)
-                        setNetwork(networkContract)
-                    })
-                }
-            }
-        }
-        getInit()
+        const allChainList = allChain()
+        setChains(allChainList)
     }, [])
 
     const onSubmitHandler = async values => {
@@ -118,7 +82,7 @@ const Swapv2 = () => {
         setVisible(false)
         values.coin = coin
         values.network = network
-        values.ethWallet = selectedAccount
+        values.ethWallet = connectWallet
         if (values.coin) {
             values.depositWallet = '0x0000000000000000000000000000000000000000'
         }
@@ -171,7 +135,6 @@ const Swapv2 = () => {
             if (transaction !== null) {
                 depositstatus(transaction.txnId)
                     .then(val => {
-                        console.log('Deposit Status', val.data.data.status)
                         if (val.data.data.status === true) {
                             setDeposit(val.data.data)
                             setStatus(false)
@@ -189,19 +152,21 @@ const Swapv2 = () => {
         },
         status ? 10000 : null
     )
-    console.log(chains, cName)
+
     return (
         <React.Fragment>
             <Divider hidden />
             <Form
-                inverted
+                inverted={true}
                 className="centermiddleswap swapv2"
                 onSubmit={handleSubmit(onSubmitHandler)}
                 name={'swap'}>
                 <div className="header-wrapper">
                     <ul className="network-tab uppercase">
-                        {chains.map(value => (
-                            <li className={cName === value ? 'active' : ''}>
+                        {chains.map((value, index) => (
+                            <li
+                                className={chainName === value ? 'active' : ''}
+                                key={index}>
                                 {value}
                             </li>
                         ))}
@@ -347,14 +312,14 @@ const Swapv2 = () => {
                         {errors.token ? (
                             <Message
                                 color="red"
-                                inverted
+                                inverted={true}
                                 header="There was some errors with your submission"
                                 list={[`${errors.token.message}`]}
                             />
                         ) : (
                             <Message
                                 color="red"
-                                inverted
+                                inverted={true}
                                 header="There was some errors with your submission"
                                 list={[`All fields are required!`]}
                             />
@@ -364,33 +329,19 @@ const Swapv2 = () => {
 
                 <Divider hidden />
 
-                {selectedAccount ? (
-                    <Form.Field>
-                        <div>
-                            <Button
-                                basic
-                                color="green"
-                                size="medium"
-                                loading={loading}
-                                disabled={status}>
-                                EXCHANGE
-                            </Button>
-                        </div>
-                    </Form.Field>
-                ) : (
-                    <Form.Field>
-                        <div>
-                            <Button
-                                basic
-                                color="green"
-                                size="medium"
-                                type="button"
-                                loading={loading}>
-                                Connect Wallet
-                            </Button>
-                        </div>
-                    </Form.Field>
-                )}
+                <Form.Field>
+                    <div>
+                        <Button
+                            basic
+                            color="green"
+                            size="medium"
+                            loading={loading}
+                            disabled={status || connectWallet === null}>
+                            EXCHANGE
+                        </Button>
+                    </div>
+                </Form.Field>
+
                 <Divider hidden />
             </Form>
             {token !== null && enterAmount != null && (
@@ -504,7 +455,7 @@ const Swapv2 = () => {
             {visible && (
                 <Message
                     positive
-                    inverted
+                    inverted={true}
                     onDismiss={dismissHandle}
                     header="Success!"
                     list={[
