@@ -19,6 +19,11 @@ export const getMerchant = (coin, network = 'ETH') =>
     http.get(`/custodian/merchants/${coin}/${network}`, {
         headers: headers
     })
+
+export const getSwapHistory = wallet =>
+    http.get(`/history/${wallet}`, {
+        headers: headers
+    })
 export const getMerchantLimit = (coin, wallet, network = 'ETH') =>
     http.get(`/custodian/limit/${coin}/${wallet}/${network}`, {
         headers: headers

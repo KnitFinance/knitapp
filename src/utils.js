@@ -71,7 +71,7 @@ const list = [
 export const allChain = () => {
     return ['Ethereum', 'BSC', 'Matic']
 }
-export const chainName = networkId => {
+export const chainNames = networkId => {
     let networkName = ''
     switch (parseInt(networkId)) {
         case 1:
