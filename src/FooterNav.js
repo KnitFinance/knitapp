@@ -93,7 +93,9 @@ const FooterNav = () => {
                         12
                     )}>
                     <Dropdown.Menu>
-                        <Dropdown.Item>History</Dropdown.Item>
+                        <Dropdown.Item as={NavLink} to="/history">
+                            History
+                        </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             )}

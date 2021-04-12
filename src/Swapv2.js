@@ -13,7 +13,7 @@ import {
     Popup
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
-import { depositstatus, swap, swapVerify, getSwapHistory } from './actions'
+import { depositstatus, swap, swapVerify } from './actions'
 import { options } from './utils'
 import { networkNames, contractNetwork, allChain } from './utils'
 import { CounterContext } from './context'
