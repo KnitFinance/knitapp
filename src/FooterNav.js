@@ -86,12 +86,7 @@ const FooterNav = () => {
                     </Button>
                 </Menu.Item>
             ) : (
-                <Dropdown
-                    item
-                    text={truncate(
-                        '0x4abD3D3817a86D11416dD370e37aDE95a0FbdCCa',
-                        12
-                    )}>
+                <Dropdown item text={truncate(connectWallet, 12)}>
                     <Dropdown.Menu>
                         <Dropdown.Item as={NavLink} to="/history">
                             History
