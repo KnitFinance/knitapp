@@ -1,10 +1,12 @@
 body {
   background: rgb(0, 0, 0);
-  background-image: radial-gradient(#031530,
-      #140e23,
-      #160717,
-      #10030b,
-      #000000) !important;
+  background-image: radial-gradient(
+    #031530,
+    #140e23,
+    #160717,
+    #10030b,
+    #000000
+  ) !important;
 }
 
 .ui.form .ui.dropdown,
@@ -180,7 +182,7 @@ pre {
 
 .ui.label,
 .ui.dropdown .menu,
-.ui.dropdown .menu>.item {
+.ui.dropdown .menu > .item {
   background-color: #444 !important;
   color: #fff !important;
 }
@@ -204,7 +206,7 @@ pre {
   border: 0 !important;
 }
 
-.ui.labeled.input>.label:not(.corner) {
+.ui.labeled.input > .label:not(.corner) {
   width: 140px;
 }
 
@@ -264,8 +266,12 @@ ul.network-tab li.active {
   font-size: 0.7rem;
 }
 
+.small-text {
+  font-size: 10px;
+}
+
 .netinfo.error {
-  color: red
+  color: red;
 }
 
 .header-wrapper {
@@ -276,16 +282,16 @@ ul.network-tab li.active {
 
 .noselect {
   -webkit-touch-callout: none;
-  /* iOS Safari */
   -webkit-user-select: none;
-  /* Safari */
   -khtml-user-select: none;
-  /* Konqueror HTML */
   -moz-user-select: none;
-  /* Old versions of Firefox */
   -ms-user-select: none;
-  /* Internet Explorer/Edge */
   user-select: none;
-  /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.ui.form .field .ui.input input.search {
+  width: 140px !important;
+}
+.ui.search.dropdown > input.search {
+  padding: 0.68em;
 }

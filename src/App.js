@@ -2,25 +2,27 @@ import {
     Container,
     Divider,
     Statistic,
-    Header as UiHeader,
+    Header as UiHeader
 } from 'semantic-ui-react'
-import React, { useState, Suspense } from 'react'
+import React, { useState, Suspense, useContext } from 'react'
 import {
     Route,
     BrowserRouter as Router,
     Switch,
-    useLocation,
+    useLocation
 } from 'react-router-dom'
 
 import FooterNav from './FooterNav'
 import { UserContext } from './actions/userContext'
 import { getInfo } from './actions'
 import { reactLocalStorage } from 'reactjs-localstorage'
+import { CounterContextProvider } from './context'
 
 const Swapv2 = React.lazy(() => import('./Swapv2'))
 const Dashboard = React.lazy(() => import('./Dashboard'))
 const Login = React.lazy(() => import('./Login'))
 const Withdraw = React.lazy(() => import('./Withdraw'))
+const History = React.lazy(() => import('./History'))
 
 function NoMatch() {
     let location = useLocation()
@@ -51,9 +53,7 @@ const TopMenu = () => {
         reactLocalStorage.get('network', 'BSC')
     )
 
-    // React.useEffect(() => {
-    //     getInfo(network).then(res => setInfo(res.data.data.balance))
-    // }, [])
+    React.useEffect(() => {}, [])
     return (
         <div className={'topmenusec'}>
             <a href="/">
@@ -62,16 +62,6 @@ const TopMenu = () => {
                     alt="logo"></img>
             </a>
 
-            <Statistic.Group size={'mini'} inverted color="blue">
-                <Statistic></Statistic>
-                {info.map((value, index) => (
-                    <Statistic key={index}>
-                        <Statistic.Value>{value.tokens}</Statistic.Value>
-                        <Statistic.Label>{value._id.currency}</Statistic.Label>
-                    </Statistic>
-                ))}
-            </Statistic.Group>
-
             <FooterNav />
         </div>
     )
@@ -79,44 +69,52 @@ const TopMenu = () => {
 
 function App() {
     const [user, setUser] = useState(localStorage.getItem('user') || null)
+
     const logout = () => {
         localStorage.removeItem('user')
         setUser(null)
     }
     const value = {
         user: user,
-        logout: logout,
+        logout: logout
     }
     return (
         <UserContext.Provider value={value}>
-            <Container inverted text>
-                <Router>
-                    <Divider hidden />
-                    <TopMenu />
-                    <Divider hidden />
-                    <Divider hidden />
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <Switch>
-                            <Route exact path="/" component={Swapv2} />
-                            <Route
-                                exact
-                                path="/withdraw"
-                                component={Withdraw}
-                            />
-                            <Route exact path="/admin">
-                                {user === null ? <Login /> : <Dashboard />}
-                            </Route>
-                            <Route path="*">
-                                <NoMatch />
-                            </Route>
-                        </Switch>
-                    </Suspense>
-                    <Divider hidden />
-                    <Divider hidden />
-                </Router>
+            <CounterContextProvider>
+                <Container inverted text>
+                    <Router>
+                        <Divider hidden />
+                        <TopMenu />
+                        <Divider hidden />
+                        <Divider hidden />
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Switch>
+                                <Route exact path="/" component={Swapv2} />
+                                <Route
+                                    exact
+                                    path="/withdraw"
+                                    component={Withdraw}
+                                />
+                                <Route
+                                    exact
+                                    path="/history"
+                                    component={History}
+                                />
+                                <Route exact path="/admin">
+                                    {user === null ? <Login /> : <Dashboard />}
+                                </Route>
+                                <Route path="*">
+                                    <NoMatch />
+                                </Route>
+                            </Switch>
+                        </Suspense>
+                        <Divider hidden />
+                        <Divider hidden />
+                    </Router>
 
-                <Divider hidden />
-            </Container>
+                    <Divider hidden />
+                </Container>
+            </CounterContextProvider>
         </UserContext.Provider>
     )
 }
