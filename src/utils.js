@@ -96,6 +96,11 @@ const list = [
         name: 'Stacks',
         knitName: 'K-STX',
         symbol: 'STX'
+    },
+    {
+        name: 'Algorand',
+        knitName: 'K-ALGO',
+        symbol: 'ALGO'
     }
 ]
 

@@ -17,6 +17,7 @@ const GUSD = require('./KnitGeminidollar.json')
 const OGN = require('./KnitOrgin.json')
 const CELO = require('./KnitCELO.json')
 const STX = require('./KnitStacks.json')
+const ALGO = require('./KnitAlgorand.json')
 
 export {
     BTC,
@@ -37,5 +38,6 @@ export {
     GUSD,
     OGN,
     CELO,
-    STX
+    STX,
+    ALGO
 }
