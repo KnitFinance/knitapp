@@ -11,5 +11,31 @@ const BSV = require('./KnitBitcoinSV.json')
 const TOMO = require('./KnitTomo.json')
 const SC = require('./KnitSiacoin.json')
 const FRONT = require('./KnitFrontier.json')
+const GRS = require('./KnitGroestlcoin.json')
+const ZIL = require('./KnitZilliqa.json')
+const GUSD = require('./KnitGeminidollar.json')
+const OGN = require('./KnitOrgin.json')
+const CELO = require('./KnitCELO.json')
+const STX = require('./KnitStacks.json')
 
-export { BTC, ETH, XLM, XRP, LTC, BCH, ZEC, DOGE, DASH, BSV, TOMO, SC, FRONT }
+export {
+    BTC,
+    ETH,
+    XLM,
+    XRP,
+    LTC,
+    BCH,
+    ZEC,
+    DOGE,
+    DASH,
+    BSV,
+    TOMO,
+    SC,
+    FRONT,
+    GRS,
+    ZIL,
+    GUSD,
+    OGN,
+    CELO,
+    STX
+}
