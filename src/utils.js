@@ -66,8 +66,39 @@ const list = [
         name: 'Zcash',
         knitName: 'K-ZEC',
         symbol: 'ZEC'
+    },
+    {
+        name: 'Groestlcoin',
+        knitName: 'K-GRS',
+        symbol: 'GRS'
+    },
+    {
+        name: 'Zilliqa',
+        knitName: 'K-ZIL',
+        symbol: 'ZIL'
+    },
+    {
+        name: 'Gemini dollar',
+        knitName: 'K-GUSD',
+        symbol: 'GUSD'
+    },
+    {
+        name: 'Orgin',
+        knitName: 'K-OGN',
+        symbol: 'OGN'
+    },
+    {
+        name: 'CELO',
+        knitName: 'K-CELO',
+        symbol: 'CELO'
+    },
+    {
+        name: 'Stacks',
+        knitName: 'K-STX',
+        symbol: 'STX'
     }
 ]
+
 export const allChain = () => {
     return ['Ethereum', 'BSC', 'Matic']
 }
