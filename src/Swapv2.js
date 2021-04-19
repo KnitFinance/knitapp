@@ -1,22 +1,21 @@
 import * as React from 'react'
 
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Dropdown,
-  Form,
-  Icon,
-  Input,
-  Message,
-  Segment,
-  Popup
-} from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
+import { allChain, contractNetwork, networkNames } from './utils'
 import { depositstatus, swap, swapVerify } from './actions'
-import { options } from './utils'
-import { networkNames, contractNetwork, allChain } from './utils'
+
+import Button from 'semantic-ui-react/dist/es/elements/Button/Button.js'
+import Checkbox from 'semantic-ui-react/dist/es/modules/Checkbox'
 import { CounterContext } from './context'
+import Divider from 'semantic-ui-react/dist/es/elements/Divider'
+import Dropdown from 'semantic-ui-react/dist/es/modules/Dropdown'
+import Form from 'semantic-ui-react/dist/es/collections/Form'
+import Icon from 'semantic-ui-react/dist/es/elements/Icon'
+import Input from 'semantic-ui-react/dist/es/elements/Input'
+import Message from 'semantic-ui-react/dist/es/collections/Message'
+import Popup from 'semantic-ui-react/dist/es/modules/Popup'
+import Segment from 'semantic-ui-react/dist/es/elements/Segment'
+import { options } from './utils'
 
 const useInterval = (callback, delay) => {
   const savedCallback = React.useRef(() => {})

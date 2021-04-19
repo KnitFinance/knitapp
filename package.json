@@ -1,45 +1,45 @@
 {
-    "name": "knitapp",
-    "version": "0.1.11",
-    "private": true,
-    "dependencies": {
-        "@truffle/contract": "^4.3.0",
-        "axios": "^0.21.0",
-        "react": "^17.0.1",
-        "react-cryptocoins": "^1.0.11",
-        "react-dom": "^17.0.1",
-        "react-hook-form": "^6.12.1",
-        "react-router-dom": "^5.2.0",
-        "react-scripts": "4.0.1",
-        "reactjs-localstorage": "^1.0.1",
-        "semantic-ui-css": "^2.4.1",
-        "semantic-ui-react": "^2.0.1",
-        "web3": "^1.3.0"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "version": "",
-        "postversion": "git push && git push --tags"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    }
+  "name": "knitapp",
+  "version": "0.1.11",
+  "private": true,
+  "dependencies": {
+    "@truffle/contract": "^4.3.0",
+    "axios": "^0.21.0",
+    "react": "^17.0.1",
+    "react-cryptocoins": "^1.0.11",
+    "react-dom": "^17.0.1",
+    "react-hook-form": "^6.12.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.1",
+    "reactjs-localstorage": "^1.0.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.1",
+    "web3": "^1.3.0"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=production react-scripts start",
+    "build": "cross-env NODE_ENV=production react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "version": "",
+    "postversion": "git push && git push --tags"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
