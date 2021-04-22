@@ -2638,6 +2638,12 @@
       "links": {},
       "address": "0x6220E14616dD5d54Ec45FA254976e91C87c06b7e",
       "transactionHash": "0x64b71af5bc23c84ccad648cb85df1b9a18a9dc955838e196bf5b93b5875b1094"
+    },
+    "1287": {
+      "events": {},
+      "links": {},
+      "address": "0xA1a6CB2C5b28cD5b935Dd0F2Efe21832CBa68973",
+      "transactionHash": "0x41f486a3b04e59422d145386edf32dcd50c568c50792b176270b48775458df38"
     }
   },
   "schemaVersion": "3.3.4",
