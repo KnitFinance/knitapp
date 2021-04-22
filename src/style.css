@@ -295,3 +295,8 @@ ul.network-tab li.active {
 .ui.search.dropdown > input.search {
   padding: 0.68em;
 }
+
+.ui.secondary.inverted.pointing.menu {
+  border-width: unset !important;
+  border-color: transparent !important;
+}
