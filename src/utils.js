@@ -105,7 +105,7 @@ const list = [
 ]
 
 export const allChain = () => {
-    return ['Ethereum', 'BSC', 'Matic']
+    return ['Ethereum', 'BSC', 'Matic', 'Moonbeam']
 }
 export const chainNames = networkId => {
     let networkName = ''
@@ -124,6 +124,10 @@ export const chainNames = networkId => {
         case 80001:
         case 137:
             networkName = 'Matic'
+            break
+        case 1287:
+        case 1281:
+            networkName = 'Moonbeam'
             break
         default:
             networkName = ''
@@ -159,6 +163,9 @@ export const networkNames = networkId => {
         case 137:
             networkName = 'connect testnet'
             break
+        case 1281:
+            networkName = 'connect testnet'
+            break
         default:
             networkName = 'connect network'
     }
@@ -177,6 +184,9 @@ export const contractNetwork = networkId => {
             break
         case 80001:
             network = 'MATIC'
+            break
+        case 1287:
+            network = 'MOONBEAM'
             break
         default:
             network = false
