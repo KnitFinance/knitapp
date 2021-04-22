@@ -2894,6 +2894,12 @@
       "links": {},
       "address": "0x14042cD39Ab793785C138294d4E55F5b287C96e1",
       "transactionHash": "0x8c58b3c0d7a18d3990a6eb1b0aab0f5afe6cd8a6cae566d21ef04db8fed719e0"
+    },
+    "1287": {
+      "events": {},
+      "links": {},
+      "address": "0x3b9ade79D080AB9DC4E92F48B2608e36E170DbFa",
+      "transactionHash": "0x9d420b20e3051095bec7d2b3692d4f2364289a822e48cdc48196ef2997b65404"
     }
   },
   "schemaVersion": "3.3.1",
