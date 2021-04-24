@@ -9,14 +9,15 @@ import {
   Icon,
   Input,
   Message,
-  Segment,
-  Popup
+  Popup,
+  Segment
 } from 'semantic-ui-react'
 import { Controller, useForm } from 'react-hook-form'
+import { allChain, contractNetwork, networkNames } from './utils'
 import { depositstatus, swap, swapVerify } from './actions'
-import { options } from './utils'
-import { networkNames, contractNetwork, allChain } from './utils'
+
 import { CounterContext } from './context'
+import { options } from './utils'
 
 const useInterval = (callback, delay) => {
   const savedCallback = React.useRef(() => {})
@@ -197,6 +198,7 @@ const Swapv2 = () => {
                 }
                 onChange={onChange}
                 type="number"
+                min="0"
                 onBlur={e => {
                   const commission = (e.target.value / 100) * 0.25
                   const minimumAmount = 0.0000001
