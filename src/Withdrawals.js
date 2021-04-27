@@ -35,7 +35,6 @@ function Withdrawals() {
             setItems(res.data.data.result)
         })
     }, [])
-    console.log(items)
 
     const listItems = items.map((item, index) => (
         <Table.Row key={index} inverted>

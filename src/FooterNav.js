@@ -1,12 +1,12 @@
 import * as React from 'react'
 
-import { Button, Menu, Segment, Statistic, Dropdown } from 'semantic-ui-react'
+import { Button, Dropdown, Menu, Segment, Statistic } from 'semantic-ui-react'
+import { allChain, chainNames, contractNetwork, networkNames } from './utils'
 
+import { CounterContext } from './context'
 import { NavLink } from 'react-router-dom'
 import { UserContext } from './actions/userContext'
-import { CounterContext } from './context'
 import { truncate } from './utils'
-import { networkNames, contractNetwork, allChain, chainNames } from './utils'
 
 const FooterNav = () => {
     const [
@@ -19,14 +19,14 @@ const FooterNav = () => {
         chainName,
         setChainName
     ] = React.useContext(CounterContext)
-    console.log(connectWallet, network, networkName, chainName)
+    // console.log(connectWallet, network, networkName, chainName)
 
     React.useEffect(() => {
         if (typeof window.ethereum !== 'undefined') {
-            window.ethereum.on('accountsChanged', function(accounts) {
+            window.ethereum.on('accountsChanged', function (accounts) {
                 setConnectWallet(accounts[0])
             })
-            window.ethereum.on('chainChanged', chainId => {
+            window.ethereum.on('chainChanged', (chainId) => {
                 const _chainId = parseInt(chainId, 16)
                 const networkNm = networkNames(_chainId)
                 const networkContract = contractNetwork(_chainId)
@@ -43,7 +43,7 @@ const FooterNav = () => {
         if (typeof window.ethereum !== 'undefined') {
             window.ethereum
                 .request({ method: 'eth_requestAccounts' })
-                .then(accounts => {
+                .then((accounts) => {
                     setConnectWallet(accounts[0])
                     const networkId = contractNetwork(
                         window.ethereum.networkVersion
@@ -65,6 +65,7 @@ const FooterNav = () => {
             inverted="true"
             pointing
             secondary
+            borderless
             size="huge">
             <Menu.Item header as={NavLink} exact to="/" children="Home" />
             <Menu.Item
@@ -74,19 +75,17 @@ const FooterNav = () => {
                 to="/withdraw"
                 children="Withdraw"
             />
-            {connectWallet === null ? (
-                <Menu.Item>
+            {connectWallet === 'null' || connectWallet === null ? (
+                <Menu.Item basic>
                     <Button
-                        basic
                         color="green"
-                        size="medium"
                         type="button"
                         onClick={connectMetamask}>
                         Connect Wallet
                     </Button>
                 </Menu.Item>
             ) : (
-                <Dropdown item text={truncate(connectWallet, 12)}>
+                <Dropdown item text={truncate(connectWallet, 14)}>
                     <Dropdown.Menu>
                         <Dropdown.Item as={NavLink} to="/history">
                             History
