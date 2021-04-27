@@ -30,7 +30,6 @@ function Withdraw() {
     const [coin, setCoin] = React.useState('ETH')
     const [loading, setLoading] = React.useState()
     const [visible, setVisible] = React.useState(false)
-    const [isMeta, setIsMeta] = React.useState(true)
     const [chains, setChains] = React.useState([])
     const [tokenBalance, setTokenBalance] = React.useState(0)
 
@@ -49,15 +48,16 @@ function Withdraw() {
         setChainName
     ] = React.useContext(CounterContext)
 
+    //console.log(setConnectWallet, setNetwork, setNetworkName, setChainName)
+
     React.useEffect(() => {
         const allChainList = allChain()
         setChains(allChainList)
 
         getTokenBalance(coin, connectWallet, network).then(balance => {
-            console.log(balance)
             setTokenBalance(balance)
         })
-    }, [coin, connectWallet])
+    }, [coin, connectWallet, network])
 
     const onSubmitHandler = async value => {
         setLoading(true)
