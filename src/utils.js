@@ -189,6 +189,9 @@ export const contractNetwork = networkId => {
         case 1287:
             network = 'MOONBEAM'
             break
+        case 4002:
+            network = 'FANTOM'
+            break
         default:
             network = false
     }
