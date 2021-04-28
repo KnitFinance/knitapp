@@ -23,10 +23,10 @@ const FooterNav = () => {
 
     React.useEffect(() => {
         if (typeof window.ethereum !== 'undefined') {
-            window.ethereum.on('accountsChanged', function (accounts) {
+            window.ethereum.on('accountsChanged', function(accounts) {
                 setConnectWallet(accounts[0])
             })
-            window.ethereum.on('chainChanged', (chainId) => {
+            window.ethereum.on('chainChanged', chainId => {
                 const _chainId = parseInt(chainId, 16)
                 const networkNm = networkNames(_chainId)
                 const networkContract = contractNetwork(_chainId)
@@ -43,7 +43,7 @@ const FooterNav = () => {
         if (typeof window.ethereum !== 'undefined') {
             window.ethereum
                 .request({ method: 'eth_requestAccounts' })
-                .then((accounts) => {
+                .then(accounts => {
                     setConnectWallet(accounts[0])
                     const networkId = contractNetwork(
                         window.ethereum.networkVersion
