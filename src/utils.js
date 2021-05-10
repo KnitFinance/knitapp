@@ -102,13 +102,38 @@ const list = [
         name: 'Algorand',
         knitName: 'K-ALGO',
         symbol: 'ALGO'
+    },
+    {
+        name: 'KyberNetwork',
+        knitName: 'K-KNC',
+        symbol: 'KNC'
+    },
+    {
+        name: 'GoChain',
+        knitName: 'K-GO',
+        symbol: 'GO'
+    },
+    {
+        name: 'Pangolin',
+        knitName: 'K-AVAX',
+        symbol: 'AVAX'
+    },
+    {
+        name: 'Harmony',
+        knitName: 'K-ONE',
+        symbol: 'ONE'
+    },
+    {
+        name: 'Fantom',
+        knitName: 'K-FTM',
+        symbol: 'FTM'
     }
 ]
 
 export const allChain = () => {
     return ['Ethereum', 'BSC', 'Matic', 'Moonbeam', 'Fantom']
 }
-export const chainNames = (networkId) => {
+export const chainNames = networkId => {
     let networkName = ''
     switch (parseInt(networkId)) {
         case 1:
@@ -140,7 +165,7 @@ export const chainNames = (networkId) => {
     return networkName
 }
 
-export const networkNames = (networkId) => {
+export const networkNames = networkId => {
     let networkName = 'connect network'
     let networkStatus = false
     switch (parseInt(networkId)) {
@@ -180,7 +205,7 @@ export const networkNames = (networkId) => {
     return { networkName, networkStatus }
 }
 
-export const contractNetwork = (networkId) => {
+export const contractNetwork = networkId => {
     let network = false
 
     switch (parseInt(networkId)) {
@@ -205,13 +230,13 @@ export const contractNetwork = (networkId) => {
     return network
 }
 
-export const options = list.map((values) => ({
+export const options = list.map(values => ({
     key: values.symbol,
     text: values.name,
     value: values.symbol
 }))
 
-export const optionsWithdraw = list.map((values) => ({
+export const optionsWithdraw = list.map(values => ({
     key: values.symbol,
     text: values.knitName,
     value: values.symbol
