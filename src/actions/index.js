@@ -5,6 +5,8 @@ export const login = data => http.post('/login', data)
 export const signup = data => http.post('/signup', data)
 export const swap = data => http.post('/swap', data)
 export const withdraw = data => http.post('/withdraw', data)
+export const withdrawMinimum = coin => http.get(`/withdraw/minimum/${coin}`)
+
 export const swapVerify = data => http.post('/swap/verify', data)
 export const addMerchant = data =>
     http.post('/custodian/minter', data, {

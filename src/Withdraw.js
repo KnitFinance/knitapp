@@ -15,7 +15,7 @@ import {
     Label
 } from 'semantic-ui-react'
 import { useForm, Controller } from 'react-hook-form'
-import { withdraw } from './actions'
+import { withdraw, withdrawMinimum } from './actions'
 import { optionsWithdraw, allChain, getTokenBalance } from './utils'
 import { contracts } from './config'
 import { CounterContext } from './context'
@@ -26,12 +26,14 @@ const abi = require('./abi/abi.json')
 const Web3 = require('web3')
 
 function Withdraw() {
-    const { handleSubmit, control, errors, reset } = useForm()
+    const { handleSubmit, watch, control, errors, reset, getValues } = useForm()
     const [coin, setCoin] = React.useState('ETH')
     const [loading, setLoading] = React.useState()
     const [visible, setVisible] = React.useState(false)
     const [chains, setChains] = React.useState([])
     const [tokenBalance, setTokenBalance] = React.useState(0)
+    const [isMinimum, setIsMinimum] = React.useState(false)
+    const [minimum, setMinimum] = React.useState(0)
 
     // const [network, setNetwork] = React.useState(
     //     reactLocalStorage.get('network', 'BSC')
@@ -53,11 +55,43 @@ function Withdraw() {
     React.useEffect(() => {
         const allChainList = allChain()
         setChains(allChainList)
+        const initData = async () => {
+            try {
+                const balance = await getTokenBalance(
+                    coin,
+                    connectWallet,
+                    network
+                )
+                setTokenBalance(balance)
+                const minimumData = await withdrawMinimum(coin)
 
-        getTokenBalance(coin, connectWallet, network).then(balance => {
-            setTokenBalance(balance)
-        })
+                if (balance >= minimumData.data.data.min_amount) {
+                    setIsMinimum(true)
+                } else {
+                    setIsMinimum(false)
+                }
+                setMinimum(minimumData.data.data.min_amount)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+        initData()
     }, [coin, connectWallet, network])
+
+    const onChangeHandler = async coin => {
+        try {
+            const result = await withdrawMinimum(coin)
+            if (tokenBalance >= result.data.data.min_amount) {
+                setIsMinimum(true)
+            } else {
+                setIsMinimum(false)
+            }
+            setMinimum(result.data.data.min_amount)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     const onSubmitHandler = async value => {
         setLoading(true)
@@ -92,11 +126,15 @@ function Withdraw() {
         setLoading(false)
     }
     const dismissHandle = () => setVisible(false)
+    const watchAmount = watch('amount', 0)
+    const watchMinimum = watchAmount && watchAmount < minimum
+
     return (
         <React.Fragment>
             <Header inverted as="h2">
                 Withdraw
             </Header>
+            <Divider hidden />
             <Divider hidden />
             <Divider hidden />
 
@@ -106,7 +144,7 @@ function Withdraw() {
                         <Form
                             inverted
                             onSubmit={handleSubmit(onSubmitHandler)}
-                            className="centermiddleswap swapdetails">
+                            className=" swapdetails">
                             <div className="header-wrapper">
                                 <ul className="network-tab uppercase">
                                     {chains.map((value, index) => (
@@ -157,9 +195,12 @@ function Withdraw() {
                                                     size="large"
                                                     search
                                                     defaultValue={coin}
-                                                    onChange={(e, data) =>
+                                                    onChange={(e, data) => {
                                                         setCoin(data.value)
-                                                    }
+                                                        onChangeHandler(
+                                                            data.value
+                                                        )
+                                                    }}
                                                 />
                                             }
                                             onChange={onChange}
@@ -226,6 +267,17 @@ function Withdraw() {
                                 />
                             )}
 
+                            {watchMinimum && (
+                                <Message
+                                    color="red"
+                                    inverted
+                                    header={``}
+                                    list={[
+                                        `Minimum amount to withdraw will be ${minimum}`
+                                    ]}
+                                />
+                            )}
+
                             <Form.Field>
                                 <div>
                                     <Button
@@ -233,7 +285,11 @@ function Withdraw() {
                                         basic
                                         size="large"
                                         loading={loading}
-                                        disabled={!networkName.networkStatus}>
+                                        disabled={
+                                            !networkName.networkStatus ||
+                                            !isMinimum ||
+                                            watchMinimum
+                                        }>
                                         Withdraw
                                     </Button>
                                 </div>

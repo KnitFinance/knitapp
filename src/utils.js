@@ -255,14 +255,19 @@ export const getTokenBalance = async (coin, walletAddress, network) => {
     })
     const web3 = window?.web3
     let result = 0
-    contractInstance.setProvider(web3?.currentProvider)
-    try {
-        const tokenInstant = await contractInstance.at(contracts[coin][network])
-        let balance = await tokenInstant.balanceOf(walletAddress)
-        result = balance / 10 ** 18
-    } catch (e) {
-        console.log(e)
+    if (typeof web3 !== 'undefined') {
+        contractInstance.setProvider(web3?.currentProvider)
+        try {
+            const tokenInstant = await contractInstance.at(
+                contracts[coin][network]
+            )
+            let balance = await tokenInstant.balanceOf(walletAddress)
+            result = balance / 10 ** 18
+        } catch (e) {
+            console.log(e)
+        }
     }
+
     return result
 }
 
