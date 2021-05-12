@@ -1,6 +1,10 @@
 {
     "name": "knitapp",
+<<<<<<< HEAD
     "version": "0.1.12",
+=======
+    "version": "0.5.0",
+>>>>>>> 539b85d0b099f3734d02d0f71a8a98e7b5524e37
     "private": true,
     "dependencies": {
         "@truffle/contract": "^4.3.0",
