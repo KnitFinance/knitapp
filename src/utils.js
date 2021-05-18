@@ -84,7 +84,7 @@ const list = [
         symbol: 'GUSD'
     },
     {
-        name: 'Orgin',
+        name: 'Origin Protocol',
         knitName: 'K-OGN',
         symbol: 'OGN'
     },
@@ -127,16 +127,6 @@ const list = [
         name: 'Fantom',
         knitName: 'K-FTM',
         symbol: 'FTM'
-    },
-    {
-        name: 'DigiByte',
-        knitName: 'K-DGB',
-        symbol: 'DGB'
-    },
-    {
-        name: 'Heco',
-        knitName: 'K-HECO',
-        symbol: 'HECO'
     }
 ]
 
