@@ -127,6 +127,16 @@ const list = [
         name: 'Fantom',
         knitName: 'K-FTM',
         symbol: 'FTM'
+    },
+    {
+        name: 'DigiByte',
+        knitName: 'K-DGB',
+        symbol: 'DGB'
+    },
+    {
+        name: 'Heco',
+        knitName: 'K-HECO',
+        symbol: 'HECO'
     }
 ]
 
