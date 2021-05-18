@@ -114,7 +114,7 @@ const list = [
         symbol: 'GO'
     },
     {
-        name: 'Pangolin',
+        name: 'Avalanche',
         knitName: 'K-AVAX',
         symbol: 'AVAX'
     },
@@ -127,6 +127,16 @@ const list = [
         name: 'Fantom',
         knitName: 'K-FTM',
         symbol: 'FTM'
+    },
+    {
+        name: 'DigiByte',
+        knitName: 'K-DGB',
+        symbol: 'DGB'
+    },
+    {
+        name: 'Heco',
+        knitName: 'K-HECO',
+        symbol: 'HECO'
     }
 ]
 
